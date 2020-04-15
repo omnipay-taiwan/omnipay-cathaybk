@@ -16,7 +16,7 @@ class PurchaseRequestTest extends TestCase
     {
         $parameters = $this->givenParameters();
         $signature = Helper::signSignature(
-            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
+            array_merge($parameters, ['LANGUAGE' => 'ZH-TW']), ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
         );
 
         $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -35,6 +35,7 @@ class PurchaseRequestTest extends TestCase
     public function testGetPeriodNumberData()
     {
         $parameters = $this->givenParameters([
+            'LANGUAGE' => 'EN-US',
             'PERIODNUMBER' => '2',
         ]);
         $signature = Helper::signSignature(
@@ -49,7 +50,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertEquals($parameters['STOREID'], $data['STOREID']);
         $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
         $this->assertEquals('10.00', $data['AMOUNT']);
-        $this->assertEquals('ZH-TW', $data['LANGUAGE']);
+        $this->assertEquals('EN-US', $data['LANGUAGE']);
         $this->assertEquals('2', $data['PERIODNUMBER']);
         $this->assertEquals('TRS0005', $data['MSGID']);
         $this->assertEquals($signature, $data['CAVALUE']);
@@ -74,7 +75,6 @@ class PurchaseRequestTest extends TestCase
             'STOREID' => uniqid('store_id'),
             'CUBKEY' => uniqid('cub_key'),
             'ORDERNUMBER' => uniqid('order_number'),
-            'LANGUAGE' => 'ZH-TW',
             'AMOUNT' => '10.00',
         ], $parameters);
     }

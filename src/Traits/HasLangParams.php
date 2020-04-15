@@ -18,6 +18,6 @@ trait HasLangParams
      */
     public function getLanguage()
     {
-        return $this->getParameter('language');
+        return strtoupper($this->getParameter('language') ?: 'ZH-TW');
     }
 }

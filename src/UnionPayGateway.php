@@ -2,11 +2,7 @@
 
 namespace Omnipay\Cathaybk;
 
-use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
-use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
-use Omnipay\Cathaybk\Traits\HasStoreParams;
-use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -67,29 +63,12 @@ use Omnipay\Common\Message\RequestInterface;
  *     echo "Transaction reference = " . $sale_id . "\n";
  * }
  * </code>
- * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
  */
-class UnionPayGateway extends AbstractGateway
+class UnionPayGateway extends Gateway
 {
-    use HasStoreParams;
-
     public function getName()
     {
         return 'Cathaybk UnionPay';
-    }
-
-    public function getDefaultParameters()
-    {
-        return [
-            'store_id' => '',
-            'cub_key' => '',
-        ];
     }
 
     /**
@@ -99,23 +78,5 @@ class UnionPayGateway extends AbstractGateway
     public function purchase(array $parameters = [])
     {
         return $this->createRequest(UnionPayPurchaseRequest::class, $parameters);
-    }
-
-    /**
-     * @param array $parameters
-     * @return AbstractRequest|RequestInterface
-     */
-    public function completePurchase(array $parameters = [])
-    {
-        return $this->createRequest(CompletePurchaseRequest::class, $parameters);
-    }
-
-    /**
-     * @param array $parameters
-     * @return AbstractRequest
-     */
-    public function acceptNotification(array $parameters = [])
-    {
-        return $this->createRequest(AcceptNotificationRequest::class, $parameters);
     }
 }

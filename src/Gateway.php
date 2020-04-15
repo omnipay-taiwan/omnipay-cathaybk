@@ -5,7 +5,6 @@ namespace Omnipay\Cathaybk;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
-use Omnipay\Cathaybk\Traits\HasLangParams;
 use Omnipay\Cathaybk\Traits\HasStoreParams;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
@@ -75,11 +74,11 @@ use Omnipay\Common\Message\RequestInterface;
  * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
     use HasStoreParams;
-    use HasLangParams;
 
     public function getName()
     {
@@ -88,11 +87,7 @@ class Gateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return [
-            'store_id' => '',
-            'cub_key' => '',
-            'language' => 'ZH-TW',
-        ];
+        return ['store_id' => '', 'cub_key' => ''];
     }
 
     /**

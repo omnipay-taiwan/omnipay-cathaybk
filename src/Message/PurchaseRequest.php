@@ -60,7 +60,7 @@ class PurchaseRequest extends AbstractPurchaseRequest
     protected function prepareData()
     {
         return array_merge($this->appendPeriodNumber(parent::prepareData()), [
-            'LANGUAGE' => strtoupper($this->getLanguage()),
+            'LANGUAGE' => $this->getLanguage(),
             'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004',
         ]);
     }
