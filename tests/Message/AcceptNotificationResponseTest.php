@@ -8,17 +8,33 @@ class AcceptNotificationResponseTest extends TestCase
 {
     public function testSuccess()
     {
-        $storeId = uniqid('store-id');
-        $cubKey = uniqid('cub_key');
         $returnUrl = 'https://foo.bar/return-url';
-        $parameters = [
-            'STOREID' => $storeId,
-            'CUBKEY' => $cubKey,
+        $parameters = $this->generateXmlData($returnUrl);
+
+        $response = new AcceptNotificationResponse($this->getMockRequest(), $parameters);
+        $replyResponse = $response->getReplyResponse();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
+        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
+        $this->assertNotFalse(strpos($replyResponse->getContent(), $parameters['RETURL']), 'replay does not has '.$parameters['RETURL']);
+        $this->assertNotFalse(strpos($replyResponse->getContent(), $parameters['CAVALUE']), 'reply does not has '.$parameters['CAVALUE']);
+    }
+
+    /**
+     * @param string $returnUrl
+     * @return array
+     */
+    private function generateXmlData(string $returnUrl)
+    {
+        return [
+            'CAVALUE' => uniqid('ca_value'),
             'RETURL' => $returnUrl,
             'CUBXML' => [
-                'CAVALUE' => '',
+                'CAVALUE' => uniqid('ca_value'),
                 'ORDERINFO' => [
-                    'STOREID' => $storeId,
+                    'STOREID' => uniqid('store_id'),
                     'ORDERNUMBER' => uniqid('order_number'),
                     'AMOUNT' => '10.00',
                     'LANGUAGE' => 'ZH-TW',
@@ -32,21 +48,5 @@ class AcceptNotificationResponseTest extends TestCase
                 ],
             ],
         ];
-        $parameters['CUBXML']['CAVALUE'] = Helper::signSignature(
-            array_merge($parameters, ['STOREID' => $parameters['STOREID'], 'CUBKEY' => $parameters['CUBKEY']]),
-            ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY']
-        );
-
-        $signature = Helper::signSignature($parameters, ['RETURL', 'CUBKEY']);
-
-        $response = new AcceptNotificationResponse($this->getMockRequest(), $parameters);
-        $replyResponse = $response->getReplyResponse();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertSame($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
-        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
-        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
-        $this->assertNotFalse(strpos($replyResponse->getContent(), $parameters['RETURL']), 'replay does not has '.$parameters['RETURL']);
-        $this->assertNotFalse(strpos($replyResponse->getContent(), $signature), 'reply does not has '.$signature);
     }
 }

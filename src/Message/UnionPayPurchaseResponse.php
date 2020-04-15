@@ -21,7 +21,7 @@ class UnionPayPurchaseResponse extends AbstractPurchaseResponse
     {
         return [
             'CAVALUE' => $this->data['CAVALUE'],
-            'ORDERINFO' => $this->getData()
+            'ORDERINFO' => $this->getData(),
         ];
     }
 }

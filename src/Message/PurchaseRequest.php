@@ -61,7 +61,7 @@ class PurchaseRequest extends AbstractPurchaseRequest
     {
         return array_merge($this->appendPeriodNumber(parent::prepareData()), [
             'LANGUAGE' => strtoupper($this->getLanguage()),
-            'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004'
+            'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004',
         ]);
     }
 
@@ -81,7 +81,7 @@ class PurchaseRequest extends AbstractPurchaseRequest
      */
     private function appendPeriodNumber(array $data = [])
     {
-        return !$this->hasPeriodNumber() ? $data : array_merge($data, [
+        return ! $this->hasPeriodNumber() ? $data : array_merge($data, [
             'PERIODNUMBER' => $this->getPeriodNumber(),
         ]);
     }
@@ -93,6 +93,6 @@ class PurchaseRequest extends AbstractPurchaseRequest
     {
         $periodNumber = $this->getPeriodNumber();
 
-        return $periodNumber && (int)$periodNumber > 1;
+        return $periodNumber && (int) $periodNumber > 1;
     }
 }

@@ -55,7 +55,7 @@ class AcceptNotificationResponse extends AbstractResponse implements Notificatio
     {
         return HttpResponse::create(Helper::array2xml([
             'MERCHANTXML' => [
-                'CAVALUE' => Helper::signSignature($this->data, ['RETURL', 'CUBKEY']),
+                'CAVALUE' => $this->data['CAVALUE'],
                 'RETURL' => $this->data['RETURL'],
             ],
         ]));

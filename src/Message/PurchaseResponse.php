@@ -22,7 +22,7 @@ class PurchaseResponse extends AbstractPurchaseResponse
         return [
             'CAVALUE' => $this->data['CAVALUE'],
             'MSGID' => $this->data['MSGID'],
-            'ORDERINFO' => $this->getData()
+            'ORDERINFO' => $this->getData(),
         ];
     }
 }

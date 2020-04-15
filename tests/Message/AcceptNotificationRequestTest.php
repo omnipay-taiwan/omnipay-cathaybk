@@ -17,6 +17,32 @@ class AcceptNotificationRequestTest extends TestCase
         $storeId = uniqid('store_id');
         $cubKey = uniqid('cub_key');
         $returnUrl = 'https://foo.bar/return-url';
+        $xmlData = $this->generateXmlData($storeId, $cubKey);
+        $request = new AcceptNotificationRequest($this->getHttpClient(), $this->getHttpRequest());
+
+        $parameters = [
+            'STOREID' => $storeId,
+            'CUBKEY' => $cubKey,
+            'RETURL' => $returnUrl,
+            'strRsXML' => $strRsXML = Helper::array2xml($xmlData),
+        ];
+        $request->initialize($parameters);
+
+        $data = $request->getData();
+
+        $this->assertEquals(array_merge([
+            'CAVALUE' => Helper::signSignature($parameters, ['RETURL', 'CUBKEY']),
+            'RETURL' => $returnUrl,
+        ], $xmlData), $data);
+    }
+
+    /**
+     * @param string $storeId
+     * @param string $cubKey
+     * @return array
+     */
+    private function generateXmlData(string $storeId, string $cubKey): array
+    {
         $parameters = [
             'CUBXML' => [
                 'CAVALUE' => '',
@@ -41,19 +67,6 @@ class AcceptNotificationRequestTest extends TestCase
             ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY']
         );
 
-        $request = new AcceptNotificationRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize([
-            'store_id' => $storeId,
-            'cub_key' => $cubKey,
-            'returnUrl' => $returnUrl,
-            'strRsXML' => $strRsXML = Helper::array2xml($parameters),
-        ]);
-
-        $data = $request->getData();
-        $this->assertEquals(array_merge([
-            'STOREID' => $storeId,
-            'CUBKEY' => $cubKey,
-            'RETURL' => $returnUrl,
-        ], $parameters), $data);
+        return $parameters;
     }
 }

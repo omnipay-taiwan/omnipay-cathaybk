@@ -14,6 +14,23 @@ class AcceptNotificationRequest extends AbstractRequest
     use AssertSignature;
 
     /**
+     * @param $returnUrl
+     * @return AcceptNotificationRequest
+     */
+    public function setRetUrl($returnUrl)
+    {
+        return $this->setReturnUrl($returnUrl);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetUrl()
+    {
+        return $this->getReturnUrl();
+    }
+
+    /**
      * @param $strRsXML
      * @return AcceptNotificationRequest
      */
@@ -38,14 +55,19 @@ class AcceptNotificationRequest extends AbstractRequest
     {
         $this->validate('strRsXML', 'returnUrl');
 
-        return $this->assertSignature(
-            array_merge([
-                'STOREID' => $this->getStoreId(),
-                'CUBKEY' => $this->getCubKey(),
-                'RETURL' => $this->getReturnUrl(),
-            ], Helper::xml2array($this->getStrRsXML())),
-            ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY']
-        );
+        $rs = Helper::xml2array($this->getStrRsXML());
+
+        $this->assertSignature($rs, [
+            'STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY',
+        ]);
+
+        $retUrl = $this->getReturnUrl();
+        $keys = ['RETURL', 'CUBKEY'];
+
+        return array_merge([
+            'CAVALUE' => Helper::signSignature(['RETURL' => $retUrl, 'CUBKEY' => $this->getCubKey()], $keys),
+            'RETURL' => $retUrl,
+        ], $rs);
     }
 
     /**

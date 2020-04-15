@@ -49,6 +49,30 @@ class GatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
+        $xmlData = $this->generateXmlData();
+
+        $parameters = ['strOrderInfo' => Helper::array2xml($xmlData)];
+
+        $request = $this->gateway->completePurchase($parameters);
+        $response = $request->send();
+
+        $this->assertInstanceOf(CompletePurchaseRequest::class, $request);
+        $this->assertArrayHasKey('CUBXML', $request->getData());
+        $this->assertEquals($xmlData['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+    }
+
+    public function testAcceptNotification()
+    {
+        $options = [];
+        $request = $this->gateway->acceptNotification($options);
+        $this->assertInstanceOf(AcceptNotificationRequest::class, $request);
+    }
+
+    /**
+     * @return array
+     */
+    private function generateXmlData(): array
+    {
         $parameters = ['CUBXML' => [
             'CAVALUE' => '',
             'ORDERINFO' => [
@@ -60,20 +84,6 @@ class GatewayTest extends GatewayTestCase
             $parameters, ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
         ), ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 
-        $options = ['strOrderInfo' => Helper::array2xml($parameters)];
-
-        $request = $this->gateway->completePurchase($options);
-        $response = $request->send();
-
-        $this->assertInstanceOf(CompletePurchaseRequest::class, $request);
-        $this->assertArrayHasKey('CUBXML', $request->getData());
-        $this->assertEquals($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
-    }
-
-    public function testAcceptNotification()
-    {
-        $options = [];
-        $request = $this->gateway->acceptNotification($options);
-        $this->assertInstanceOf(AcceptNotificationRequest::class, $request);
+        return $parameters;
     }
 }

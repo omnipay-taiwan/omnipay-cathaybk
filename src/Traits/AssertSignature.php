@@ -10,7 +10,6 @@ trait AssertSignature
     /**
      * @param $data
      * @param $keys
-     * @return array
      * @throws InvalidRequestException
      */
     protected function assertSignature($data, $keys)
@@ -23,7 +22,5 @@ trait AssertSignature
         if ($signature !== $data['CUBXML']['CAVALUE']) {
             throw new InvalidRequestException();
         }
-
-        return $data;
     }
 }
