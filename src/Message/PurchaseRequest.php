@@ -31,6 +31,40 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * @param int|string $periodNumber
+     * @return PurchaseRequest
+     */
+    public function setPeriodNumber($periodNumber)
+    {
+        return $this->setParameter('period_number', $periodNumber);
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getPeriodNumber()
+    {
+        return $this->getParameter('period_number');
+    }
+
+    /**
+     * @param int|string $installment
+     * @return PurchaseRequest
+     */
+    public function setInstallment($installment)
+    {
+        return $this->setParameter('period_number', $installment);
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getInstallment()
+    {
+        return $this->getParameter('period_number');
+    }
+
+    /**
      * @return array
      * @throws InvalidRequestException
      */
@@ -38,13 +72,22 @@ class PurchaseRequest extends AbstractRequest
     {
         $this->validate('store_id', 'cub_key', 'amount', 'language');
 
-        return [
+        $data = [
             'STOREID' => $this->getStoreId(),
             'CUBKEY' => $this->getCubKey(),
             'ORDERNUMBER' => $this->getOrderNumber() ?: uniqid(),
             'AMOUNT' => $this->getAmount(),
             'LANGUAGE' => strtoupper($this->getLanguage()),
         ];
+
+        $periodNumber = $this->getPeriodNumber();
+        if ($periodNumber && (int) $periodNumber > 1) {
+            $data = array_merge($data, [
+                'PERIODNUMBER' => $periodNumber,
+            ]);
+        }
+
+        return $data;
     }
 
     /**

@@ -72,15 +72,41 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectData()
     {
+        $options = $this->hasPeriodNumber() ? $this->period() : $this->normal();
+
         return [
             'strRqXML' => Helper::array2xml(['MERCHANTXML' => [
-                'CAVALUE' => Helper::signSignature(
-                    $this->data,
-                    ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
-                ),
-                'MSGID' => 'TRS0004',
+                'CAVALUE' => Helper::signSignature($this->data, $options['signature_keys']),
+                'MSGID' => $options['msg_id'],
                 'ORDERINFO' => $this->data,
             ]]),
+        ];
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasPeriodNumber(): bool
+    {
+        return array_key_exists('PERIODNUMBER', $this->data) && (int) $this->data['PERIODNUMBER'] > 1;
+    }
+
+    private function normal()
+    {
+        return [
+            'msg_id' => 'TRS0004',
+            'signature_keys' => ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY'],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function period()
+    {
+        return [
+            'msg_id' => 'TRS0005',
+            'signature_keys' => ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY'],
         ];
     }
 }
