@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<MERCHANTXML>
+    <CAVALUE>驗證值</CAVALUE>
+    <ORDERINFO>
+        <STOREID>特店代號</STOREID>
+        <ORDERNUMBER>訂單編號</ORDERNUMBER>
+        <AMOUNT>授權金額</AMOUNT>
+    </ORDERINFO>
+</MERCHANTXML>

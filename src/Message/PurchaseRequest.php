@@ -3,36 +3,16 @@
 namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Traits\HasLangParams;
-use Omnipay\Cathaybk\Traits\HasStoreParams;
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 
-class PurchaseRequest extends AbstractRequest
+class PurchaseRequest extends AbstractPurchaseRequest
 {
-    use HasStoreParams;
     use HasLangParams;
 
     /**
-     * @param string $orderNumber
-     * @return PurchaseRequest
-     */
-    public function setOrderNumber($orderNumber)
-    {
-        return $this->setTransactionId($orderNumber);
-    }
-
-    /**
-     * @return string
-     */
-    public function getOrderNumber()
-    {
-        return $this->getTransactionId();
-    }
-
-    /**
      * @param int|string $periodNumber
-     * @return PurchaseRequest
+     * @return AbstractPurchaseRequest
      */
     public function setPeriodNumber($periodNumber)
     {
@@ -49,7 +29,7 @@ class PurchaseRequest extends AbstractRequest
 
     /**
      * @param int|string $installment
-     * @return PurchaseRequest
+     * @return AbstractPurchaseRequest
      */
     public function setInstallment($installment)
     {
@@ -70,24 +50,9 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('store_id', 'cub_key', 'amount', 'language');
-
-        $data = [
-            'STOREID' => $this->getStoreId(),
-            'CUBKEY' => $this->getCubKey(),
-            'ORDERNUMBER' => $this->getOrderNumber() ?: uniqid(),
-            'AMOUNT' => $this->getAmount(),
+        return array_merge($this->appendPeriodNumber(parent::getData()), [
             'LANGUAGE' => strtoupper($this->getLanguage()),
-        ];
-
-        $periodNumber = $this->getPeriodNumber();
-        if ($periodNumber && (int) $periodNumber > 1) {
-            $data = array_merge($data, [
-                'PERIODNUMBER' => $periodNumber,
-            ]);
-        }
-
-        return $data;
+        ]);
     }
 
     /**
@@ -97,5 +62,21 @@ class PurchaseRequest extends AbstractRequest
     public function sendData($data)
     {
         return $this->response = new PurchaseResponse($this, $data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function appendPeriodNumber(array $data = [])
+    {
+        $periodNumber = $this->getPeriodNumber();
+        if ($periodNumber && (int) $periodNumber > 1) {
+            $data = array_merge($data, [
+                'PERIODNUMBER' => $periodNumber,
+            ]);
+        }
+
+        return $data;
     }
 }

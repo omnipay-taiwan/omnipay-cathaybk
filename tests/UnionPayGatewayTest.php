@@ -5,10 +5,10 @@ namespace Omnipay\Cathaybk;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\Helper;
-use Omnipay\Cathaybk\Message\PurchaseRequest;
+use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
 use Omnipay\Tests\GatewayTestCase;
 
-class GatewayTest extends GatewayTestCase
+class UnionPayGatewayTest extends GatewayTestCase
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ class GatewayTest extends GatewayTestCase
     {
         parent::setUp();
 
-        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway = new UnionPayGateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->initialize([
             'store_id' => $this->storeId = uniqid('store_id'),
             'cub_key' => $this->cubKey = uniqid('cub_key'),
@@ -39,12 +39,12 @@ class GatewayTest extends GatewayTestCase
 
         $request = $this->gateway->purchase($options);
 
-        $this->assertInstanceOf(PurchaseRequest::class, $request);
+        $this->assertInstanceOf(UnionPayPurchaseRequest::class, $request);
         $data = $request->getData();
 
         $this->assertArrayHasKey('AMOUNT', $data);
         $this->assertArrayHasKey('ORDERNUMBER', $data);
-        $this->assertArrayHasKey('LANGUAGE', $data);
+        $this->assertArrayNotHasKey('LANGUAGE', $data);
     }
 
     public function testCompletePurchase()
