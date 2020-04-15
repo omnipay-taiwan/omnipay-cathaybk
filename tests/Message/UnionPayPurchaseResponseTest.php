@@ -12,7 +12,7 @@ class UnionPayPurchaseResponseTest extends TestCase
     {
         $parameters = [
             'STOREID' => uniqid('store_id'),
-            'CUBKEY' => uniqid('cub_key'),
+            'CAVALUE' => uniqid('ca_value'),
             'ORDERNUMBER' => uniqid('order_number'),
             'AMOUNT' => '10.00',
         ];
@@ -20,9 +20,6 @@ class UnionPayPurchaseResponseTest extends TestCase
         $response = new UnionPayPurchaseResponse($this->getMockRequest(), $parameters);
 
         $data = $response->getRedirectData();
-        $signature = Helper::signSignature(
-            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
-        );
 
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
@@ -30,9 +27,8 @@ class UnionPayPurchaseResponseTest extends TestCase
         $this->assertEquals('POST', $response->getRedirectMethod());
         $this->assertArrayHasKey('strRqXML', $data);
         $this->assertFalse(strpos($data['strRqXML'], 'TRS000'), 'strRqXML does not has TRS000');
-        $this->assertNotFalse(strpos($data['strRqXML'], $signature), 'strRqXML does not has '.$signature);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/unionpay.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/unionpay.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);

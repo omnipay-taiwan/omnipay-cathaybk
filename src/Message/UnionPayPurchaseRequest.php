@@ -14,4 +14,12 @@ class UnionPayPurchaseRequest extends AbstractPurchaseRequest
     {
         return $this->response = new UnionPayPurchaseResponse($this, $data);
     }
+
+    /**
+     * @return array
+     */
+    protected function getSignatureKeys()
+    {
+        return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY'];
+    }
 }

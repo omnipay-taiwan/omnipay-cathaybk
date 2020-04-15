@@ -15,32 +15,44 @@ class PurchaseRequestTest extends TestCase
     public function testGetData()
     {
         $parameters = $this->givenParameters();
+        $signature = Helper::signSignature(
+            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
+        );
+
         $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();
 
-        $this->assertSame($parameters['store_id'], $data['STOREID']);
-        $this->assertSame($parameters['order_number'], $data['ORDERNUMBER']);
-        $this->assertSame('10.00', $data['AMOUNT']);
-        $this->assertSame('ZH-TW', $data['LANGUAGE']);
+        $this->assertEquals($parameters['STOREID'], $data['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
+        $this->assertEquals('10.00', $data['AMOUNT']);
+        $this->assertEquals('ZH-TW', $data['LANGUAGE']);
+        $this->assertEquals('TRS0004', $data['MSGID']);
+        $this->assertEquals($signature, $data['CAVALUE']);
     }
 
     public function testGetPeriodNumberData()
     {
         $parameters = $this->givenParameters([
-            'periodnumber' => '2',
+            'PERIODNUMBER' => '2',
         ]);
+        $signature = Helper::signSignature(
+            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']
+        );
+
         $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();
 
-        $this->assertSame($parameters['store_id'], $data['STOREID']);
-        $this->assertSame($parameters['order_number'], $data['ORDERNUMBER']);
-        $this->assertSame('10.00', $data['AMOUNT']);
-        $this->assertSame('ZH-TW', $data['LANGUAGE']);
-        $this->assertSame('2', $data['PERIODNUMBER']);
+        $this->assertEquals($parameters['STOREID'], $data['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
+        $this->assertEquals('10.00', $data['AMOUNT']);
+        $this->assertEquals('ZH-TW', $data['LANGUAGE']);
+        $this->assertEquals('2', $data['PERIODNUMBER']);
+        $this->assertEquals('TRS0005', $data['MSGID']);
+        $this->assertEquals($signature, $data['CAVALUE']);
     }
 
     public function testRedirect()
@@ -59,11 +71,11 @@ class PurchaseRequestTest extends TestCase
     private function givenParameters($parameters = [])
     {
         return array_merge([
-            'store_id' => uniqid('store_id'),
-            'cub_key' => uniqid('cub_key'),
-            'order_number' => uniqid('order_number'),
-            'language' => 'zh-tw',
-            'amount' => '10.00',
+            'STOREID' => uniqid('store_id'),
+            'CUBKEY' => uniqid('cub_key'),
+            'ORDERNUMBER' => uniqid('order_number'),
+            'LANGUAGE' => 'ZH-TW',
+            'AMOUNT' => '10.00',
         ], $parameters);
     }
 }

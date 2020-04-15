@@ -17,8 +17,11 @@ class UnionPayPurchaseResponse extends AbstractPurchaseResponse
     /**
      * @return array
      */
-    protected function getSignatureKeys()
+    protected function prepareRedirectData()
     {
-        return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY'];
+        return [
+            'CAVALUE' => $this->data['CAVALUE'],
+            'ORDERINFO' => $this->getData()
+        ];
     }
 }

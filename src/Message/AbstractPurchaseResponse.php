@@ -63,8 +63,13 @@ abstract class AbstractPurchaseResponse extends AbstractResponse implements Redi
     public function getData()
     {
         $data = $this->data;
-        if (array_key_exists('CUBKEY', $data)) {
-            unset($data['CUBKEY']);
+
+        if (array_key_exists('CAVALUE', $data)) {
+            unset($data['CAVALUE']);
+        }
+
+        if (array_key_exists('MSGID', $data)) {
+            unset($data['MSGID']);
         }
 
         return $data;
@@ -78,32 +83,12 @@ abstract class AbstractPurchaseResponse extends AbstractResponse implements Redi
     public function getRedirectData()
     {
         return [
-            'strRqXML' => Helper::array2xml(['MERCHANTXML' => array_merge(
-                ['CAVALUE' => $this->signature()],
-                $this->getMsgId(),
-                ['ORDERINFO' => $this->getData()]
-            )]),
+            'strRqXML' => Helper::array2xml(['MERCHANTXML' => $this->prepareRedirectData()]),
         ];
     }
 
     /**
      * @return array
      */
-    protected function getMsgId()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    abstract protected function getSignatureKeys();
-
-    /**
-     * @return string
-     */
-    private function signature()
-    {
-        return Helper::signSignature($this->data, $this->getSignatureKeys());
-    }
+    abstract protected function prepareRedirectData();
 }

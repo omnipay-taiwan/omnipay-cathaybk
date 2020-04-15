@@ -45,17 +45,6 @@ class PurchaseRequest extends AbstractPurchaseRequest
     }
 
     /**
-     * @return array
-     * @throws InvalidRequestException
-     */
-    public function getData()
-    {
-        return array_merge($this->appendPeriodNumber(parent::getData()), [
-            'LANGUAGE' => strtoupper($this->getLanguage()),
-        ]);
-    }
-
-    /**
      * @param mixed $data
      * @return PurchaseResponse|ResponseInterface
      */
@@ -65,18 +54,45 @@ class PurchaseRequest extends AbstractPurchaseRequest
     }
 
     /**
+     * @return array
+     * @throws InvalidRequestException
+     */
+    protected function prepareData()
+    {
+        return array_merge($this->appendPeriodNumber(parent::prepareData()), [
+            'LANGUAGE' => strtoupper($this->getLanguage()),
+            'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004'
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSignatureKeys()
+    {
+        return $this->hasPeriodNumber()
+            ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']
+            : ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY'];
+    }
+
+    /**
      * @param array $data
      * @return array
      */
     private function appendPeriodNumber(array $data = [])
     {
-        $periodNumber = $this->getPeriodNumber();
-        if ($periodNumber && (int) $periodNumber > 1) {
-            $data = array_merge($data, [
-                'PERIODNUMBER' => $periodNumber,
-            ]);
-        }
+        return !$this->hasPeriodNumber() ? $data : array_merge($data, [
+            'PERIODNUMBER' => $this->getPeriodNumber(),
+        ]);
+    }
 
-        return $data;
+    /**
+     * @return bool
+     */
+    private function hasPeriodNumber()
+    {
+        $periodNumber = $this->getPeriodNumber();
+
+        return $periodNumber && (int)$periodNumber > 1;
     }
 }

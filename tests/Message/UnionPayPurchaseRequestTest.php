@@ -15,14 +15,19 @@ class UnionPayPurchaseRequestTest extends TestCase
     public function testGetData()
     {
         $parameters = $this->givenParameters();
+        $signature = Helper::signSignature(
+            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
+        );
+
         $request = new UnionPayPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();
 
-        $this->assertSame($parameters['store_id'], $data['STOREID']);
-        $this->assertSame($parameters['order_number'], $data['ORDERNUMBER']);
+        $this->assertSame($parameters['STOREID'], $data['STOREID']);
+        $this->assertSame($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
         $this->assertSame('10.00', $data['AMOUNT']);
+        $this->assertEquals($signature, $data['CAVALUE']);
         $this->assertArrayNotHasKey('LANGUAGE', $data);
     }
 
@@ -42,11 +47,11 @@ class UnionPayPurchaseRequestTest extends TestCase
     private function givenParameters($parameters = [])
     {
         return array_merge([
-            'store_id' => uniqid('store_id'),
-            'cub_key' => uniqid('cub_key'),
-            'order_number' => uniqid('order_number'),
-            'language' => 'zh-tw',
-            'amount' => '10.00',
+            'STOREID' => uniqid('store_id'),
+            'CUBKEY' => uniqid('cub_key'),
+            'ORDERNUMBER' => uniqid('order_number'),
+            'LANGUAGE' => 'zh-tw',
+            'AMOUNT' => '10.00',
         ], $parameters);
     }
 }

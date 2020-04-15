@@ -17,26 +17,12 @@ class PurchaseResponse extends AbstractPurchaseResponse
     /**
      * @return array
      */
-    protected function getSignatureKeys()
+    protected function prepareRedirectData()
     {
-        return $this->hasPeriodNumber()
-            ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']
-            : ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY'];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getMsgId()
-    {
-        return ['MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004'];
-    }
-
-    /**
-     * @return bool
-     */
-    private function hasPeriodNumber()
-    {
-        return array_key_exists('PERIODNUMBER', $this->data) && (int) $this->data['PERIODNUMBER'] > 1;
+        return [
+            'CAVALUE' => $this->data['CAVALUE'],
+            'MSGID' => $this->data['MSGID'],
+            'ORDERINFO' => $this->getData()
+        ];
     }
 }

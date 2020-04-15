@@ -33,13 +33,40 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
+        return $this->assignSignature($this->prepareData());
+    }
+
+    /**
+     * @return array
+     * @throws InvalidRequestException
+     */
+    protected function prepareData()
+    {
         $this->validate('store_id', 'cub_key', 'amount');
 
         return [
             'STOREID' => $this->getStoreId(),
-            'CUBKEY' => $this->getCubKey(),
             'ORDERNUMBER' => $this->getOrderNumber() ?: uniqid(),
             'AMOUNT' => $this->getAmount(),
         ];
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function getSignatureKeys();
+
+    /**
+     * @param $data
+     * @return array
+     */
+    private function assignSignature($data)
+    {
+        return array_merge($data, [
+            'CAVALUE' => Helper::signSignature(array_merge($data, [
+                'STOREID' => $this->getStoreId(),
+                'CUBKEY' => $this->getCubKey(),
+            ]), $this->getSignatureKeys()),
+        ]);
     }
 }
