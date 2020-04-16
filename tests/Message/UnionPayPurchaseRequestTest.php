@@ -19,16 +19,16 @@ class UnionPayPurchaseRequestTest extends TestCase
             $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
         );
 
-        $request = new UnionPayRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request = new UnionPayPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();
 
-        $this->assertEquals($parameters['STOREID'], $data['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
-        $this->assertEquals('10', $data['AMOUNT']);
         $this->assertEquals($signature, $data['CAVALUE']);
-        $this->assertArrayNotHasKey('LANGUAGE', $data);
+        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        $this->assertArrayNotHasKey('LANGUAGE', $data['ORDERINFO']);
     }
 
     public function testRedirect()

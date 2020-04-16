@@ -11,10 +11,12 @@ class UnionPayPurchaseResponseTest extends TestCase
     public function testSuccess()
     {
         $parameters = [
-            'STOREID' => uniqid('store_id'),
             'CAVALUE' => uniqid('ca_value'),
-            'ORDERNUMBER' => uniqid('order_number'),
-            'AMOUNT' => '10',
+            'ORDERINFO' => [
+                'STOREID' => uniqid('store_id'),
+                'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+                'AMOUNT' => '10',
+            ],
         ];
 
         $response = new UnionPayPurchaseResponse($this->getMockRequest(), $parameters);

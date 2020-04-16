@@ -2,13 +2,20 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-use Omnipay\Cathaybk\Traits\HasLangParams;
+use Omnipay\Cathaybk\Traits\HasLanguage;
+use Omnipay\Cathaybk\Traits\HasOrderNumber;
+use Omnipay\Cathaybk\Traits\HasSignCaValue;
+use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 
 class PurchaseRequest extends AbstractRequest
 {
-    use HasLangParams;
+    use HasStore;
+    use HasOrderNumber;
+    use HasLanguage;
+    use HasSignCaValue;
 
     /**
      * @param int|string $periodNumber
@@ -45,30 +52,36 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
-     * @return PurchasePurchaseResponse|ResponseInterface
-     */
-    public function sendData($data)
-    {
-        return $this->response = new PurchasePurchaseResponse($this, $data);
-    }
-
-    /**
      * @return array
      * @throws InvalidRequestException
      */
-    protected function prepareData()
+    public function getData()
     {
-        return array_merge($this->appendPeriodNumber(parent::prepareData()), [
-            'LANGUAGE' => $this->getLanguage(),
+        $this->validate('store_id', 'cub_key', 'amount');
+
+        return $this->signCaValue([
             'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004',
+            'ORDERINFO' => array_merge($this->appendPeriodNumber([
+                'STOREID' => $this->getStoreId(),
+                'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),
+                'AMOUNT' => (int) $this->getAmount(),
+            ]), ['LANGUAGE' => $this->getLanguage()]),
         ]);
     }
 
     /**
+     * @param mixed $data
+     * @return PurchaseResponse|ResponseInterface
+     */
+    public function sendData($data)
+    {
+        return $this->response = new PurchaseResponse($this, $data);
+    }
+
+    /**
      * @return array
      */
-    protected function getSignatureKeys()
+    protected function getSignKeys()
     {
         return $this->hasPeriodNumber()
             ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']

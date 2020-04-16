@@ -2,16 +2,16 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-use Omnipay\Cathaybk\Traits\AssertSignature;
-use Omnipay\Cathaybk\Traits\HasStoreParams;
+use Omnipay\Cathaybk\Traits\HasAssertCaValue;
+use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 
 class AcceptNotificationRequest extends AbstractRequest
 {
-    use HasStoreParams;
-    use AssertSignature;
+    use HasStore;
+    use HasAssertCaValue;
 
     /**
      * @param $returnUrl
@@ -57,7 +57,7 @@ class AcceptNotificationRequest extends AbstractRequest
 
         $rs = Helper::xml2array($this->getStrRsXML());
 
-        $this->assertSignature($rs, [
+        $this->assertCaValue($rs, [
             'STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY',
         ]);
 

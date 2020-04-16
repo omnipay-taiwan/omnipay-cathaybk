@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-class UnionPayPurchaseResponse extends AbstractPurchaseResponse
+class UnionPayPurchaseResponse extends PurchaseResponse
 {
     /**
      * Gets the redirect target url.
@@ -12,16 +12,5 @@ class UnionPayPurchaseResponse extends AbstractPurchaseResponse
     public function getRedirectUrl()
     {
         return 'https://sslpayment.uwccb.com.tw/EPOSService/UPOPPayment/OrderInitial.aspx';
-    }
-
-    /**
-     * @return array
-     */
-    protected function prepareRedirectData()
-    {
-        return [
-            'CAVALUE' => $this->data['CAVALUE'],
-            'ORDERINFO' => $this->getData(),
-        ];
     }
 }

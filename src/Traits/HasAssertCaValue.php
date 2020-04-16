@@ -5,14 +5,14 @@ namespace Omnipay\Cathaybk\Traits;
 use Omnipay\Cathaybk\Message\Helper;
 use Omnipay\Common\Exception\InvalidRequestException;
 
-trait AssertSignature
+trait HasAssertCaValue
 {
     /**
      * @param $data
      * @param $keys
      * @throws InvalidRequestException
      */
-    protected function assertSignature($data, $keys)
+    protected function assertCaValue($data, $keys)
     {
         $signature = Helper::signSignature(array_merge([
             'STOREID' => $this->getStoreId(),

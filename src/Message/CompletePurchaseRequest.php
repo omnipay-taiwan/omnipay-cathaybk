@@ -2,18 +2,18 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-use Omnipay\Cathaybk\Traits\AssertSignature;
-use Omnipay\Cathaybk\Traits\HasLangParams;
-use Omnipay\Cathaybk\Traits\HasStoreParams;
+use Omnipay\Cathaybk\Traits\HasAssertCaValue;
+use Omnipay\Cathaybk\Traits\HasLanguage;
+use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
-    use HasStoreParams;
-    use HasLangParams;
-    use AssertSignature;
+    use HasStore;
+    use HasLanguage;
+    use HasAssertCaValue;
 
     /**
      * @param $strOrderInfo
@@ -40,7 +40,7 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $this->validate('strOrderInfo');
         $orderInfo = Helper::xml2array($this->getStrOrderInfo());
-        $this->assertSignature($orderInfo, ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
+        $this->assertCaValue($orderInfo, ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 
         return $orderInfo;
     }

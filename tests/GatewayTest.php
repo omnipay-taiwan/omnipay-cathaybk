@@ -42,9 +42,9 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf(PurchaseRequest::class, $request);
         $data = $request->getData();
 
-        $this->assertArrayHasKey('AMOUNT', $data);
-        $this->assertArrayHasKey('ORDERNUMBER', $data);
-        $this->assertArrayHasKey('LANGUAGE', $data);
+        $this->assertArrayHasKey('AMOUNT', $data['ORDERINFO']);
+        $this->assertArrayHasKey('ORDERNUMBER', $data['ORDERINFO']);
+        $this->assertArrayHasKey('LANGUAGE', $data['ORDERINFO']);
     }
 
     public function testCompletePurchase()

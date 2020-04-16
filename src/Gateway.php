@@ -4,9 +4,8 @@ namespace Omnipay\Cathaybk;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
-use Omnipay\Cathaybk\Message\FetchTransactionRequest;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
-use Omnipay\Cathaybk\Traits\HasStoreParams;
+use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\RequestInterface;
@@ -79,7 +78,7 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class Gateway extends AbstractGateway
 {
-    use HasStoreParams;
+    use HasStore;
 
     public function getName()
     {

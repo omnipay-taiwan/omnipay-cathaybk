@@ -24,12 +24,12 @@ class PurchaseRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($parameters['STOREID'], $data['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
-        $this->assertEquals('10', $data['AMOUNT']);
-        $this->assertEquals('ZH-TW', $data['LANGUAGE']);
-        $this->assertEquals('TRS0004', $data['MSGID']);
         $this->assertEquals($signature, $data['CAVALUE']);
+        $this->assertEquals('TRS0004', $data['MSGID']);
+        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        $this->assertEquals('ZH-TW', $data['ORDERINFO']['LANGUAGE']);
     }
 
     public function testGetPeriodNumberData()
@@ -47,20 +47,20 @@ class PurchaseRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($parameters['STOREID'], $data['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
-        $this->assertEquals('10', $data['AMOUNT']);
-        $this->assertEquals('EN-US', $data['LANGUAGE']);
-        $this->assertEquals('2', $data['PERIODNUMBER']);
-        $this->assertEquals('TRS0005', $data['MSGID']);
         $this->assertEquals($signature, $data['CAVALUE']);
+        $this->assertEquals('TRS0005', $data['MSGID']);
+        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        $this->assertEquals('2', $data['ORDERINFO']['PERIODNUMBER']);
+        $this->assertEquals('EN-US', $data['ORDERINFO']['LANGUAGE']);
     }
 
     public function testRedirect()
     {
         $response = $this->gateway->purchase($this->givenParameters())->send();
 
-        $this->assertInstanceOf(PurchasePurchaseResponse::class, $response);
+        $this->assertInstanceOf(PurchaseResponse::class, $response);
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
     }

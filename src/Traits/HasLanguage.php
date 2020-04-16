@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk\Traits;
 
-trait HasLangParams
+trait HasLanguage
 {
     /**
      * @param string $language

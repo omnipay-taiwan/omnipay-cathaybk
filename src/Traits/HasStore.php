@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk\Traits;
 
-trait HasStoreParams
+trait HasStore
 {
     /**
      * @param string $storeId

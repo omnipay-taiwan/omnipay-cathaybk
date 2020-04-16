@@ -12,8 +12,8 @@ class Helper
     public static function signSignature($data, $keys)
     {
         $data = array_key_exists('CUBXML', $data)
-            ? static::appendSignatureData($data, $data['CUBXML'])
-            : array_merge($data, $data);
+            ? static::combin($data, $data['CUBXML'])
+            : static::combin($data, $data);
 
         return md5(implode('', array_map(function ($key) use ($data) {
             return $data[$key];
@@ -61,7 +61,7 @@ class Helper
         return $arr;
     }
 
-    private static function appendSignatureData($data, $cubXML)
+    private static function combin($data, $cubXML)
     {
         if (array_key_exists('ORDERINFO', $cubXML)) {
             $data = array_merge($data, $cubXML['ORDERINFO']);

@@ -2,10 +2,10 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-use Omnipay\Common\Message\AbstractResponse as BaseResponse;
+use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
-abstract class AbstractPurchaseResponse extends BaseResponse implements RedirectResponseInterface
+class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
     /**
      * @return bool
@@ -22,7 +22,7 @@ abstract class AbstractPurchaseResponse extends BaseResponse implements Redirect
      */
     public function getTransactionId()
     {
-        return $this->data['ORDERNUMBER'];
+        return $this->data['ORDERINFO']['ORDERNUMBER'];
     }
 
     /**
@@ -56,23 +56,15 @@ abstract class AbstractPurchaseResponse extends BaseResponse implements Redirect
     }
 
     /**
-     * Get the response data.
+     * Gets the redirect target url.
      *
-     * @return mixed
+     * @return string
      */
-    public function getData()
+    public function getRedirectUrl()
     {
-        $data = $this->data;
-
-        if (array_key_exists('CAVALUE', $data)) {
-            unset($data['CAVALUE']);
-        }
-
-        if (array_key_exists('MSGID', $data)) {
-            unset($data['MSGID']);
-        }
-
-        return $data;
+        return $this->request->getTestMode()
+            ? 'https://sslpayment.cathaybkdev.com.tw/EPOSService/Payment/OrderInitial.aspx'
+            : 'https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx';
     }
 
     /**
@@ -82,13 +74,6 @@ abstract class AbstractPurchaseResponse extends BaseResponse implements Redirect
      */
     public function getRedirectData()
     {
-        return [
-            'strRqXML' => Helper::array2xml(['MERCHANTXML' => $this->prepareRedirectData()]),
-        ];
+        return ['strRqXML' => Helper::array2xml(['MERCHANTXML' => $this->data])];
     }
-
-    /**
-     * @return array
-     */
-    abstract protected function prepareRedirectData();
 }

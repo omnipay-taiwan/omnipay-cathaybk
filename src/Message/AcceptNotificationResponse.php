@@ -27,7 +27,7 @@ class AcceptNotificationResponse extends AbstractResponse implements Notificatio
     }
 
     /**
-     * Gateway Reference
+     * Gateway Reference.
      *
      * @return null|string A reference provided by the gateway to represent this transaction
      */
