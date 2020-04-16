@@ -10,6 +10,16 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
 {
     use HasStoreParams;
 
+//    public function setTestMode($testMode)
+//    {
+//        return $this->setParameter('testMode', $testMode);
+//    }
+//
+//    public function getTestMode()
+//    {
+//        return $this->getParameter('testMode');
+//    }
+
     /**
      * @param string $orderNumber
      * @return AbstractPurchaseRequest
@@ -47,7 +57,7 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
         return [
             'STOREID' => $this->getStoreId(),
             'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),
-            'AMOUNT' => (int) $this->getAmount(),
+            'AMOUNT' => (int)$this->getAmount(),
         ];
     }
 

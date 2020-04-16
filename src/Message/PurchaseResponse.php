@@ -11,7 +11,9 @@ class PurchaseResponse extends AbstractPurchaseResponse
      */
     public function getRedirectUrl()
     {
-        return 'https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx';
+        return $this->request->getTestMode()
+            ? 'https://sslpayment.cathaybkdev.com.tw/EPOSService/Payment/OrderInitial.aspx'
+            : 'https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx';
     }
 
     /**

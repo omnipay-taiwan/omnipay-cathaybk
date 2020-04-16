@@ -11,16 +11,22 @@ class PurchaseResponseTest extends TestCase
     public function testSuccess()
     {
         $parameters = $this->givenParameters(['MSGID' => 'TRS0004']);
-        $response = new PurchaseResponse($this->getMockRequest(), $parameters);
+        $request = $this->getMockRequest();
+        $request->shouldReceive('getTestMode')->andReturnFalse();
+        $response = new PurchaseResponse($request, $parameters);
 
         $data = $response->getRedirectData();
 
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertEquals('POST', $response->getRedirectMethod());
+        $this->assertEquals(
+            'https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx',
+            $response->getRedirectUrl()
+        );
         $this->assertArrayHasKey('strRqXML', $data);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/normal.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/normal.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);
@@ -29,8 +35,9 @@ class PurchaseResponseTest extends TestCase
     public function testPeriodNumberSuccess()
     {
         $parameters = $this->givenParameters(['MSGID' => 'TRS0005', 'PERIODNUMBER' => '2']);
-
-        $response = new PurchaseResponse($this->getMockRequest(), $parameters);
+        $request = $this->getMockRequest();
+        $request->shouldReceive('getTestMode')->andReturnFalse();
+        $response = new PurchaseResponse($request, $parameters);
 
         $data = $response->getRedirectData();
 
@@ -40,10 +47,24 @@ class PurchaseResponseTest extends TestCase
         $this->assertEquals('POST', $response->getRedirectMethod());
         $this->assertArrayHasKey('strRqXML', $data);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/period.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/period.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);
+    }
+
+
+    public function testSetTestMode()
+    {
+        $parameters = $this->givenParameters(['MSGID' => 'TRS0004']);
+        $request = $this->getMockRequest();
+        $request->shouldReceive('getTestMode')->andReturnTrue();
+        $response = new PurchaseResponse($request, $parameters);
+
+        $this->assertEquals(
+            'https://sslpayment.cathaybkdev.com.tw/EPOSService/Payment/OrderInitial.aspx',
+            $response->getRedirectUrl()
+        );
     }
 
     /**
