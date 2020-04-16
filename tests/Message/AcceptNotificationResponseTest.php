@@ -16,6 +16,7 @@ class AcceptNotificationResponseTest extends TestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertSame($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
         $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
         $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
         $this->assertNotFalse(strpos($replyResponse->getContent(), $parameters['RETURL']), 'replay does not has ' . $parameters['RETURL']);
