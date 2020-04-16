@@ -36,7 +36,7 @@ class AcceptNotificationResponseTest extends TestCase
                 'ORDERINFO' => [
                     'STOREID' => uniqid('store_id'),
                     'ORDERNUMBER' => uniqid('order_number'),
-                    'AMOUNT' => '10.00',
+                    'AMOUNT' => '10',
                     'LANGUAGE' => 'ZH-TW',
                 ],
                 'AUTHINFO' => [

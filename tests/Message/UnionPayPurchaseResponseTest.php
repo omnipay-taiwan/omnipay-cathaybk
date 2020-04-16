@@ -14,7 +14,7 @@ class UnionPayPurchaseResponseTest extends TestCase
             'STOREID' => uniqid('store_id'),
             'CAVALUE' => uniqid('ca_value'),
             'ORDERNUMBER' => uniqid('order_number'),
-            'AMOUNT' => '10.00',
+            'AMOUNT' => '10',
         ];
 
         $response = new UnionPayPurchaseResponse($this->getMockRequest(), $parameters);

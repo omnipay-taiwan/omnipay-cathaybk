@@ -26,7 +26,7 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertEquals($parameters['STOREID'], $data['STOREID']);
         $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
-        $this->assertEquals('10.00', $data['AMOUNT']);
+        $this->assertEquals('10', $data['AMOUNT']);
         $this->assertEquals('ZH-TW', $data['LANGUAGE']);
         $this->assertEquals('TRS0004', $data['MSGID']);
         $this->assertEquals($signature, $data['CAVALUE']);
@@ -49,7 +49,7 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertEquals($parameters['STOREID'], $data['STOREID']);
         $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
-        $this->assertEquals('10.00', $data['AMOUNT']);
+        $this->assertEquals('10', $data['AMOUNT']);
         $this->assertEquals('EN-US', $data['LANGUAGE']);
         $this->assertEquals('2', $data['PERIODNUMBER']);
         $this->assertEquals('TRS0005', $data['MSGID']);
@@ -74,8 +74,8 @@ class PurchaseRequestTest extends TestCase
         return array_merge([
             'STOREID' => uniqid('store_id'),
             'CUBKEY' => uniqid('cub_key'),
-            'ORDERNUMBER' => uniqid('order_number'),
-            'AMOUNT' => '10.00',
+            'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+            'AMOUNT' => '10',
         ], $parameters);
     }
 }

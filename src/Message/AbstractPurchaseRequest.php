@@ -46,8 +46,8 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
 
         return [
             'STOREID' => $this->getStoreId(),
-            'ORDERNUMBER' => $this->getOrderNumber() ?: uniqid(),
-            'AMOUNT' => $this->getAmount(),
+            'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),
+            'AMOUNT' => (int) $this->getAmount(),
         ];
     }
 

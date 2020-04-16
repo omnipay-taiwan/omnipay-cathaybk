@@ -49,7 +49,7 @@ class AcceptNotificationRequestTest extends TestCase
                 'ORDERINFO' => [
                     'STOREID' => $storeId,
                     'ORDERNUMBER' => uniqid('order_number'),
-                    'AMOUNT' => '10.00',
+                    'AMOUNT' => '10',
                     'LANGUAGE' => 'ZH-TW',
                 ],
                 'AUTHINFO' => [

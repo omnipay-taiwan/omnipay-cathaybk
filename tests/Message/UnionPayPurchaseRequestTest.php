@@ -24,9 +24,9 @@ class UnionPayPurchaseRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertSame($parameters['STOREID'], $data['STOREID']);
-        $this->assertSame($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
-        $this->assertSame('10.00', $data['AMOUNT']);
+        $this->assertEquals($parameters['STOREID'], $data['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERNUMBER']);
+        $this->assertEquals('10', $data['AMOUNT']);
         $this->assertEquals($signature, $data['CAVALUE']);
         $this->assertArrayNotHasKey('LANGUAGE', $data);
     }
@@ -49,9 +49,9 @@ class UnionPayPurchaseRequestTest extends TestCase
         return array_merge([
             'STOREID' => uniqid('store_id'),
             'CUBKEY' => uniqid('cub_key'),
-            'ORDERNUMBER' => uniqid('order_number'),
+            'ORDERNUMBER' => strtoupper(uniqid('order_number')),
             'LANGUAGE' => 'zh-tw',
-            'AMOUNT' => '10.00',
+            'AMOUNT' => '10',
         ], $parameters);
     }
 }
