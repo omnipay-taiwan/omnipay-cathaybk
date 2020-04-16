@@ -13,7 +13,7 @@ class PurchaseResponseTest extends TestCase
         $parameters = $this->givenParameters(['MSGID' => 'TRS0004']);
         $request = $this->getMockRequest();
         $request->shouldReceive('getTestMode')->andReturnFalse();
-        $response = new PurchaseResponse($request, $parameters);
+        $response = new PurchasePurchaseResponse($request, $parameters);
 
         $data = $response->getRedirectData();
 
@@ -37,7 +37,7 @@ class PurchaseResponseTest extends TestCase
         $parameters = $this->givenParameters(['MSGID' => 'TRS0005', 'PERIODNUMBER' => '2']);
         $request = $this->getMockRequest();
         $request->shouldReceive('getTestMode')->andReturnFalse();
-        $response = new PurchaseResponse($request, $parameters);
+        $response = new PurchasePurchaseResponse($request, $parameters);
 
         $data = $response->getRedirectData();
 
@@ -59,7 +59,7 @@ class PurchaseResponseTest extends TestCase
         $parameters = $this->givenParameters(['MSGID' => 'TRS0004']);
         $request = $this->getMockRequest();
         $request->shouldReceive('getTestMode')->andReturnTrue();
-        $response = new PurchaseResponse($request, $parameters);
+        $response = new PurchasePurchaseResponse($request, $parameters);
 
         $this->assertEquals(
             'https://sslpayment.cathaybkdev.com.tw/EPOSService/Payment/OrderInitial.aspx',

@@ -60,7 +60,7 @@ class PurchaseRequestTest extends TestCase
     {
         $response = $this->gateway->purchase($this->givenParameters())->send();
 
-        $this->assertInstanceOf(PurchaseResponse::class, $response);
+        $this->assertInstanceOf(PurchasePurchaseResponse::class, $response);
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
     }

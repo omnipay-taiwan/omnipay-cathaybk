@@ -4,25 +4,15 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Traits\HasStoreParams;
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\AbstractRequest as BaseRequest;
 
-abstract class AbstractPurchaseRequest extends AbstractRequest
+abstract class AbstractRequest extends BaseRequest
 {
     use HasStoreParams;
 
-//    public function setTestMode($testMode)
-//    {
-//        return $this->setParameter('testMode', $testMode);
-//    }
-//
-//    public function getTestMode()
-//    {
-//        return $this->getParameter('testMode');
-//    }
-
     /**
      * @param string $orderNumber
-     * @return AbstractPurchaseRequest
+     * @return AbstractRequest
      */
     public function setOrderNumber($orderNumber)
     {

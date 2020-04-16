@@ -4,6 +4,7 @@ namespace Omnipay\Cathaybk;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
+use Omnipay\Cathaybk\Message\FetchTransactionRequest;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Traits\HasStoreParams;
 use Omnipay\Common\AbstractGateway;

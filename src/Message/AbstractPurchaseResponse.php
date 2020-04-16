@@ -2,10 +2,10 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\AbstractResponse as BaseResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
-abstract class AbstractPurchaseResponse extends AbstractResponse implements RedirectResponseInterface
+abstract class AbstractPurchaseResponse extends BaseResponse implements RedirectResponseInterface
 {
     /**
      * @return bool

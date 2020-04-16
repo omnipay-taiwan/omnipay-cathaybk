@@ -4,11 +4,11 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Common\Message\ResponseInterface;
 
-class UnionPayPurchaseRequest extends AbstractPurchaseRequest
+class UnionPayRequest extends AbstractRequest
 {
     /**
      * @param mixed $data
-     * @return PurchaseResponse|ResponseInterface
+     * @return PurchasePurchaseResponse|ResponseInterface
      */
     public function sendData($data)
     {

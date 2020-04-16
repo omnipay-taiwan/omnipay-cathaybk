@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-class PurchaseResponse extends AbstractPurchaseResponse
+class PurchasePurchaseResponse extends AbstractPurchaseResponse
 {
     /**
      * Gets the redirect target url.

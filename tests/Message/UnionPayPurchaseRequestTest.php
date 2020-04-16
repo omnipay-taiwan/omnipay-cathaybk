@@ -19,7 +19,7 @@ class UnionPayPurchaseRequestTest extends TestCase
             $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
         );
 
-        $request = new UnionPayPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request = new UnionPayRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();

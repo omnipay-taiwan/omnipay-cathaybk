@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk;
 
-use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
+use Omnipay\Cathaybk\Message\UnionPayRequest;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -77,6 +77,6 @@ class UnionPayGateway extends Gateway
      */
     public function purchase(array $parameters = [])
     {
-        return $this->createRequest(UnionPayPurchaseRequest::class, $parameters);
+        return $this->createRequest(UnionPayRequest::class, $parameters);
     }
 }

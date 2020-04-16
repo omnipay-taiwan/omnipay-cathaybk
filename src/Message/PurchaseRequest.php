@@ -6,13 +6,13 @@ use Omnipay\Cathaybk\Traits\HasLangParams;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\ResponseInterface;
 
-class PurchaseRequest extends AbstractPurchaseRequest
+class PurchaseRequest extends AbstractRequest
 {
     use HasLangParams;
 
     /**
      * @param int|string $periodNumber
-     * @return AbstractPurchaseRequest
+     * @return AbstractRequest
      */
     public function setPeriodNumber($periodNumber)
     {
@@ -29,7 +29,7 @@ class PurchaseRequest extends AbstractPurchaseRequest
 
     /**
      * @param int|string $installment
-     * @return AbstractPurchaseRequest
+     * @return AbstractRequest
      */
     public function setInstallment($installment)
     {
@@ -46,11 +46,11 @@ class PurchaseRequest extends AbstractPurchaseRequest
 
     /**
      * @param mixed $data
-     * @return PurchaseResponse|ResponseInterface
+     * @return PurchasePurchaseResponse|ResponseInterface
      */
     public function sendData($data)
     {
-        return $this->response = new PurchaseResponse($this, $data);
+        return $this->response = new PurchasePurchaseResponse($this, $data);
     }
 
     /**
