@@ -87,7 +87,7 @@ class Gateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return ['store_id' => '', 'cub_key' => ''];
+        return ['STOREID' => '', 'CUBKEY' => ''];
     }
 
     /**

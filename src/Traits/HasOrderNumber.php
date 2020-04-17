@@ -8,7 +8,7 @@ trait HasOrderNumber
 {
     /**
      * @param string $orderNumber
-     * @return AbstractRequest
+     * @return $this
      */
     public function setOrderNumber($orderNumber)
     {

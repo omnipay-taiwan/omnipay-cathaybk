@@ -8,7 +8,6 @@ phpunit.xml
 dirlist.app
 dirlist.cache
 dirlist.vendor
-documents/
 
 .php_cs.cache
 /demo
