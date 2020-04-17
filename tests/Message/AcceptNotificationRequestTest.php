@@ -32,7 +32,7 @@ class AcceptNotificationRequestTest extends TestCase
 
         $this->assertEquals(array_merge([
             'CAVALUE' => Helper::caValue(array_merge($parameters, [
-                'DOMAIN' => parse_url($returnUrl, PHP_URL_HOST)
+                'DOMAIN' => parse_url($returnUrl, PHP_URL_HOST),
             ]), ['DOMAIN', 'CUBKEY']),
             'RETURL' => $returnUrl,
         ], $xmlData), $data);

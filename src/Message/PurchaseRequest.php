@@ -94,7 +94,7 @@ class PurchaseRequest extends AbstractRequest
      */
     private function appendPeriodNumber(array $data = [])
     {
-        return !$this->hasPeriodNumber() ? $data : array_merge($data, [
+        return ! $this->hasPeriodNumber() ? $data : array_merge($data, [
             'PERIODNUMBER' => $this->getPeriodNumber(),
         ]);
     }

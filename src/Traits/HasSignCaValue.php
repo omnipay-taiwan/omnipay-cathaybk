@@ -12,7 +12,7 @@ trait HasSignCaValue
      */
     protected function mergeCaValue($data)
     {
-        return array_merge(['CAVALUE' => $this->generateCaValue($data),], $data);
+        return array_merge(['CAVALUE' => $this->generateCaValue($data)], $data);
     }
 
     protected function generateCaValue($data)

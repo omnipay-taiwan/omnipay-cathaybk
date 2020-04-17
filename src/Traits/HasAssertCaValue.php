@@ -14,12 +14,12 @@ trait HasAssertCaValue
      */
     protected function assertCaValue($data, $keys)
     {
-        $signature = Helper::caValue(array_merge([
+        $caValue = Helper::caValue(array_merge([
             'STOREID' => $this->getStoreId(),
             'CUBKEY' => $this->getCubKey(),
         ], $data), $keys);
 
-        if ($signature !== $data['CUBXML']['CAVALUE']) {
+        if ($caValue !== $data['CUBXML']['CAVALUE']) {
             throw new InvalidRequestException();
         }
     }

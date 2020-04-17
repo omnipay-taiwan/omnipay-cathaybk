@@ -2,8 +2,6 @@
 
 namespace Omnipay\Cathaybk\Traits;
 
-use Omnipay\Cathaybk\Message\AbstractRequest;
-
 trait HasOrderNumber
 {
     /**
