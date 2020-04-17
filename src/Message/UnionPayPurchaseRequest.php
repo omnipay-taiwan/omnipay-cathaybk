@@ -23,7 +23,7 @@ class UnionPayPurchaseRequest extends AbstractRequest
     {
         $this->validate('store_id', 'cub_key', 'amount');
 
-        return $this->signCaValue([
+        return $this->mergeCaValue([
             'ORDERINFO' => [
                 'STOREID' => $this->getStoreId(),
                 'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),

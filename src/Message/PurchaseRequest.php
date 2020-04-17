@@ -59,7 +59,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $this->validate('store_id', 'cub_key', 'amount');
 
-        return $this->signCaValue([
+        return $this->mergeCaValue([
             'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004',
             'ORDERINFO' => array_merge($this->appendPeriodNumber([
                 'STOREID' => $this->getStoreId(),
@@ -94,7 +94,7 @@ class PurchaseRequest extends AbstractRequest
      */
     private function appendPeriodNumber(array $data = [])
     {
-        return ! $this->hasPeriodNumber() ? $data : array_merge($data, [
+        return !$this->hasPeriodNumber() ? $data : array_merge($data, [
             'PERIODNUMBER' => $this->getPeriodNumber(),
         ]);
     }

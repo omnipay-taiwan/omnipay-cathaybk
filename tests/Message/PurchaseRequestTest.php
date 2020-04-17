@@ -15,7 +15,7 @@ class PurchaseRequestTest extends TestCase
     public function testGetData()
     {
         $parameters = $this->givenParameters();
-        $signature = Helper::signSignature(
+        $signature = Helper::caValue(
             array_merge($parameters, ['LANGUAGE' => 'ZH-TW']), ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
         );
 
@@ -38,7 +38,7 @@ class PurchaseRequestTest extends TestCase
             'LANGUAGE' => 'EN-US',
             'PERIODNUMBER' => '2',
         ]);
-        $signature = Helper::signSignature(
+        $signature = Helper::caValue(
             $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']
         );
 

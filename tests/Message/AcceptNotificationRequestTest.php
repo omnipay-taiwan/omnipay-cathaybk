@@ -31,7 +31,9 @@ class AcceptNotificationRequestTest extends TestCase
         $data = $request->getData();
 
         $this->assertEquals(array_merge([
-            'CAVALUE' => Helper::signSignature($parameters, ['RETURL', 'CUBKEY']),
+            'CAVALUE' => Helper::caValue(array_merge($parameters, [
+                'DOMAIN' => parse_url($returnUrl, PHP_URL_HOST)
+            ]), ['DOMAIN', 'CUBKEY']),
             'RETURL' => $returnUrl,
         ], $xmlData), $data);
     }
@@ -41,7 +43,8 @@ class AcceptNotificationRequestTest extends TestCase
      * @param string $cubKey
      * @return array
      */
-    private function generateXmlData(string $storeId, string $cubKey): array
+    private function generateXmlData(string $storeId, string $cubKey)
+    : array
     {
         $parameters = [
             'CUBXML' => [
@@ -62,7 +65,7 @@ class AcceptNotificationRequestTest extends TestCase
             ],
         ];
 
-        $parameters['CUBXML']['CAVALUE'] = Helper::signSignature(
+        $parameters['CUBXML']['CAVALUE'] = Helper::caValue(
             array_merge(['STOREID' => $storeId, 'CUBKEY' => $cubKey], $parameters),
             ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY']
         );

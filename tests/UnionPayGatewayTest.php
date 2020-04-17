@@ -56,7 +56,7 @@ class UnionPayGatewayTest extends GatewayTestCase
                 'ORDERNUMBER' => uniqid('order_number'),
             ],
         ]];
-        $parameters['CUBXML']['CAVALUE'] = Helper::signSignature(array_merge(
+        $parameters['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
             $parameters, ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
         ), ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 

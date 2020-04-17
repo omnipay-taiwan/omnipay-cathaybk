@@ -3,6 +3,7 @@
 namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
+use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
@@ -12,6 +13,7 @@ class AcceptNotificationRequest extends AbstractRequest
 {
     use HasStore;
     use HasAssertCaValue;
+    use HasSignCaValue;
 
     /**
      * @param $returnUrl
@@ -62,10 +64,9 @@ class AcceptNotificationRequest extends AbstractRequest
         ]);
 
         $retUrl = $this->getReturnUrl();
-        $keys = ['RETURL', 'CUBKEY'];
 
         return array_merge([
-            'CAVALUE' => Helper::signSignature(['RETURL' => $retUrl, 'CUBKEY' => $this->getCubKey()], $keys),
+            'CAVALUE' => $this->generateCaValue(['DOMAIN' => parse_url($retUrl, PHP_URL_HOST)]),
             'RETURL' => $retUrl,
         ], $rs);
     }
@@ -77,5 +78,10 @@ class AcceptNotificationRequest extends AbstractRequest
     public function sendData($data)
     {
         return $this->response = new AcceptNotificationResponse($this, $data);
+    }
+
+    protected function getSignKeys()
+    {
+        return ['DOMAIN', 'CUBKEY'];
     }
 }

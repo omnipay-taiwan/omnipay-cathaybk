@@ -14,7 +14,7 @@ trait HasAssertCaValue
      */
     protected function assertCaValue($data, $keys)
     {
-        $signature = Helper::signSignature(array_merge([
+        $signature = Helper::caValue(array_merge([
             'STOREID' => $this->getStoreId(),
             'CUBKEY' => $this->getCubKey(),
         ], $data), $keys);

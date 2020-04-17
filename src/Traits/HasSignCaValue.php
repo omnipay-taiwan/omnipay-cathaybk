@@ -10,14 +10,17 @@ trait HasSignCaValue
      * @param $data
      * @return array
      */
-    protected function signCaValue($data)
+    protected function mergeCaValue($data)
     {
-        return array_merge([
-            'CAVALUE' => Helper::signSignature(array_merge($data, [
-                'STOREID' => $this->getStoreId(),
-                'CUBKEY' => $this->getCubKey(),
-            ]), $this->getSignKeys()),
-        ], $data);
+        return array_merge(['CAVALUE' => $this->generateCaValue($data),], $data);
+    }
+
+    protected function generateCaValue($data)
+    {
+        return Helper::caValue(array_merge($data, [
+            'STOREID' => $this->getStoreId(),
+            'CUBKEY' => $this->getCubKey(),
+        ]), $this->getSignKeys());
     }
 
     abstract protected function getSignKeys();
