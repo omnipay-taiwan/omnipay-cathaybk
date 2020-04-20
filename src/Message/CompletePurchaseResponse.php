@@ -7,7 +7,9 @@ use Omnipay\Common\Message\AbstractResponse;
 class CompletePurchaseResponse extends AbstractResponse
 {
     /**
-     * @return bool
+     * Is the response successful?
+     *
+     * @return boolean
      */
     public function isSuccessful()
     {

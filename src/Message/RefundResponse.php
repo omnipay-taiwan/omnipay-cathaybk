@@ -35,11 +35,13 @@ class RefundResponse extends AbstractResponse
     public function __construct(RequestInterface $request, $data)
     {
         parent::__construct($request, $data);
-        $this->section = ! $this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
+        $this->section = !$this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
     }
 
     /**
-     * @return bool
+     * Is the response successful?
+     *
+     * @return boolean
      */
     public function isSuccessful()
     {
@@ -94,7 +96,6 @@ class RefundResponse extends AbstractResponse
     public function getMessage()
     {
         return array_key_exists($this->getCode(), $this->messages)
-            ? $this->messages[$this->getCode()]
-            : '未定義錯誤';
+            ? $this->messages[$this->getCode()] : '未定義錯誤';
     }
 }

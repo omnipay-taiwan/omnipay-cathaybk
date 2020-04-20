@@ -8,7 +8,9 @@ use Omnipay\Common\Message\RedirectResponseInterface;
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
     /**
-     * @return bool
+     * Is the response successful?
+     *
+     * @return boolean
      */
     public function isSuccessful()
     {
