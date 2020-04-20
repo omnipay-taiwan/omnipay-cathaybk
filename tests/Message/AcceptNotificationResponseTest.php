@@ -22,11 +22,11 @@ class AcceptNotificationResponseTest extends TestCase
         $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
         $this->assertNotFalse(
             strpos($replyResponse->getContent(), $parameters['RETURL']),
-            'replay does not has ' . $parameters['RETURL']
+            'replay does not has '.$parameters['RETURL']
         );
         $this->assertNotFalse(
             strpos($replyResponse->getContent(), $parameters['CAVALUE']),
-            'reply does not has ' . $parameters['CAVALUE']
+            'reply does not has '.$parameters['CAVALUE']
         );
     }
 

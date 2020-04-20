@@ -29,7 +29,7 @@ class PurchaseResponseTest extends TestCase
         );
         $this->assertArrayHasKey('strRqXML', $data);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/normal.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/normal.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);
@@ -50,7 +50,7 @@ class PurchaseResponseTest extends TestCase
         $this->assertEquals('POST', $response->getRedirectMethod());
         $this->assertArrayHasKey('strRqXML', $data);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/period.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/period.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);

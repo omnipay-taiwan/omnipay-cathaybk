@@ -11,7 +11,7 @@ use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
 
-class RefundRequest extends AbstractRequest
+class VoidRequest extends AbstractRequest
 {
     use HasStore;
     use HasOrderNumber;
@@ -21,34 +21,19 @@ class RefundRequest extends AbstractRequest
     use HasCallApi;
 
     /**
-     * @param bool $cancel
-     * @return RefundRequest
-     */
-    public function setCancel($cancel)
-    {
-        return $this->setParameter('cancel', $cancel);
-    }
-
-    public function getCancel()
-    {
-        return $this->getParameter('cancel');
-    }
-
-    /**
      * @return array
      * @throws InvalidRequestException
      */
     public function getData()
     {
-        $this->validate('transactionId', 'transactionReference', 'amount');
+        $this->validate('transactionId', 'transactionReference');
 
         return array_merge(
-            ['MSGID' => $this->getCancel() ? 'ORD0004' : 'ORD0003'],
+            ['MSGID' => 'ORD0007'],
             $this->mergeCaValue([
-                'REFUNDORDERINFO' => [
+                'CANCELORDERINFO' => [
                     'STOREID' => $this->getStoreId(),
                     'ORDERNUMBER' => $this->getOrderNumber(),
-                    'AMOUNT' => (int) $this->getAmount(),
                     'AUTHCODE' => $this->getTransactionReference(),
                 ],
             ])
@@ -57,20 +42,16 @@ class RefundRequest extends AbstractRequest
 
     /**
      * @param mixed $data
-     * @return RefundResponse
+     * @return VoidResponse
      * @throws InvalidRequestException
      */
     public function sendData($data)
     {
         $returnValues = $this->callApi($data);
 
-        $keys = ! $this->getCancel()
-            ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']
-            : ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'];
+        $this->assertCaValue($returnValues, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY']);
 
-        $this->assertCaValue($returnValues, $keys);
-
-        return $this->response = new RefundResponse($this, $returnValues);
+        return $this->response = new VoidResponse($this, $returnValues);
     }
 
     /**
@@ -78,8 +59,6 @@ class RefundRequest extends AbstractRequest
      */
     protected function getSignKeys()
     {
-        return ! $this->getCancel()
-            ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']
-            : ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY'];
+        return ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY'];
     }
 }

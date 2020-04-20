@@ -8,6 +8,7 @@ use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\Helper;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\RefundRequest;
+use Omnipay\Cathaybk\Message\VoidRequest;
 use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
@@ -75,6 +76,13 @@ class GatewayTest extends GatewayTestCase
         $options = [];
         $request = $this->gateway->refund($options);
         $this->assertInstanceOf(RefundRequest::class, $request);
+    }
+
+    public function testVoid()
+    {
+        $options = [];
+        $request = $this->gateway->void($options);
+        $this->assertInstanceOf(VoidRequest::class, $request);
     }
 
     /**

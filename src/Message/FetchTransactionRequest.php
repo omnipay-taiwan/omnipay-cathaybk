@@ -46,7 +46,7 @@ class FetchTransactionRequest extends AbstractRequest
             $this->mergeCaValue([
                 'ORDERINFO' => [
                     'STOREID' => $this->getStoreId(),
-                    'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),
+                    'ORDERNUMBER' => $this->getOrderNumber(),
                     'AMOUNT' => (int) $this->getAmount(),
                 ],
             ])

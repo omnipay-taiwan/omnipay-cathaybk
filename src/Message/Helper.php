@@ -27,7 +27,7 @@ class Helper
      */
     public static function array2xml($data, $tabDepth = 0)
     {
-        return '<?xml version=\'1.0\' encoding=\'UTF-8\'?>' . static::makeXml($data, $tabDepth);
+        return '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'.static::makeXml($data, $tabDepth);
     }
 
     /**
@@ -65,7 +65,7 @@ class Helper
 
     private static function combine($result, $data)
     {
-        $keys = ['REFUNDORDERINFO', 'ORDERINFO', 'AUTHINFO'];
+        $keys = ['REFUNDORDERINFO', 'CANCELORDERINFO', 'ORDERINFO', 'AUTHINFO'];
 
         foreach ($keys as $key) {
             if (array_key_exists($key, $data)) {
@@ -79,18 +79,18 @@ class Helper
     private static function makeXml($data, $tabDepth = 0)
     {
         $output = '';
-        $nl = "\n" . str_repeat("\t", $tabDepth++);
+        $nl = "\n".str_repeat("\t", $tabDepth++);
         foreach ($data as $key => $value) {
-            $output .= $nl . '<' . $key . '>';
+            $output .= $nl.'<'.$key.'>';
             if (is_bool($value)) {
                 $value = (int) $value;
             }
             if (is_array($value)) {
-                $output .= self::makeXml($value, $tabDepth) . $nl;
+                $output .= self::makeXml($value, $tabDepth).$nl;
             } else {
                 $output .= $value;
             }
-            $output .= '</' . $key . '>';
+            $output .= '</'.$key.'>';
         }
 
         return $output;
