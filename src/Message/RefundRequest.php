@@ -30,11 +30,11 @@ class RefundRequest extends AbstractRequest
     {
         $this->validate('transactionId', 'transactionReference', 'amount');
 
-        $isCancel = $this->getCancel();
-        $section = !$isCancel ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
+        $isRequest = $this->isRequest();
+        $section = $isRequest ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
 
         return array_merge(
-            ['MSGID' => !$isCancel ? 'ORD0003' : 'ORD0004'],
+            ['MSGID' => $isRequest ? 'ORD0003' : 'ORD0004'],
             $this->mergeCaValue([
                 $section => [
                     'STOREID' => $this->getStoreId(),
@@ -65,15 +65,23 @@ class RefundRequest extends AbstractRequest
      */
     protected function getSignKeys()
     {
-        return !$this->getCancel()
+        return $this->isRequest()
             ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']
             : ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY'];
     }
 
     protected function getAssertKeys()
     {
-        return !$this->getCancel()
+        return $this->isRequest()
             ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']
             : ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'];
+    }
+
+    /**
+     * @return bool
+     */
+    private function isRequest()
+    {
+        return ! $this->getCancel();
     }
 }

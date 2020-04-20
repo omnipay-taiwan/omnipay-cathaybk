@@ -3,6 +3,7 @@
 namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RequestInterface;
 
 class RefundResponse extends AbstractResponse
 {
@@ -21,11 +22,20 @@ class RefundResponse extends AbstractResponse
     ];
 
     /**
-     * @return string
+     * @var string
      */
-    private function getSection()
+    private $section;
+
+    /**
+     * Constructor.
+     *
+     * @param RequestInterface $request the initiating request.
+     * @param mixed $data
+     */
+    public function __construct(RequestInterface $request, $data)
     {
-        return !$this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
+        parent::__construct($request, $data);
+        $this->section = ! $this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
     }
 
     /**
@@ -53,7 +63,7 @@ class RefundResponse extends AbstractResponse
      */
     public function getCode()
     {
-        return $this->data['CUBXML'][$this->getSection()]['STATUS'];
+        return $this->data['CUBXML'][$this->section]['STATUS'];
     }
 
     /**
@@ -63,7 +73,7 @@ class RefundResponse extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        return $this->data['CUBXML'][$this->getSection()]['AUTHCODE'];
+        return $this->data['CUBXML'][$this->section]['AUTHCODE'];
     }
 
     /**
@@ -73,7 +83,7 @@ class RefundResponse extends AbstractResponse
      */
     public function getTransactionId()
     {
-        return $this->data['CUBXML'][$this->getSection()]['ORDERNUMBER'];
+        return $this->data['CUBXML'][$this->section]['ORDERNUMBER'];
     }
 
     /**

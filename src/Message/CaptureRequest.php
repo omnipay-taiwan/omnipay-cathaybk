@@ -30,11 +30,11 @@ class CaptureRequest extends AbstractRequest
     {
         $this->validate('transactionId', 'transactionReference');
 
-        $isCancel = $this->getCancel();
-        $section = !$isCancel ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
+        $isRequest = $this->isRequest();
+        $section = $isRequest ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
 
         return array_merge(
-            ['MSGID' => !$isCancel ? 'ORD0005' : 'ORD0006'],
+            ['MSGID' => $isRequest ? 'ORD0005' : 'ORD0006'],
             $this->mergeCaValue([
                 $section => [
                     'STOREID' => $this->getStoreId(),
@@ -62,15 +62,23 @@ class CaptureRequest extends AbstractRequest
 
     protected function getSignKeys()
     {
-        return !$this->getCancel()
+        return $this->isRequest()
             ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']
             : ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY'];
     }
 
     protected function getAssertKeys()
     {
-        return !$this->getCancel()
+        return $this->isRequest()
             ? ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']
             : ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'];
+    }
+
+    /**
+     * @return bool
+     */
+    private function isRequest()
+    {
+        return ! $this->getCancel();
     }
 }

@@ -84,6 +84,6 @@ class AcceptNotificationRequest extends AbstractRequest
 
     protected function getAssertKeys()
     {
-        return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY',];
+        return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY'];
     }
 }
