@@ -9,18 +9,22 @@ trait HasAssertCaValue
 {
     /**
      * @param $data
-     * @param $keys
      * @throws InvalidRequestException
      */
-    protected function assertCaValue($data, $keys)
+    protected function assertCaValue($data)
     {
         $caValue = Helper::caValue(array_merge([
             'STOREID' => $this->getStoreId(),
             'CUBKEY' => $this->getCubKey(),
-        ], $data), $keys);
+        ], $data), $this->getAssertKeys());
 
         if ($caValue !== $data['CUBXML']['CAVALUE']) {
             throw new InvalidRequestException();
         }
     }
+
+    /**
+     * @return array
+     */
+    abstract protected function getAssertKeys();
 }

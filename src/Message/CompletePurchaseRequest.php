@@ -38,8 +38,10 @@ class CompletePurchaseRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('strOrderInfo');
+
         $orderInfo = Helper::xml2array($this->getStrOrderInfo());
-        $this->assertCaValue($orderInfo, ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
+
+        $this->assertCaValue($orderInfo);
 
         return $orderInfo;
     }
@@ -51,5 +53,13 @@ class CompletePurchaseRequest extends AbstractRequest
     public function sendData($data)
     {
         return $this->response = new CompletePurchaseResponse($this, $data);
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getAssertKeys()
+    {
+        return ['STOREID', 'ORDERNUMBER', 'CUBKEY'];
     }
 }

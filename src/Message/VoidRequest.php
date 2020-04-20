@@ -49,7 +49,7 @@ class VoidRequest extends AbstractRequest
     {
         $returnValues = $this->callApi($data);
 
-        $this->assertCaValue($returnValues, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY']);
+        $this->assertCaValue($returnValues);
 
         return $this->response = new VoidResponse($this, $returnValues);
     }
@@ -60,5 +60,10 @@ class VoidRequest extends AbstractRequest
     protected function getSignKeys()
     {
         return ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY'];
+    }
+
+    protected function getAssertKeys()
+    {
+        return ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'];
     }
 }

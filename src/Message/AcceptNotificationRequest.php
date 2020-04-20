@@ -56,18 +56,16 @@ class AcceptNotificationRequest extends AbstractRequest
     {
         $this->validate('strRsXML', 'returnUrl');
 
-        $rs = Helper::xml2array($this->getStrRsXML());
+        $returnValues = Helper::xml2array($this->getStrRsXML());
 
-        $this->assertCaValue($rs, [
-            'STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY',
-        ]);
+        $this->assertCaValue($returnValues);
 
         $retUrl = $this->getReturnUrl();
 
         return array_merge([
             'CAVALUE' => $this->generateCaValue(['DOMAIN' => parse_url($retUrl, PHP_URL_HOST)]),
             'RETURL' => $retUrl,
-        ], $rs);
+        ], $returnValues);
     }
 
     /**
@@ -82,5 +80,10 @@ class AcceptNotificationRequest extends AbstractRequest
     protected function getSignKeys()
     {
         return ['DOMAIN', 'CUBKEY'];
+    }
+
+    protected function getAssertKeys()
+    {
+        return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY',];
     }
 }

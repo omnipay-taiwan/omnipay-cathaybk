@@ -28,7 +28,7 @@ class FetchTransactionRequest extends AbstractRequest
     {
         $returnValues = $this->callApi($data);
 
-        $this->assertCaValue($returnValues, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']);
+        $this->assertCaValue($returnValues);
 
         return $this->response = new FetchTransactionResponse($this, $returnValues);
     }
@@ -59,5 +59,13 @@ class FetchTransactionRequest extends AbstractRequest
     protected function getSignKeys()
     {
         return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY'];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getAssertKeys()
+    {
+        return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY'];
     }
 }

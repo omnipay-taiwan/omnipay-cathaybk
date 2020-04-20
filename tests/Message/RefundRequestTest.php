@@ -17,7 +17,7 @@ class RefundRequestTest extends TestCase
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
             new Response(200, [], $this->generateResponseXML($parameters, 'ORD0003', [
-                'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY'
+                'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY',
             ]))
         );
 
@@ -65,7 +65,7 @@ class RefundRequestTest extends TestCase
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
             new Response(200, [], $this->generateResponseXML($parameters, 'ORD0004', [
-                'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'
+                'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY',
             ]))
         );
 

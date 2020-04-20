@@ -17,7 +17,7 @@ class CaptureRequestTest extends TestCase
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
             new Response(200, [], $this->generateResponseXML($parameters, 'ORD0005', [
-                'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY'
+                'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY',
             ]))
         );
 
@@ -64,7 +64,7 @@ class CaptureRequestTest extends TestCase
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
             new Response(200, [], $this->generateResponseXML($parameters, 'ORD0006', [
-                'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'
+                'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY',
             ]))
         );
 
