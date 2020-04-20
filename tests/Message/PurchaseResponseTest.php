@@ -1,9 +1,10 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Tests\Message;
 
 use DOMDocument;
 use DOMNode;
+use Omnipay\Cathaybk\Message\PurchaseResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Tests\TestCase;
 
@@ -28,7 +29,7 @@ class PurchaseResponseTest extends TestCase
         );
         $this->assertArrayHasKey('strRqXML', $data);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/normal.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/normal.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);
@@ -49,7 +50,7 @@ class PurchaseResponseTest extends TestCase
         $this->assertEquals('POST', $response->getRedirectMethod());
         $this->assertArrayHasKey('strRqXML', $data);
 
-        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/period.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/period.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);
@@ -73,7 +74,7 @@ class PurchaseResponseTest extends TestCase
      * @param array $orderInfo
      * @return array
      */
-    private function givenParameters($msgId, $orderInfo = []): array
+    private function givenParameters($msgId, $orderInfo = [])
     {
         return [
             'CAVALUE' => uniqid('ca_value'),

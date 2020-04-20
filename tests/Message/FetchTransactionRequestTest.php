@@ -1,8 +1,10 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Tests\Message;
 
 use GuzzleHttp\Psr7\Response;
+use Omnipay\Cathaybk\Message\FetchTransactionRequest;
+use Omnipay\Cathaybk\Message\Helper;
 use Omnipay\Tests\TestCase;
 
 class FetchTransactionRequestTest extends TestCase

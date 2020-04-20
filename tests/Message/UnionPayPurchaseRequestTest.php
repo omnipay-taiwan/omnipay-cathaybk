@@ -1,17 +1,15 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Tests\Message;
 
+use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
+use Omnipay\Cathaybk\Message\UnionPayPurchaseResponse;
 use Omnipay\Cathaybk\UnionPayGateway;
 use Omnipay\Tests\TestCase;
 
 class UnionPayPurchaseRequestTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->gateway = new UnionPayGateway($this->getHttpClient(), $this->getHttpRequest());
-    }
-
     public function testGetData()
     {
         $parameters = $this->givenParameters();
@@ -34,7 +32,8 @@ class UnionPayPurchaseRequestTest extends TestCase
 
     public function testRedirect()
     {
-        $response = $this->gateway->purchase($this->givenParameters())->send();
+        $gateway = new UnionPayGateway($this->getHttpClient(), $this->getHttpRequest());
+        $response = $gateway->purchase($this->givenParameters())->send();
 
         $this->assertInstanceOf(UnionPayPurchaseResponse::class, $response);
         $this->assertFalse($response->isSuccessful());

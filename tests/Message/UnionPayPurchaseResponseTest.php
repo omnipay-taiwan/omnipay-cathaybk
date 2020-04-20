@@ -1,9 +1,10 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Tests\Message;
 
 use DOMDocument;
 use DOMNode;
+use Omnipay\Cathaybk\Message\UnionPayPurchaseResponse;
 use Omnipay\Tests\TestCase;
 
 class UnionPayPurchaseResponseTest extends TestCase
@@ -30,7 +31,7 @@ class UnionPayPurchaseResponseTest extends TestCase
         $this->assertArrayHasKey('strRqXML', $data);
         $this->assertFalse(strpos($data['strRqXML'], 'TRS000'), 'strRqXML does not has TRS000');
 
-        $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/unionpay.xml'));
+        $expected = $this->getDocument(file_get_contents(__DIR__ . '/../fixtures/unionpay.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
         $this->assertEqualXMLStructure($expected, $actual);

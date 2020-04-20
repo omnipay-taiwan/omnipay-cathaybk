@@ -1,7 +1,8 @@
 <?php
 
-namespace Omnipay\Cathaybk;
+namespace Omnipay\Cathaybk\Tests;
 
+use Omnipay\Cathaybk\Gateway;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\Helper;

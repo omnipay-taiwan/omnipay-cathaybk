@@ -1,7 +1,8 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Tests\Message;
 
+use Omnipay\Cathaybk\Message\AcceptNotificationResponse;
 use Omnipay\Tests\TestCase;
 
 class AcceptNotificationResponseTest extends TestCase
@@ -19,8 +20,14 @@ class AcceptNotificationResponseTest extends TestCase
         $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
         $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
         $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
-        $this->assertNotFalse(strpos($replyResponse->getContent(), $parameters['RETURL']), 'replay does not has '.$parameters['RETURL']);
-        $this->assertNotFalse(strpos($replyResponse->getContent(), $parameters['CAVALUE']), 'reply does not has '.$parameters['CAVALUE']);
+        $this->assertNotFalse(
+            strpos($replyResponse->getContent(), $parameters['RETURL']),
+            'replay does not has ' . $parameters['RETURL']
+        );
+        $this->assertNotFalse(
+            strpos($replyResponse->getContent(), $parameters['CAVALUE']),
+            'reply does not has ' . $parameters['CAVALUE']
+        );
     }
 
     /**

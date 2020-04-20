@@ -1,8 +1,11 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Tests\Message;
 
 use Omnipay\Cathaybk\Gateway;
+use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Message\PurchaseRequest;
+use Omnipay\Cathaybk\Message\PurchaseResponse;
 use Omnipay\Tests\TestCase;
 
 class PurchaseRequestTest extends TestCase

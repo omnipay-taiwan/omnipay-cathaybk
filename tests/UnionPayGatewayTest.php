@@ -1,11 +1,12 @@
 <?php
 
-namespace Omnipay\Cathaybk;
+namespace Omnipay\Cathaybk\Tests;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\Helper;
 use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
+use Omnipay\Cathaybk\UnionPayGateway;
 use Omnipay\Tests\GatewayTestCase;
 
 class UnionPayGatewayTest extends GatewayTestCase
