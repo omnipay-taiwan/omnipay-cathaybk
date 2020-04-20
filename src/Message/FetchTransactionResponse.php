@@ -4,7 +4,7 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 
-class CompleteFetchTransactionResponse extends AbstractResponse
+class FetchTransactionResponse extends AbstractResponse
 {
     private $messages = [
         '0202' => '授權成功',

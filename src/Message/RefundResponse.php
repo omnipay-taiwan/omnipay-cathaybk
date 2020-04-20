@@ -4,7 +4,7 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 
-class CompleteRefundResponse extends AbstractResponse
+class RefundResponse extends AbstractResponse
 {
     private $messages = [
         'L001' => '資料格式有誤',

@@ -57,7 +57,7 @@ class RefundRequest extends AbstractRequest
 
     /**
      * @param mixed $data
-     * @return CompleteRefundResponse
+     * @return RefundResponse
      * @throws InvalidRequestException
      */
     public function sendData($data)
@@ -70,7 +70,7 @@ class RefundRequest extends AbstractRequest
 
         $this->assertCaValue($returnValues, $keys);
 
-        return $this->response = new CompleteRefundResponse($this, $returnValues);
+        return $this->response = new RefundResponse($this, $returnValues);
     }
 
     /**

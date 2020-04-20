@@ -30,7 +30,7 @@ class FetchTransactionRequest extends AbstractRequest
 
         $this->assertCaValue($returnValues, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']);
 
-        return $this->response = new CompleteFetchTransactionResponse($this, $returnValues);
+        return $this->response = new FetchTransactionResponse($this, $returnValues);
     }
 
     /**
