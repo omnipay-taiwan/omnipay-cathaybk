@@ -2,6 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\NotificationInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Cathaybk\Message;
+namespace Omnipay\Cathaybk\Support;
 
 class Helper
 {

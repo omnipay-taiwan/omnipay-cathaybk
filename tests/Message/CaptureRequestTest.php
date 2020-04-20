@@ -4,7 +4,7 @@ namespace Omnipay\Cathaybk\Tests\Message;
 
 use GuzzleHttp\Psr7\Response;
 use Omnipay\Cathaybk\Message\CaptureRequest;
-use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Tests\TestCase;
 
 class CaptureRequestTest extends TestCase

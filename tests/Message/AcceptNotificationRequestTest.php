@@ -3,7 +3,7 @@
 namespace Omnipay\Cathaybk\Tests\Message;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
-use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Tests\TestCase;
 
 class AcceptNotificationRequestTest extends TestCase

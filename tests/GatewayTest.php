@@ -5,7 +5,7 @@ namespace Omnipay\Cathaybk\Tests;
 use Omnipay\Cathaybk\Gateway;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
-use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\RefundRequest;
 use Omnipay\Cathaybk\Message\VoidRequest;

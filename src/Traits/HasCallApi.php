@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk\Traits;
 
-use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Support\Helper;
 
 trait HasCallApi
 {

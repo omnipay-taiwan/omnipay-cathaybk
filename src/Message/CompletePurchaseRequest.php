@@ -2,6 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
 use Omnipay\Cathaybk\Traits\HasLanguage;
 use Omnipay\Cathaybk\Traits\HasStore;

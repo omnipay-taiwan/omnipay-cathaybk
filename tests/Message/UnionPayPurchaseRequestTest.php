@@ -2,7 +2,7 @@
 
 namespace Omnipay\Cathaybk\Tests\Message;
 
-use Omnipay\Cathaybk\Message\Helper;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
 use Omnipay\Cathaybk\Message\UnionPayPurchaseResponse;
 use Omnipay\Cathaybk\UnionPayGateway;
