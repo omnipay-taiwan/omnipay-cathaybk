@@ -21,6 +21,14 @@ class RefundResponse extends AbstractResponse
     ];
 
     /**
+     * @return string
+     */
+    private function getSection()
+    {
+        return !$this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
+    }
+
+    /**
      * @return bool
      */
     public function isSuccessful()
@@ -45,7 +53,7 @@ class RefundResponse extends AbstractResponse
      */
     public function getCode()
     {
-        return $this->data['CUBXML']['REFUNDORDERINFO']['STATUS'];
+        return $this->data['CUBXML'][$this->getSection()]['STATUS'];
     }
 
     /**
@@ -55,7 +63,7 @@ class RefundResponse extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        return $this->data['CUBXML']['REFUNDORDERINFO']['AUTHCODE'];
+        return $this->data['CUBXML'][$this->getSection()]['AUTHCODE'];
     }
 
     /**
@@ -65,7 +73,7 @@ class RefundResponse extends AbstractResponse
      */
     public function getTransactionId()
     {
-        return $this->data['CUBXML']['REFUNDORDERINFO']['ORDERNUMBER'];
+        return $this->data['CUBXML'][$this->getSection()]['ORDERNUMBER'];
     }
 
     /**

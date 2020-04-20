@@ -30,10 +30,13 @@ class RefundRequest extends AbstractRequest
     {
         $this->validate('transactionId', 'transactionReference', 'amount');
 
+        $isCancel = $this->getCancel();
+        $section = !$isCancel ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
+
         return array_merge(
-            ['MSGID' => !$this->getCancel() ? 'ORD0003' : 'ORD0004'],
+            ['MSGID' => !$isCancel ? 'ORD0003' : 'ORD0004'],
             $this->mergeCaValue([
-                'REFUNDORDERINFO' => [
+                $section => [
                     'STOREID' => $this->getStoreId(),
                     'ORDERNUMBER' => $this->getOrderNumber(),
                     'AMOUNT' => (int) $this->getAmount(),

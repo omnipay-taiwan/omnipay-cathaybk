@@ -75,9 +75,9 @@ class CaptureRequestTest extends TestCase
 
         $this->assertEquals($caValue, $data['CAVALUE']);
         $this->assertEquals('ORD0006', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['CAPTUREORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['CAPTUREORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['CAPTUREORDERINFO']['AMOUNT']);
+        $this->assertEquals($parameters['STOREID'], $data['CANCELCAPTUREINFO']['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['CANCELCAPTUREINFO']['ORDERNUMBER']);
+        $this->assertEquals('10', $data['CANCELCAPTUREINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
     }
@@ -100,7 +100,7 @@ class CaptureRequestTest extends TestCase
             $lastRequest->getBody()->getContents()
         );
 
-        $this->assertEquals($data['CAPTUREORDERINFO']['AUTHCODE'], $response->getTransactionReference());
+        $this->assertEquals($data['CANCELCAPTUREINFO']['AUTHCODE'], $response->getTransactionReference());
         $this->assertEquals('0000', $response->getCode());
         $this->assertEquals(true, $response->isCancelled());
     }
@@ -129,12 +129,13 @@ class CaptureRequestTest extends TestCase
     private function generateResponseXML(array $parameters, $msgId, $signKeys)
     {
         $status = ['STATUS' => '0000'];
+        $section = $msgId === 'ORD0005' ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
 
         return Helper::array2xml([
             'CUBXML' => [
                 'MSGID' => $msgId,
                 'CAVALUE' => Helper::caValue(array_merge($parameters, $status), $signKeys),
-                'CAPTUREORDERINFO' => [
+                $section => [
                     'STOREID' => $parameters['STOREID'],
                     'ORDERNUMBER' => $parameters['ORDERNUMBER'],
                     'AMOUNT' => $parameters['AMOUNT'],

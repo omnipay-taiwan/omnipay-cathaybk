@@ -21,6 +21,14 @@ class CaptureResponse extends AbstractResponse
     ];
 
     /**
+     * @return string
+     */
+    private function getSection()
+    {
+        return !$this->isCancelled() ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
+    }
+
+    /**
      * @return bool
      */
     public function isSuccessful()
@@ -45,7 +53,7 @@ class CaptureResponse extends AbstractResponse
      */
     public function getCode()
     {
-        return $this->data['CUBXML']['CAPTUREORDERINFO']['STATUS'];
+        return $this->data['CUBXML'][$this->getSection()]['STATUS'];
     }
 
     /**
@@ -55,7 +63,7 @@ class CaptureResponse extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        return $this->data['CUBXML']['CAPTUREORDERINFO']['AUTHCODE'];
+        return $this->data['CUBXML'][$this->getSection()]['AUTHCODE'];
     }
 
     /**
@@ -65,7 +73,7 @@ class CaptureResponse extends AbstractResponse
      */
     public function getTransactionId()
     {
-        return $this->data['CUBXML']['CAPTUREORDERINFO']['ORDERNUMBER'];
+        return $this->data['CUBXML'][$this->getSection()]['ORDERNUMBER'];
     }
 
     /**

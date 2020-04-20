@@ -21,7 +21,8 @@ class FetchTransactionResponse extends AbstractResponse
         'E001' => '系統忙碌中',
         'E002' => '系統維護中',
         'E100' => '系統維護中',
-        'L001' => '資料格式有誤 L100',
+        'L001' => '資料格式有誤',
+        'L100' => '資料格式有誤',
     ];
 
     /**

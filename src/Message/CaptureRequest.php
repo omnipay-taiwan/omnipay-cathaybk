@@ -30,10 +30,13 @@ class CaptureRequest extends AbstractRequest
     {
         $this->validate('transactionId', 'transactionReference');
 
+        $isCancel = $this->getCancel();
+        $section = !$isCancel ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
+
         return array_merge(
-            ['MSGID' => !$this->getCancel() ? 'ORD0005' : 'ORD0006'],
+            ['MSGID' => !$isCancel ? 'ORD0005' : 'ORD0006'],
             $this->mergeCaValue([
-                'CAPTUREORDERINFO' => [
+                $section => [
                     'STOREID' => $this->getStoreId(),
                     'ORDERNUMBER' => $this->getOrderNumber(),
                     'AMOUNT' => (int) $this->getAmount(),
@@ -51,7 +54,6 @@ class CaptureRequest extends AbstractRequest
     public function sendData($data)
     {
         $returnValues = $this->callApi($data);
-
 
         $this->assertCaValue($returnValues);
 
