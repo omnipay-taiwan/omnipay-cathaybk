@@ -3,16 +3,10 @@
 namespace Omnipay\Cathaybk\Message;
 
 use GuzzleHttp\Psr7\Response;
-use Omnipay\Cathaybk\Gateway;
 use Omnipay\Tests\TestCase;
 
 class FetchTransactionRequestTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
-    }
-
     public function testGetData()
     {
         $parameters = $this->givenParameters();
@@ -43,7 +37,7 @@ class FetchTransactionRequestTest extends TestCase
      */
     public function testResponse($parameters)
     {
-        list(, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $parameters;
         $lastRequest = $mockClient->getLastRequest();
 
         $this->assertEquals(
@@ -82,7 +76,8 @@ class FetchTransactionRequestTest extends TestCase
             'CUBXML' => [
                 'MSGID' => 'ORD0001',
                 'CAVALUE' => Helper::caValue(
-                    array_merge($parameters, $status), ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']
+                    array_merge($parameters, $status),
+                    ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']
                 ),
                 'ORDERINFO' => [
                     'STOREID' => $parameters['STOREID'],

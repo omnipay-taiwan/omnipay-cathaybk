@@ -6,6 +6,7 @@ use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\Helper;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
+use Omnipay\Cathaybk\Message\RefundRequest;
 use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
@@ -68,10 +69,17 @@ class GatewayTest extends GatewayTestCase
         $this->assertInstanceOf(AcceptNotificationRequest::class, $request);
     }
 
+    public function testRefund()
+    {
+        $options = [];
+        $request = $this->gateway->refund($options);
+        $this->assertInstanceOf(RefundRequest::class, $request);
+    }
+
     /**
      * @return array
      */
-    private function generateXmlData(): array
+    private function generateXmlData()
     {
         $parameters = ['CUBXML' => [
             'CAVALUE' => '',
@@ -81,7 +89,8 @@ class GatewayTest extends GatewayTestCase
             ],
         ]];
         $parameters['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
-            $parameters, ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
+            $parameters,
+            ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
         ), ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 
         return $parameters;

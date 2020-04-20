@@ -7,7 +7,6 @@ use Omnipay\Cathaybk\Traits\HasLanguage;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\Common\Message\ResponseInterface;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
@@ -47,7 +46,7 @@ class CompletePurchaseRequest extends AbstractRequest
 
     /**
      * @param mixed $data
-     * @return CompletePurchaseResponse|ResponseInterface
+     * @return CompletePurchaseResponse
      */
     public function sendData($data)
     {

@@ -7,16 +7,12 @@ use Omnipay\Tests\TestCase;
 
 class PurchaseRequestTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
-    }
-
     public function testGetData()
     {
         $parameters = $this->givenParameters();
         $signature = Helper::caValue(
-            array_merge($parameters, ['LANGUAGE' => 'ZH-TW']), ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
+            array_merge($parameters, ['LANGUAGE' => 'ZH-TW']),
+            ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'LANGUAGE', 'CUBKEY']
         );
 
         $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -39,7 +35,8 @@ class PurchaseRequestTest extends TestCase
             'PERIODNUMBER' => '2',
         ]);
         $signature = Helper::caValue(
-            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']
+            $parameters,
+            ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'PERIODNUMBER', 'LANGUAGE', 'CUBKEY']
         );
 
         $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -58,7 +55,8 @@ class PurchaseRequestTest extends TestCase
 
     public function testRedirect()
     {
-        $response = $this->gateway->purchase($this->givenParameters())->send();
+        $gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
+        $response = $gateway->purchase($this->givenParameters())->send();
 
         $this->assertInstanceOf(PurchaseResponse::class, $response);
         $this->assertFalse($response->isSuccessful());

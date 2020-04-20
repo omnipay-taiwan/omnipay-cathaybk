@@ -3,6 +3,7 @@
 namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
+use Omnipay\Cathaybk\Traits\HasCallApi;
 use Omnipay\Cathaybk\Traits\HasOrderNumber;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
@@ -16,24 +17,20 @@ class FetchTransactionRequest extends AbstractRequest
     use HasOrderNumber;
     use HasSignCaValue;
     use HasAssertCaValue;
+    use HasCallApi;
 
     /**
-     * @param mixed $data
-     * @return ResponseInterface|void
+     * @param array $data
+     * @return ResponseInterface
      * @throws InvalidRequestException
      */
     public function sendData($data)
     {
-        $url = 'https://sslpayment.uwccb.com.tw/EPOSService/CRDOrderService.asmx?wsdl';
-        $headers = ['Content-Type' => 'application/x-www-form-urlencoded'];
-        $body = http_build_query(['strRqXML' => Helper::array2xml($data)]);
-        $response = $this->httpClient->request('POST', $url, $headers, $body);
+        $returnValues = $this->callApi($data);
 
-        $data = Helper::xml2array($response->getBody()->getContents());
+        $this->assertCaValue($returnValues, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']);
 
-        $this->assertCaValue($data, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']);
-
-        return $this->response = new CompleteFetchTransactionResponse($this, $data);
+        return $this->response = new CompleteFetchTransactionResponse($this, $returnValues);
     }
 
     /**

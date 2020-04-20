@@ -7,7 +7,6 @@ use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\Common\Message\ResponseInterface;
 
 class UnionPayPurchaseRequest extends AbstractRequest
 {
@@ -33,8 +32,8 @@ class UnionPayPurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
-     * @return PurchaseResponse|ResponseInterface
+     * @param array $data
+     * @return PurchaseResponse
      */
     public function sendData($data)
     {

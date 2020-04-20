@@ -2,16 +2,10 @@
 
 namespace Omnipay\Cathaybk\Message;
 
-use Omnipay\Cathaybk\Gateway;
 use Omnipay\Tests\TestCase;
 
 class AcceptNotificationRequestTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
-    }
-
     public function testGetData()
     {
         $storeId = uniqid('store_id');

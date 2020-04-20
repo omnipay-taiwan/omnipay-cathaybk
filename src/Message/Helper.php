@@ -11,12 +11,12 @@ class Helper
      */
     public static function caValue($data, $keys)
     {
-        $data = array_key_exists('CUBXML', $data)
-            ? static::combin($data, $data['CUBXML'])
-            : static::combin($data, $data);
+        $temp = array_key_exists('CUBXML', $data)
+            ? static::combine($data, $data['CUBXML'])
+            : static::combine($data, $data);
 
-        return md5(implode('', array_map(function ($key) use ($data) {
-            return $data[$key];
+        return md5(implode('', array_map(function ($key) use ($temp) {
+            return $temp[$key];
         }, $keys)));
     }
 
@@ -27,7 +27,7 @@ class Helper
      */
     public static function array2xml($data, $tabDepth = 0)
     {
-        return '<?xml version=\'1.0\' encoding=\'UTF-8\'?>'.static::makeXml($data, $tabDepth);
+        return '<?xml version=\'1.0\' encoding=\'UTF-8\'?>' . static::makeXml($data, $tabDepth);
     }
 
     /**
@@ -44,9 +44,9 @@ class Helper
 
         foreach ($elements[1] as $ie => $xx) {
             $name = $elements[1][$ie];
-            $arr[$name] = [];
 
             $cdEnd = strpos($elements[3][$ie], '<');
+
             if ($cdEnd > 0) {
                 $arr[$name] = substr($elements[3][$ie], 0, $cdEnd - 1);
             }
@@ -55,40 +55,42 @@ class Helper
                 $arr[$name] = self::xml2array($elements[3][$ie]);
             } elseif ($elements[3][$ie]) {
                 $arr[$name] = $elements[3][$ie];
+            } else {
+                $arr[$name] = '';
             }
         }
 
         return $arr;
     }
 
-    private static function combin($data, $cubXML)
+    private static function combine($result, $data)
     {
-        if (array_key_exists('ORDERINFO', $cubXML)) {
-            $data = array_merge($data, $cubXML['ORDERINFO']);
+        $keys = ['REFUNDORDERINFO', 'ORDERINFO', 'AUTHINFO'];
+
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $data)) {
+                $result = array_merge($result, $data[$key]);
+            }
         }
 
-        if (array_key_exists('AUTHINFO', $cubXML)) {
-            $data = array_merge($data, $cubXML['AUTHINFO']);
-        }
-
-        return $data;
+        return $result;
     }
 
     private static function makeXml($data, $tabDepth = 0)
     {
         $output = '';
-        $nl = "\n".str_repeat("\t", $tabDepth++);
+        $nl = "\n" . str_repeat("\t", $tabDepth++);
         foreach ($data as $key => $value) {
-            $output .= $nl.'<'.$key.'>';
+            $output .= $nl . '<' . $key . '>';
             if (is_bool($value)) {
                 $value = (int) $value;
             }
             if (is_array($value)) {
-                $output .= self::makeXml($value, $tabDepth).$nl;
+                $output .= self::makeXml($value, $tabDepth) . $nl;
             } else {
                 $output .= $value;
             }
-            $output .= '</'.$key.'>';
+            $output .= '</' . $key . '>';
         }
 
         return $output;

@@ -16,7 +16,8 @@ class UnionPayPurchaseRequestTest extends TestCase
     {
         $parameters = $this->givenParameters();
         $signature = Helper::caValue(
-            $parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
+            $parameters,
+            ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
         );
 
         $request = new UnionPayPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());

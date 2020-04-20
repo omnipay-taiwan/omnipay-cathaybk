@@ -30,6 +30,11 @@
       "Omnipay\\Cathaybk\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Omnipay\\Cathaybk\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "omnipay/common": "^3.0"
   },
