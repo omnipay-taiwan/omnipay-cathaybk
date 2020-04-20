@@ -3,6 +3,7 @@
 namespace Omnipay\Cathaybk;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
+use Omnipay\Cathaybk\Message\CaptureRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\RefundRequest;
@@ -74,7 +75,6 @@ use Omnipay\Common\Message\RequestInterface;
  * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
@@ -88,6 +88,15 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return ['STOREID' => '', 'CUBKEY' => ''];
+    }
+
+    /**
+     * @param array $parameters
+     * @return AbstractRequest
+     */
+    public function capture(array $parameters = [])
+    {
+        return $this->createRequest(CaptureRequest::class, $parameters);
     }
 
     /**

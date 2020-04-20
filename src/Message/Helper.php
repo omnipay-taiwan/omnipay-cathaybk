@@ -65,7 +65,15 @@ class Helper
 
     private static function combine($result, $data)
     {
-        $keys = ['REFUNDORDERINFO', 'CANCELORDERINFO', 'ORDERINFO', 'AUTHINFO'];
+        $keys = [
+            'ORDERINFO',
+            'AUTHINFO',
+            'REFUNDORDERINFO',
+            'CANCELREFUNDINFO',
+            'CAPTUREORDERINFO',
+            'CANCELCAPTUREINFO',
+            'CANCELORDERINFO',
+        ];
 
         foreach ($keys as $key) {
             if (array_key_exists($key, $data)) {

@@ -11,7 +11,7 @@ use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
 
-class RefundRequest extends AbstractRequest
+class CaptureRequest extends AbstractRequest
 {
     use HasStore;
     use HasOrderNumber;
@@ -43,12 +43,12 @@ class RefundRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('transactionId', 'transactionReference', 'amount');
+        $this->validate('transactionId', 'transactionReference');
 
         return array_merge(
-            ['MSGID' => ! $this->getCancel() ? 'ORD0003' : 'ORD0004'],
+            ['MSGID' => ! $this->getCancel() ? 'ORD0005' : 'ORD0006'],
             $this->mergeCaValue([
-                'REFUNDORDERINFO' => [
+                'CAPTUREORDERINFO' => [
                     'STOREID' => $this->getStoreId(),
                     'ORDERNUMBER' => $this->getOrderNumber(),
                     'AMOUNT' => (int) $this->getAmount(),
@@ -60,7 +60,7 @@ class RefundRequest extends AbstractRequest
 
     /**
      * @param mixed $data
-     * @return RefundResponse
+     * @return CaptureResponse
      * @throws InvalidRequestException
      */
     public function sendData($data)
@@ -73,12 +73,9 @@ class RefundRequest extends AbstractRequest
 
         $this->assertCaValue($returnValues, $keys);
 
-        return $this->response = new RefundResponse($this, $returnValues);
+        return $this->response = new CaptureResponse($this, $returnValues);
     }
 
-    /**
-     * @return string[]
-     */
     protected function getSignKeys()
     {
         return ! $this->getCancel()

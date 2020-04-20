@@ -3,11 +3,11 @@
 namespace Omnipay\Cathaybk\Tests\Message;
 
 use GuzzleHttp\Psr7\Response;
+use Omnipay\Cathaybk\Message\CaptureRequest;
 use Omnipay\Cathaybk\Message\Helper;
-use Omnipay\Cathaybk\Message\RefundRequest;
 use Omnipay\Tests\TestCase;
 
-class RefundRequestTest extends TestCase
+class CaptureRequestTest extends TestCase
 {
     public function testGetData()
     {
@@ -16,21 +16,21 @@ class RefundRequestTest extends TestCase
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0003', [
+            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0005', [
                 'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY'
             ]))
         );
 
-        $request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request = new CaptureRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();
 
         $this->assertEquals($caValue, $data['CAVALUE']);
-        $this->assertEquals('ORD0003', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['REFUNDORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['REFUNDORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['REFUNDORDERINFO']['AMOUNT']);
+        $this->assertEquals('ORD0005', $data['MSGID']);
+        $this->assertEquals($parameters['STOREID'], $data['CAPTUREORDERINFO']['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['CAPTUREORDERINFO']['ORDERNUMBER']);
+        $this->assertEquals($parameters['AUTHCODE'], $data['CAPTUREORDERINFO']['AUTHCODE']);
 
         return [$request->send(), $mockClient, $data];
     }
@@ -52,8 +52,7 @@ class RefundRequestTest extends TestCase
             http_build_query(['strRqXML' => Helper::array2xml($data)]),
             $lastRequest->getBody()->getContents()
         );
-
-        $this->assertEquals($data['REFUNDORDERINFO']['AUTHCODE'], $response->getTransactionReference());
+        $this->assertEquals($data['CAPTUREORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
         $this->assertEquals('0000', $response->getCode());
     }
 
@@ -64,21 +63,21 @@ class RefundRequestTest extends TestCase
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0004', [
+            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0006', [
                 'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY'
             ]))
         );
 
-        $request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
+        $request = new CaptureRequest($this->getHttpClient(), $this->getHttpRequest());
         $request->initialize($parameters);
 
         $data = $request->getData();
 
         $this->assertEquals($caValue, $data['CAVALUE']);
-        $this->assertEquals('ORD0004', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['REFUNDORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['REFUNDORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['REFUNDORDERINFO']['AMOUNT']);
+        $this->assertEquals('ORD0006', $data['MSGID']);
+        $this->assertEquals($parameters['STOREID'], $data['CAPTUREORDERINFO']['STOREID']);
+        $this->assertEquals($parameters['ORDERNUMBER'], $data['CAPTUREORDERINFO']['ORDERNUMBER']);
+        $this->assertEquals('10', $data['CAPTUREORDERINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
     }
@@ -101,7 +100,7 @@ class RefundRequestTest extends TestCase
             $lastRequest->getBody()->getContents()
         );
 
-        $this->assertEquals($data['REFUNDORDERINFO']['AUTHCODE'], $response->getTransactionReference());
+        $this->assertEquals($data['CAPTUREORDERINFO']['AUTHCODE'], $response->getTransactionReference());
         $this->assertEquals('0000', $response->getCode());
         $this->assertEquals(true, $response->isCancelled());
     }
@@ -135,12 +134,13 @@ class RefundRequestTest extends TestCase
             'CUBXML' => [
                 'MSGID' => $msgId,
                 'CAVALUE' => Helper::caValue(array_merge($parameters, $status), $signKeys),
-                'REFUNDORDERINFO' => array_merge([
+                'CAPTUREORDERINFO' => [
                     'STOREID' => $parameters['STOREID'],
                     'ORDERNUMBER' => $parameters['ORDERNUMBER'],
                     'AMOUNT' => $parameters['AMOUNT'],
                     'AUTHCODE' => $parameters['AUTHCODE'],
-                ], $status),
+                    'STATUS' => $status['STATUS'],
+                ],
             ],
         ]);
     }
