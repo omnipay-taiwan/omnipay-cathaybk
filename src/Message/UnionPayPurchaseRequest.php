@@ -20,12 +20,12 @@ class UnionPayPurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('store_id', 'cub_key', 'amount');
+        $this->validate('STOREID', 'CUBKEY', 'transactionId', 'amount');
 
         return $this->mergeCaValue([
             'ORDERINFO' => [
                 'STOREID' => $this->getStoreId(),
-                'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),
+                'ORDERNUMBER' => $this->getOrderNumber(),
                 'AMOUNT' => (int) $this->getAmount(),
             ],
         ]);

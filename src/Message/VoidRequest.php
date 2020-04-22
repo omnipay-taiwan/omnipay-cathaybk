@@ -26,7 +26,7 @@ class VoidRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('transactionId', 'transactionReference');
+        $this->validate('STOREID', 'CUBKEY', 'transactionId', 'transactionReference');
 
         return array_merge(
             ['MSGID' => 'ORD0007'],

@@ -38,7 +38,7 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('strOrderInfo');
+        $this->validate('STOREID', 'CUBKEY', 'strOrderInfo');
 
         $orderInfo = Helper::xml2array($this->getStrOrderInfo());
 

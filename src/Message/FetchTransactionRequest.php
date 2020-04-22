@@ -39,7 +39,7 @@ class FetchTransactionRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('transactionId', 'amount');
+        $this->validate('STOREID', 'CUBKEY', 'transactionId', 'amount');
 
         return array_merge(
             ['MSGID' => 'ORD0001'],

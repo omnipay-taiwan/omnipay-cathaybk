@@ -40,7 +40,6 @@ class AcceptNotificationRequestTest extends TestCase
      * @return array
      */
     private function generateXmlData(string $storeId, string $cubKey)
-    : array
     {
         $parameters = [
             'CUBXML' => [

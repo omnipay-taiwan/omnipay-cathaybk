@@ -28,7 +28,7 @@ class CaptureRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('transactionId', 'transactionReference');
+        $this->validate('STOREID', 'CUBKEY', 'transactionId', 'transactionReference');
 
         $isRequest = $this->isRequest();
         $section = $isRequest ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';

@@ -10,7 +10,7 @@ trait HasLanguage
      */
     public function setLanguage($language)
     {
-        return $this->setParameter('language', $language);
+        return $this->setParameter('LANGUAGE', $language);
     }
 
     /**
@@ -18,6 +18,6 @@ trait HasLanguage
      */
     public function getLanguage()
     {
-        return strtoupper($this->getParameter('language') ?: 'ZH-TW');
+        return strtoupper($this->getParameter('LANGUAGE') ?: 'ZH-TW');
     }
 }

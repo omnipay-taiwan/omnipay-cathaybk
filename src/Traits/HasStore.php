@@ -10,7 +10,7 @@ trait HasStore
      */
     public function setStoreId($storeId)
     {
-        return $this->setParameter('store_id', $storeId);
+        return $this->setParameter('STOREID', $storeId);
     }
 
     /**
@@ -18,7 +18,7 @@ trait HasStore
      */
     public function getStoreId()
     {
-        return $this->getParameter('store_id');
+        return $this->getParameter('STOREID');
     }
 
     /**
@@ -27,7 +27,7 @@ trait HasStore
      */
     public function setCubKey($cubKey)
     {
-        return $this->setParameter('cub_key', $cubKey);
+        return $this->setParameter('CUBKEY', $cubKey);
     }
 
     /**
@@ -35,6 +35,6 @@ trait HasStore
      */
     public function getCubKey()
     {
-        return $this->getParameter('cub_key');
+        return $this->getParameter('CUBKEY');
     }
 }

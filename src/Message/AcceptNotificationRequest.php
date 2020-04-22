@@ -55,7 +55,7 @@ class AcceptNotificationRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('strRsXML', 'returnUrl');
+        $this->validate('STOREID', 'CUBKEY', 'strRsXML', 'returnUrl');
 
         $returnValues = Helper::xml2array($this->getStrRsXML());
 

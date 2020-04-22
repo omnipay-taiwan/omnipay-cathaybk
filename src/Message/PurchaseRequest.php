@@ -56,13 +56,13 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('store_id', 'cub_key', 'amount');
+        $this->validate('STOREID', 'CUBKEY', 'transactionId', 'amount');
 
         return $this->mergeCaValue([
             'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004',
             'ORDERINFO' => array_merge($this->appendPeriodNumber([
                 'STOREID' => $this->getStoreId(),
-                'ORDERNUMBER' => strtoupper($this->getOrderNumber() ?: uniqid()),
+                'ORDERNUMBER' => $this->getOrderNumber(),
                 'AMOUNT' => (int) $this->getAmount(),
             ]), ['LANGUAGE' => $this->getLanguage()]),
         ]);

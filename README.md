@@ -11,22 +11,22 @@ processing library for PHP 5.3+. This package implements Cathaybk support for Om
 
 ## Installation
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply require `league/omnipay` and `omnipay/dummy` with Composer:
+Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply require `league/omnipay` and `omnipay-taiwan/cathaybk` with Composer:
 
 ```
-composer require league/omnipay omnipay/dummy
+composer require league/omnipay omnipay-taiwan/cathaybk
 ```
 
 ## Basic Usage
 
 The following gateways are provided by this package:
 
-* Cathaybk
+-   Cathaybk
 
-This is a dummy gateway driver intended for testing purposes. If you provide a card number ending in an even number, the driver will return a success response. If it ends in an odd number, the driver will return a generic failure response. For example:
+This is a cathaybk gateway driver intended for testing purposes. If you provide a card number ending in an even number, the driver will return a success response. If it ends in an odd number, the driver will return a generic failure response. For example:
 
-* 4929000000006 - Success
-* 4444333322221111 - Failure
+-   4929000000006 - Success
+-   4444333322221111 - Failure
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.

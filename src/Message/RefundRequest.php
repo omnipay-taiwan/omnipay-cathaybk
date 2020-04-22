@@ -28,7 +28,7 @@ class RefundRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('transactionId', 'transactionReference', 'amount');
+        $this->validate('STOREID', 'CUBKEY', 'transactionId', 'transactionReference', 'amount');
 
         $isRequest = $this->isRequest();
         $section = $isRequest ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
