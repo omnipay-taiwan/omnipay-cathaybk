@@ -35,13 +35,13 @@ class CaptureResponse extends AbstractResponse
     public function __construct(RequestInterface $request, $data)
     {
         parent::__construct($request, $data);
-        $this->section = !$this->isCancelled() ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
+        $this->section = ! $this->isCancelled() ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
     }
 
     /**
      * Is the response successful?
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {

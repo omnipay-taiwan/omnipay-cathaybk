@@ -35,13 +35,13 @@ class RefundResponse extends AbstractResponse
     public function __construct(RequestInterface $request, $data)
     {
         parent::__construct($request, $data);
-        $this->section = !$this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
+        $this->section = ! $this->isCancelled() ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
     }
 
     /**
      * Is the response successful?
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {

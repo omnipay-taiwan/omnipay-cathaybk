@@ -11,7 +11,7 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
     /**
      * Is the response successful?
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {

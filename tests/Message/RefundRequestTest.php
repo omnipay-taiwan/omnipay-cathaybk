@@ -3,8 +3,8 @@
 namespace Omnipay\Cathaybk\Tests\Message;
 
 use GuzzleHttp\Psr7\Response;
-use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Message\RefundRequest;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Tests\TestCase;
 
 class RefundRequestTest extends TestCase

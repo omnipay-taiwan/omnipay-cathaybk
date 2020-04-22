@@ -5,10 +5,10 @@ namespace Omnipay\Cathaybk\Tests;
 use Omnipay\Cathaybk\Gateway;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
-use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\RefundRequest;
 use Omnipay\Cathaybk\Message\VoidRequest;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase

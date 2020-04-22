@@ -4,8 +4,8 @@ namespace Omnipay\Cathaybk\Tests;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
-use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Message\UnionPayPurchaseRequest;
+use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\UnionPayGateway;
 use Omnipay\Tests\GatewayTestCase;
 
