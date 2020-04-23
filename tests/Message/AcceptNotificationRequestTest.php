@@ -4,6 +4,7 @@ namespace Omnipay\Cathaybk\Tests\Message;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Support\Helper;
+use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Tests\TestCase;
 
 class AcceptNotificationRequestTest extends TestCase
@@ -32,6 +33,10 @@ class AcceptNotificationRequestTest extends TestCase
             ]), ['DOMAIN', 'CUBKEY']),
             'RETURL' => $returnUrl,
         ], $xmlData), $data);
+
+        $this->assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHCODE'], $request->getTransactionReference());
+        $this->assertEquals(NotificationInterface::STATUS_COMPLETED, $request->getTransactionStatus());
+        $this->assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHMSG'], $request->getMessage());
     }
 
     /**

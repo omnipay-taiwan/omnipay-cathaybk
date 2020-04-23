@@ -5,12 +5,13 @@ namespace Omnipay\Cathaybk;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CaptureRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
+use Omnipay\Cathaybk\Message\FetchTransactionRequest;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\RefundRequest;
 use Omnipay\Cathaybk\Message\VoidRequest;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
@@ -70,11 +71,11 @@ use Omnipay\Common\Message\RequestInterface;
  *     echo "Transaction reference = " . $sale_id . "\n";
  * }
  * </code>
- * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
+ * @method RequestInterface authorize(array $options = array())
+ * @method RequestInterface completeAuthorize(array $options = array())
+ * @method RequestInterface createCard(array $options = array())
+ * @method RequestInterface updateCard(array $options = array())
+ * @method RequestInterface deleteCard(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
@@ -92,7 +93,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return RequestInterface
      */
     public function capture(array $parameters = [])
     {
@@ -101,7 +102,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest|RequestInterface
+     * @return RequestInterface
      */
     public function purchase(array $parameters = [])
     {
@@ -110,7 +111,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest|RequestInterface
+     * @return RequestInterface
      */
     public function completePurchase(array $parameters = [])
     {
@@ -119,7 +120,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return RequestInterface|NotificationInterface
      */
     public function acceptNotification(array $parameters = [])
     {
@@ -128,7 +129,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return RequestInterface
      */
     public function refund(array $parameters = [])
     {
@@ -137,10 +138,19 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return RequestInterface
      */
     public function void(array $parameters = [])
     {
         return $this->createRequest(VoidRequest::class, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return RequestInterface
+     */
+    public function fetchTransaction(array $parameters = [])
+    {
+        return $this->createRequest(FetchTransactionRequest::class, $parameters);
     }
 }

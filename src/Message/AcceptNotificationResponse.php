@@ -4,10 +4,9 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\NotificationInterface;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
-class AcceptNotificationResponse extends AbstractResponse implements NotificationInterface
+class AcceptNotificationResponse extends AbstractResponse
 {
     /**
      * @return bool
@@ -75,13 +74,5 @@ class AcceptNotificationResponse extends AbstractResponse implements Notificatio
     public function reply()
     {
         $this->getReplyResponse()->send();
-    }
-
-    /**
-     * @return string
-     */
-    public function getTransactionStatus()
-    {
-        return $this->isSuccessful() ? self::STATUS_COMPLETED : self::STATUS_FAILED;
     }
 }

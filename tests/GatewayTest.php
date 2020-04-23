@@ -5,6 +5,7 @@ namespace Omnipay\Cathaybk\Tests;
 use Omnipay\Cathaybk\Gateway;
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Message\CompletePurchaseRequest;
+use Omnipay\Cathaybk\Message\FetchTransactionRequest;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\RefundRequest;
 use Omnipay\Cathaybk\Message\VoidRequest;
@@ -69,6 +70,13 @@ class GatewayTest extends GatewayTestCase
         $options = [];
         $request = $this->gateway->acceptNotification($options);
         $this->assertInstanceOf(AcceptNotificationRequest::class, $request);
+    }
+
+    public function testFetchTransaction()
+    {
+        $options = [];
+        $request = $this->gateway->fetchTransaction($options);
+        $this->assertInstanceOf(FetchTransactionRequest::class, $request);
     }
 
     public function testRefund()

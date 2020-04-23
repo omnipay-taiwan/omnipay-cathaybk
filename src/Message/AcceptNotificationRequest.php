@@ -8,12 +8,18 @@ use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\NotificationInterface;
 
-class AcceptNotificationRequest extends AbstractRequest
+class AcceptNotificationRequest extends AbstractRequest implements NotificationInterface
 {
     use HasStore;
     use HasAssertCaValue;
     use HasSignCaValue;
+
+    /**
+     * @var array
+     */
+    private $data;
 
     /**
      * @param $returnUrl
@@ -55,6 +61,10 @@ class AcceptNotificationRequest extends AbstractRequest
      */
     public function getData()
     {
+        if (! empty($this->data)) {
+            return $this->data;
+        }
+
         $this->validate('STOREID', 'CUBKEY', 'strRsXML', 'returnUrl');
 
         $returnValues = Helper::xml2array($this->getStrRsXML());
@@ -63,7 +73,7 @@ class AcceptNotificationRequest extends AbstractRequest
 
         $retUrl = $this->getReturnUrl();
 
-        return array_merge([
+        return $this->data = array_merge([
             'CAVALUE' => $this->generateCaValue(['DOMAIN' => parse_url($retUrl, PHP_URL_HOST)]),
             'RETURL' => $retUrl,
         ], $returnValues);
@@ -76,6 +86,42 @@ class AcceptNotificationRequest extends AbstractRequest
     public function sendData($data)
     {
         return $this->response = new AcceptNotificationResponse($this, $data);
+    }
+
+    /**
+     * Gateway Reference.
+     *
+     * @return string A reference provided by the gateway to represent this transaction
+     * @throws InvalidRequestException
+     */
+    public function getTransactionReference()
+    {
+        $data = $this->getData();
+
+        return $data['CUBXML']['AUTHINFO']['AUTHCODE'];
+    }
+
+    /**
+     * @return string
+     * @throws InvalidRequestException
+     */
+    public function getTransactionStatus()
+    {
+        $data = $this->getData();
+
+        return $data['CUBXML']['AUTHINFO']['AUTHSTATUS'] === '0000'
+            ? self::STATUS_COMPLETED : self::STATUS_FAILED;
+    }
+
+    /**
+     * @return string
+     * @throws InvalidRequestException
+     */
+    public function getMessage()
+    {
+        $data = $this->getData();
+
+        return $data['CUBXML']['AUTHINFO']['AUTHMSG'];
     }
 
     protected function getSignKeys()
