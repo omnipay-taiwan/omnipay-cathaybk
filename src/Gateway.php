@@ -115,7 +115,9 @@ class Gateway extends AbstractGateway
      */
     public function completePurchase(array $parameters = [])
     {
-        return $this->createRequest(CompletePurchaseRequest::class, $parameters);
+        return array_key_exists('strRsXML', $parameters)
+            ? $this->acceptNotification($parameters)
+            : $this->createRequest(CompletePurchaseRequest::class, $parameters);
     }
 
     /**

@@ -51,6 +51,13 @@ class GatewayTest extends GatewayTestCase
         $this->assertArrayHasKey('LANGUAGE', $data['ORDERINFO']);
     }
 
+    public function testGetAcceptNotificationWhenCompletePurchaseHasStrRsXML()
+    {
+        $options = ['strRsXML' => 'foo'];
+        $request = $this->gateway->completePurchase($options);
+        $this->assertInstanceOf(AcceptNotificationRequest::class, $request);
+    }
+
     public function testCompletePurchase()
     {
         $xmlData = $this->generateXmlData();
