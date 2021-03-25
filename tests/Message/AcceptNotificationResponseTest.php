@@ -34,7 +34,7 @@ class AcceptNotificationResponseTest extends TestCase
      * @param string $returnUrl
      * @return array
      */
-    private function generateXmlData(string $returnUrl)
+    private function generateXmlData($returnUrl)
     {
         return [
             'CAVALUE' => uniqid('ca_value'),
