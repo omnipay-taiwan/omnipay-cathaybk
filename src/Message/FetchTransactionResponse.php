@@ -52,7 +52,7 @@ class FetchTransactionResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return in_array($this->getCode(), ['0202', '1102', '1212']);
+        return in_array($this->getCode(), ['0202', '1102', '1212'], true);
     }
 
     /**

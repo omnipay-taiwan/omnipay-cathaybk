@@ -24,11 +24,11 @@ class FetchTransactionRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($caValue, $data['CAVALUE']);
-        $this->assertEquals('ORD0001', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        self::assertEquals($caValue, $data['CAVALUE']);
+        self::assertEquals('ORD0001', $data['MSGID']);
+        self::assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        self::assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        self::assertEquals('10', $data['ORDERINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
     }
@@ -42,13 +42,13 @@ class FetchTransactionRequestTest extends TestCase
         list($response, $mockClient, $data) = $parameters;
         $lastRequest = $mockClient->getLastRequest();
 
-        $this->assertEquals(
+        self::assertEquals(
             'https://sslpayment.uwccb.com.tw/EPOSService/CRDOrderService.asmx?wsdl',
             (string) $lastRequest->getUri()
         );
-        $this->assertEquals(
+        self::assertEquals(
             http_build_query(['strRqXML' => Helper::array2xml($data)]),
-            $lastRequest->getBody()->getContents()
+            (string) $lastRequest->getBody()
         );
     }
 
@@ -59,9 +59,9 @@ class FetchTransactionRequestTest extends TestCase
     private function givenParameters($parameters = [])
     {
         return array_merge([
-            'STOREID' => uniqid('store_id'),
-            'CUBKEY' => uniqid('cub_key'),
-            'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+            'STOREID' => uniqid('store_id', true),
+            'CUBKEY' => uniqid('cub_key', true),
+            'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
         ], $parameters);
     }

@@ -23,11 +23,11 @@ class UnionPayPurchaseRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($signature, $data['CAVALUE']);
-        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
-        $this->assertArrayNotHasKey('LANGUAGE', $data['ORDERINFO']);
+        self::assertEquals($signature, $data['CAVALUE']);
+        self::assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        self::assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        self::assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        self::assertArrayNotHasKey('LANGUAGE', $data['ORDERINFO']);
     }
 
     public function testRedirect()
@@ -35,9 +35,9 @@ class UnionPayPurchaseRequestTest extends TestCase
         $gateway = new UnionPayGateway($this->getHttpClient(), $this->getHttpRequest());
         $response = $gateway->purchase($this->givenParameters())->send();
 
-        $this->assertInstanceOf(UnionPayPurchaseResponse::class, $response);
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
+        self::assertInstanceOf(UnionPayPurchaseResponse::class, $response);
+        self::assertFalse($response->isSuccessful());
+        self::assertTrue($response->isRedirect());
     }
 
     /**
@@ -47,9 +47,9 @@ class UnionPayPurchaseRequestTest extends TestCase
     private function givenParameters($parameters = [])
     {
         return array_merge([
-            'STOREID' => uniqid('store_id'),
-            'CUBKEY' => uniqid('cub_key'),
-            'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+            'STOREID' => uniqid('store_id', true),
+            'CUBKEY' => uniqid('cub_key', true),
+            'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'LANGUAGE' => 'zh-tw',
             'AMOUNT' => '10',
         ], $parameters);

@@ -15,16 +15,16 @@ class AcceptNotificationResponseTest extends TestCase
         $response = new AcceptNotificationResponse($this->getMockRequest(), $parameters);
         $replyResponse = $response->getReplyResponse();
 
-        $this->assertTrue($response->isSuccessful());
-        $this->assertSame($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
-        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
-        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
-        $this->assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
-        $this->assertNotFalse(
+        self::assertTrue($response->isSuccessful());
+        self::assertSame($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+        self::assertSame($parameters['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
+        self::assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
+        self::assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
+        self::assertNotFalse(
             strpos($replyResponse->getContent(), $parameters['RETURL']),
             'replay does not has '.$parameters['RETURL']
         );
-        $this->assertNotFalse(
+        self::assertNotFalse(
             strpos($replyResponse->getContent(), $parameters['CAVALUE']),
             'reply does not has '.$parameters['CAVALUE']
         );
@@ -37,22 +37,22 @@ class AcceptNotificationResponseTest extends TestCase
     private function generateXmlData($returnUrl)
     {
         return [
-            'CAVALUE' => uniqid('ca_value'),
+            'CAVALUE' => uniqid('ca_value', true),
             'RETURL' => $returnUrl,
             'CUBXML' => [
-                'CAVALUE' => uniqid('ca_value'),
+                'CAVALUE' => uniqid('ca_value', true),
                 'ORDERINFO' => [
-                    'STOREID' => uniqid('store_id'),
-                    'ORDERNUMBER' => uniqid('order_number'),
+                    'STOREID' => uniqid('store_id', true),
+                    'ORDERNUMBER' => uniqid('order_number', true),
                     'AMOUNT' => '10',
                     'LANGUAGE' => 'ZH-TW',
                 ],
                 'AUTHINFO' => [
                     'AUTHSTATUS' => '0000',
-                    'AUTHCODE' => uniqid('auth_code'),
+                    'AUTHCODE' => uniqid('auth_code', true),
                     'AUTHTIME' => date('YmdHis'),
                     'AUTHMSG' => '授權成功',
-                    'CARDNO' => uniqid('card_no'),
+                    'CARDNO' => uniqid('card_no', true),
                 ],
             ],
         ];

@@ -45,7 +45,7 @@ class RefundResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return in_array($this->getCode(), ['0000']);
+        return $this->getCode() === '0000';
     }
 
     /**

@@ -26,26 +26,26 @@ class UnionPayGatewayTest extends GatewayTestCase
 
         $this->gateway = new UnionPayGateway($this->getHttpClient(), $this->getHttpRequest());
         $this->gateway->initialize([
-            'store_id' => $this->storeId = uniqid('store_id'),
-            'cub_key' => $this->cubKey = uniqid('cub_key'),
+            'store_id' => $this->storeId = uniqid('store_id', true),
+            'cub_key' => $this->cubKey = uniqid('cub_key', true),
         ]);
     }
 
     public function testPurchase()
     {
         $options = [
-            'transaction_id' => uniqid('transaction_id'),
+            'transaction_id' => uniqid('transaction_id', true),
             'amount' => '10.00',
         ];
 
         $request = $this->gateway->purchase($options);
 
-        $this->assertInstanceOf(UnionPayPurchaseRequest::class, $request);
+        self::assertInstanceOf(UnionPayPurchaseRequest::class, $request);
         $data = $request->getData();
 
-        $this->assertArrayHasKey('AMOUNT', $data['ORDERINFO']);
-        $this->assertArrayHasKey('ORDERNUMBER', $data['ORDERINFO']);
-        $this->assertArrayNotHasKey('LANGUAGE', $data['ORDERINFO']);
+        self::assertArrayHasKey('AMOUNT', $data['ORDERINFO']);
+        self::assertArrayHasKey('ORDERNUMBER', $data['ORDERINFO']);
+        self::assertArrayNotHasKey('LANGUAGE', $data['ORDERINFO']);
     }
 
     public function testCompletePurchase()
@@ -54,11 +54,12 @@ class UnionPayGatewayTest extends GatewayTestCase
             'CAVALUE' => '',
             'ORDERINFO' => [
                 'STOREID' => $this->storeId,
-                'ORDERNUMBER' => uniqid('order_number'),
+                'ORDERNUMBER' => uniqid('order_number', true),
             ],
         ]];
         $parameters['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
-            $parameters, ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
+            $parameters,
+            ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
         ), ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 
         $options = ['strOrderInfo' => Helper::array2xml($parameters)];
@@ -66,15 +67,15 @@ class UnionPayGatewayTest extends GatewayTestCase
         $request = $this->gateway->completePurchase($options);
         $response = $request->send();
 
-        $this->assertInstanceOf(CompletePurchaseRequest::class, $request);
-        $this->assertArrayHasKey('CUBXML', $request->getData());
-        $this->assertEquals($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+        self::assertInstanceOf(CompletePurchaseRequest::class, $request);
+        self::assertArrayHasKey('CUBXML', $request->getData());
+        self::assertEquals($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
     }
 
     public function testAcceptNotification()
     {
         $options = [];
         $request = $this->gateway->acceptNotification($options);
-        $this->assertInstanceOf(AcceptNotificationRequest::class, $request);
+        self::assertInstanceOf(AcceptNotificationRequest::class, $request);
     }
 }

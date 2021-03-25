@@ -53,7 +53,7 @@ class Helper
 
             if (preg_match($reels, $elements[3][$ie])) {
                 $arr[$name] = self::xml2array($elements[3][$ie]);
-            } elseif ($elements[3][$ie]) {
+            } else if ($elements[3][$ie]) {
                 $arr[$name] = $elements[3][$ie];
             } else {
                 $arr[$name] = '';
@@ -77,7 +77,7 @@ class Helper
 
         foreach ($keys as $key) {
             if (array_key_exists($key, $data)) {
-                $result = array_merge($result, $data[$key]);
+                $result += $data[$key];
             }
         }
 

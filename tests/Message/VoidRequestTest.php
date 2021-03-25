@@ -24,11 +24,11 @@ class VoidRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($caValue, $data['CAVALUE']);
-        $this->assertEquals('ORD0007', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['CANCELORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['CANCELORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals($parameters['AUTHCODE'], $data['CANCELORDERINFO']['AUTHCODE']);
+        self::assertEquals($caValue, $data['CAVALUE']);
+        self::assertEquals('ORD0007', $data['MSGID']);
+        self::assertEquals($parameters['STOREID'], $data['CANCELORDERINFO']['STOREID']);
+        self::assertEquals($parameters['ORDERNUMBER'], $data['CANCELORDERINFO']['ORDERNUMBER']);
+        self::assertEquals($parameters['AUTHCODE'], $data['CANCELORDERINFO']['AUTHCODE']);
 
         return [$request->send(), $mockClient, $data];
     }
@@ -42,16 +42,16 @@ class VoidRequestTest extends TestCase
         list($response, $mockClient, $data) = $parameters;
         $lastRequest = $mockClient->getLastRequest();
 
-        $this->assertEquals(
+        self::assertEquals(
             'https://sslpayment.uwccb.com.tw/EPOSService/CRDOrderService.asmx?wsdl',
             (string) $lastRequest->getUri()
         );
-        $this->assertEquals(
+        self::assertEquals(
             http_build_query(['strRqXML' => Helper::array2xml($data)]),
-            $lastRequest->getBody()->getContents()
+            (string) $lastRequest->getBody()
         );
-        $this->assertEquals($data['CANCELORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
-        $this->assertEquals('0000', $response->getCode());
+        self::assertEquals($data['CANCELORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+        self::assertEquals('0000', $response->getCode());
     }
 
     /**
@@ -61,11 +61,11 @@ class VoidRequestTest extends TestCase
     private function givenParameters($parameters = [])
     {
         return array_merge([
-            'STOREID' => uniqid('store_id'),
-            'CUBKEY' => uniqid('cub_key'),
-            'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+            'STOREID' => uniqid('store_id', true),
+            'CUBKEY' => uniqid('cub_key', true),
+            'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
-            'AUTHCODE' => uniqid('auth_code'),
+            'AUTHCODE' => uniqid('auth_code', true),
         ], $parameters);
     }
 

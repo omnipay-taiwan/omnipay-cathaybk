@@ -11,8 +11,8 @@ class AcceptNotificationRequestTest extends TestCase
 {
     public function testGetData()
     {
-        $storeId = uniqid('store_id');
-        $cubKey = uniqid('cub_key');
+        $storeId = uniqid('store_id', true);
+        $cubKey = uniqid('cub_key', true);
         $returnUrl = 'https://foo.bar/return-url';
         $xmlData = $this->generateXmlData($storeId, $cubKey);
         $request = new AcceptNotificationRequest($this->getHttpClient(), $this->getHttpRequest());
@@ -27,16 +27,16 @@ class AcceptNotificationRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals(array_merge([
+        self::assertEquals(array_merge([
             'CAVALUE' => Helper::caValue(array_merge($parameters, [
                 'DOMAIN' => parse_url($returnUrl, PHP_URL_HOST),
             ]), ['DOMAIN', 'CUBKEY']),
             'RETURL' => $returnUrl,
         ], $xmlData), $data);
 
-        $this->assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHCODE'], $request->getTransactionReference());
-        $this->assertEquals(NotificationInterface::STATUS_COMPLETED, $request->getTransactionStatus());
-        $this->assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHMSG'], $request->getMessage());
+        self::assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHCODE'], $request->getTransactionReference());
+        self::assertEquals(NotificationInterface::STATUS_COMPLETED, $request->getTransactionStatus());
+        self::assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHMSG'], $request->getMessage());
     }
 
     /**
@@ -51,16 +51,16 @@ class AcceptNotificationRequestTest extends TestCase
                 'CAVALUE' => '',
                 'ORDERINFO' => [
                     'STOREID' => $storeId,
-                    'ORDERNUMBER' => uniqid('order_number'),
+                    'ORDERNUMBER' => uniqid('order_number', true),
                     'AMOUNT' => '10',
                     'LANGUAGE' => 'ZH-TW',
                 ],
                 'AUTHINFO' => [
                     'AUTHSTATUS' => '0000',
-                    'AUTHCODE' => uniqid('auth_code'),
+                    'AUTHCODE' => uniqid('auth_code', true),
                     'AUTHTIME' => date('YmdHis'),
                     'AUTHMSG' => '授權成功',
-                    'CARDNO' => uniqid('card_no'),
+                    'CARDNO' => uniqid('card_no', true),
                 ],
             ],
         ];

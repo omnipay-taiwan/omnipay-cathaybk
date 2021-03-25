@@ -12,10 +12,10 @@ class UnionPayPurchaseResponseTest extends TestCase
     public function testSuccess()
     {
         $parameters = [
-            'CAVALUE' => uniqid('ca_value'),
+            'CAVALUE' => uniqid('ca_value', true),
             'ORDERINFO' => [
-                'STOREID' => uniqid('store_id'),
-                'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+                'STOREID' => uniqid('store_id', true),
+                'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
                 'AMOUNT' => '10',
             ],
         ];
@@ -24,17 +24,17 @@ class UnionPayPurchaseResponseTest extends TestCase
 
         $data = $response->getRedirectData();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/UPOPPayment/OrderInitial.aspx', $response->getRedirectUrl());
-        $this->assertEquals('POST', $response->getRedirectMethod());
-        $this->assertArrayHasKey('strRqXML', $data);
-        $this->assertFalse(strpos($data['strRqXML'], 'TRS000'), 'strRqXML does not has TRS000');
+        self::assertFalse($response->isSuccessful());
+        self::assertTrue($response->isRedirect());
+        self::assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/UPOPPayment/OrderInitial.aspx', $response->getRedirectUrl());
+        self::assertEquals('POST', $response->getRedirectMethod());
+        self::assertArrayHasKey('strRqXML', $data);
+        self::assertFalse(strpos($data['strRqXML'], 'TRS000'), 'strRqXML does not has TRS000');
 
         $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/unionpay.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
-        $this->assertEqualXMLStructure($expected, $actual);
+        self::assertEqualXMLStructure($expected, $actual);
     }
 
     /**

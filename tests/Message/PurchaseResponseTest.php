@@ -19,20 +19,20 @@ class PurchaseResponseTest extends TestCase
 
         $data = $response->getRedirectData();
 
-        $this->assertInstanceOf(RedirectResponseInterface::class, $response);
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertEquals('POST', $response->getRedirectMethod());
-        $this->assertEquals(
+        self::assertInstanceOf(RedirectResponseInterface::class, $response);
+        self::assertFalse($response->isSuccessful());
+        self::assertTrue($response->isRedirect());
+        self::assertEquals('POST', $response->getRedirectMethod());
+        self::assertEquals(
             'https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx',
             $response->getRedirectUrl()
         );
-        $this->assertArrayHasKey('strRqXML', $data);
+        self::assertArrayHasKey('strRqXML', $data);
 
         $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/normal.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
-        $this->assertEqualXMLStructure($expected, $actual);
+        self::assertEqualXMLStructure($expected, $actual);
     }
 
     public function testPeriodNumberSuccess()
@@ -44,16 +44,16 @@ class PurchaseResponseTest extends TestCase
 
         $data = $response->getRedirectData();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx', $response->getRedirectUrl());
-        $this->assertEquals('POST', $response->getRedirectMethod());
-        $this->assertArrayHasKey('strRqXML', $data);
+        self::assertFalse($response->isSuccessful());
+        self::assertTrue($response->isRedirect());
+        self::assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx', $response->getRedirectUrl());
+        self::assertEquals('POST', $response->getRedirectMethod());
+        self::assertArrayHasKey('strRqXML', $data);
 
         $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/period.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
-        $this->assertEqualXMLStructure($expected, $actual);
+        self::assertEqualXMLStructure($expected, $actual);
     }
 
     public function testSetTestMode()
@@ -63,7 +63,7 @@ class PurchaseResponseTest extends TestCase
         $request->shouldReceive('getTestMode')->andReturnTrue();
         $response = new PurchaseResponse($request, $parameters);
 
-        $this->assertEquals(
+        self::assertEquals(
             'https://sslpayment.cathaybkdev.com.tw/EPOSService/Payment/OrderInitial.aspx',
             $response->getRedirectUrl()
         );
@@ -77,11 +77,11 @@ class PurchaseResponseTest extends TestCase
     private function givenParameters($msgId, $orderInfo = [])
     {
         return [
-            'CAVALUE' => uniqid('ca_value'),
+            'CAVALUE' => uniqid('ca_value', true),
             'MSGID' => $msgId,
             'ORDERINFO' => array_merge([
-                'STOREID' => uniqid('store_id'),
-                'ORDERNUMBER' => uniqid('order_number'),
+                'STOREID' => uniqid('store_id', true),
+                'ORDERNUMBER' => uniqid('order_number', true),
                 'AMOUNT' => '10',
             ], $orderInfo),
         ];

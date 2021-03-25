@@ -23,12 +23,12 @@ class PurchaseRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($signature, $data['CAVALUE']);
-        $this->assertEquals('TRS0004', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
-        $this->assertEquals('ZH-TW', $data['ORDERINFO']['LANGUAGE']);
+        self::assertEquals($signature, $data['CAVALUE']);
+        self::assertEquals('TRS0004', $data['MSGID']);
+        self::assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        self::assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        self::assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        self::assertEquals('ZH-TW', $data['ORDERINFO']['LANGUAGE']);
     }
 
     public function testGetPeriodNumberData()
@@ -47,13 +47,13 @@ class PurchaseRequestTest extends TestCase
 
         $data = $request->getData();
 
-        $this->assertEquals($signature, $data['CAVALUE']);
-        $this->assertEquals('TRS0005', $data['MSGID']);
-        $this->assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
-        $this->assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
-        $this->assertEquals('10', $data['ORDERINFO']['AMOUNT']);
-        $this->assertEquals('2', $data['ORDERINFO']['PERIODNUMBER']);
-        $this->assertEquals('EN-US', $data['ORDERINFO']['LANGUAGE']);
+        self::assertEquals($signature, $data['CAVALUE']);
+        self::assertEquals('TRS0005', $data['MSGID']);
+        self::assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
+        self::assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        self::assertEquals('10', $data['ORDERINFO']['AMOUNT']);
+        self::assertEquals('2', $data['ORDERINFO']['PERIODNUMBER']);
+        self::assertEquals('EN-US', $data['ORDERINFO']['LANGUAGE']);
     }
 
     public function testRedirect()
@@ -61,9 +61,9 @@ class PurchaseRequestTest extends TestCase
         $gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
         $response = $gateway->purchase($this->givenParameters())->send();
 
-        $this->assertInstanceOf(PurchaseResponse::class, $response);
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
+        self::assertInstanceOf(PurchaseResponse::class, $response);
+        self::assertFalse($response->isSuccessful());
+        self::assertTrue($response->isRedirect());
     }
 
     /**
@@ -73,9 +73,9 @@ class PurchaseRequestTest extends TestCase
     private function givenParameters($parameters = [])
     {
         return array_merge([
-            'STOREID' => uniqid('store_id'),
-            'CUBKEY' => uniqid('cub_key'),
-            'ORDERNUMBER' => strtoupper(uniqid('order_number')),
+            'STOREID' => uniqid('store_id', true),
+            'CUBKEY' => uniqid('cub_key', true),
+            'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
         ], $parameters);
     }

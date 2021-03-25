@@ -17,6 +17,6 @@ trait HasCallApi
         $body = http_build_query(['strRqXML' => Helper::array2xml($data)]);
         $response = $this->httpClient->request('POST', $url, $headers, $body);
 
-        return Helper::xml2array($response->getBody()->getContents());
+        return Helper::xml2array((string) $response->getBody());
     }
 }
