@@ -8,9 +8,8 @@ use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
-use Omnipay\Common\Message\NotificationInterface;
 
-class AcceptNotificationRequest extends AbstractRequest implements NotificationInterface
+class AcceptNotificationRequest extends AbstractRequest
 {
     use HasStore;
     use HasAssertCaValue;
@@ -61,16 +60,10 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
      */
     public function getData()
     {
-        if (! empty($this->data)) {
-            return $this->data;
-        }
-
         $this->validate('STOREID', 'CUBKEY', 'strRsXML', 'returnUrl');
 
         $returnValues = Helper::xml2array($this->getStrRsXML());
-
         $this->assertCaValue($returnValues);
-
         $retUrl = $this->getReturnUrl();
 
         return $this->data = array_merge([
@@ -86,42 +79,6 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
     public function sendData($data)
     {
         return $this->response = new AcceptNotificationResponse($this, $data);
-    }
-
-    /**
-     * Gateway Reference.
-     *
-     * @return string A reference provided by the gateway to represent this transaction
-     * @throws InvalidRequestException
-     */
-    public function getTransactionReference()
-    {
-        $data = $this->getData();
-
-        return $data['CUBXML']['AUTHINFO']['AUTHCODE'];
-    }
-
-    /**
-     * @return string
-     * @throws InvalidRequestException
-     */
-    public function getTransactionStatus()
-    {
-        $data = $this->getData();
-
-        return $data['CUBXML']['AUTHINFO']['AUTHSTATUS'] === '0000'
-            ? self::STATUS_COMPLETED : self::STATUS_FAILED;
-    }
-
-    /**
-     * @return string
-     * @throws InvalidRequestException
-     */
-    public function getMessage()
-    {
-        $data = $this->getData();
-
-        return $data['CUBXML']['AUTHINFO']['AUTHMSG'];
     }
 
     protected function getSignKeys()

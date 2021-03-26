@@ -3,6 +3,7 @@
 namespace Omnipay\Cathaybk\Tests\Message;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationResponse;
+use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Tests\TestCase;
 
 class AcceptNotificationResponseTest extends TestCase
@@ -13,19 +14,19 @@ class AcceptNotificationResponseTest extends TestCase
         $options = $this->generateXmlData($returnUrl);
 
         $response = new AcceptNotificationResponse($this->getMockRequest(), $options);
-        $replyResponse = $response->getReplyResponse();
+        $strXML = $response->getMessage();
 
         self::assertTrue($response->isSuccessful());
         self::assertSame($options['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
         self::assertSame($options['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
         self::assertSame($options['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
-        self::assertSame($options['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
+        self::assertSame(NotificationInterface::STATUS_COMPLETED, $response->getTransactionStatus());
         self::assertNotFalse(
-            strpos($replyResponse->getContent(), $options['RETURL']),
+            strpos($strXML, $options['RETURL']),
             'replay does not has '.$options['RETURL']
         );
         self::assertNotFalse(
-            strpos($replyResponse->getContent(), $options['CAVALUE']),
+            strpos($strXML, $options['CAVALUE']),
             'reply does not has '.$options['CAVALUE']
         );
     }

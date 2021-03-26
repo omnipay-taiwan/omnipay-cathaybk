@@ -4,9 +4,9 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Common\Message\AbstractResponse;
-use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Omnipay\Common\Message\NotificationInterface;
 
-class AcceptNotificationResponse extends AbstractResponse
+class AcceptNotificationResponse extends AbstractResponse implements NotificationInterface
 {
     /**
      * @return bool
@@ -53,26 +53,16 @@ class AcceptNotificationResponse extends AbstractResponse
      */
     public function getMessage()
     {
-        return $this->data['CUBXML']['AUTHINFO']['AUTHMSG'];
-    }
-
-    /**
-     * Reply Message.
-     *
-     * @return HttpResponse
-     */
-    public function getReplyResponse()
-    {
-        return HttpResponse::create(Helper::array2xml([
+        return Helper::array2xml([
             'MERCHANTXML' => [
                 'CAVALUE' => $this->data['CAVALUE'],
                 'RETURL' => $this->data['RETURL'],
             ],
-        ]));
+        ]);
     }
 
-    public function reply()
+    public function getTransactionStatus()
     {
-        $this->getReplyResponse()->send();
+        return $this->isSuccessful() ? self::STATUS_COMPLETED : self::STATUS_FAILED;
     }
 }
