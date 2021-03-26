@@ -17,18 +17,18 @@ class AcceptNotificationRequestTest extends TestCase
         $xmlData = $this->generateXmlData($storeId, $cubKey);
         $request = new AcceptNotificationRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $parameters = [
+        $options = [
             'STOREID' => $storeId,
             'CUBKEY' => $cubKey,
             'RETURL' => $returnUrl,
             'strRsXML' => $strRsXML = Helper::array2xml($xmlData),
         ];
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals(array_merge([
-            'CAVALUE' => Helper::caValue(array_merge($parameters, [
+            'CAVALUE' => Helper::caValue(array_merge($options, [
                 'DOMAIN' => parse_url($returnUrl, PHP_URL_HOST),
             ]), ['DOMAIN', 'CUBKEY']),
             'RETURL' => $returnUrl,
@@ -46,7 +46,7 @@ class AcceptNotificationRequestTest extends TestCase
      */
     private function generateXmlData($storeId, $cubKey)
     {
-        $parameters = [
+        $options = [
             'CUBXML' => [
                 'CAVALUE' => '',
                 'ORDERINFO' => [
@@ -65,11 +65,11 @@ class AcceptNotificationRequestTest extends TestCase
             ],
         ];
 
-        $parameters['CUBXML']['CAVALUE'] = Helper::caValue(
-            array_merge(['STOREID' => $storeId, 'CUBKEY' => $cubKey], $parameters),
+        $options['CUBXML']['CAVALUE'] = Helper::caValue(
+            array_merge(['STOREID' => $storeId, 'CUBKEY' => $cubKey], $options),
             ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY']
         );
 
-        return $parameters;
+        return $options;
     }
 }

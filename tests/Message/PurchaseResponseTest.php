@@ -12,10 +12,10 @@ class PurchaseResponseTest extends TestCase
 {
     public function testSuccess()
     {
-        $parameters = $this->givenParameters('TRS0004', ['LANGUAGE' => 'ZH-TW']);
+        $options = $this->givenOptions('TRS0004', ['LANGUAGE' => 'ZH-TW']);
         $request = $this->getMockRequest();
         $request->shouldReceive('getTestMode')->andReturnFalse();
-        $response = new PurchaseResponse($request, $parameters);
+        $response = new PurchaseResponse($request, $options);
 
         $data = $response->getRedirectData();
 
@@ -37,10 +37,10 @@ class PurchaseResponseTest extends TestCase
 
     public function testPeriodNumberSuccess()
     {
-        $parameters = $this->givenParameters('TRS0005', ['PERIODNUMBER' => '2', 'LANGUAGE' => 'EN-US']);
+        $options = $this->givenOptions('TRS0005', ['PERIODNUMBER' => '2', 'LANGUAGE' => 'EN-US']);
         $request = $this->getMockRequest();
         $request->shouldReceive('getTestMode')->andReturnFalse();
-        $response = new PurchaseResponse($request, $parameters);
+        $response = new PurchaseResponse($request, $options);
 
         $data = $response->getRedirectData();
 
@@ -58,10 +58,10 @@ class PurchaseResponseTest extends TestCase
 
     public function testSetTestMode()
     {
-        $parameters = $this->givenParameters('TRS0004', ['LANGUAGE' => 'ZH-TW']);
+        $options = $this->givenOptions('TRS0004', ['LANGUAGE' => 'ZH-TW']);
         $request = $this->getMockRequest();
         $request->shouldReceive('getTestMode')->andReturnTrue();
-        $response = new PurchaseResponse($request, $parameters);
+        $response = new PurchaseResponse($request, $options);
 
         self::assertEquals(
             'https://sslpayment.cathaybkdev.com.tw/EPOSService/Payment/OrderInitial.aspx',
@@ -74,7 +74,7 @@ class PurchaseResponseTest extends TestCase
      * @param array $orderInfo
      * @return array
      */
-    private function givenParameters($msgId, $orderInfo = [])
+    private function givenOptions($msgId, $orderInfo = [])
     {
         return [
             'CAVALUE' => uniqid('ca_value', true),

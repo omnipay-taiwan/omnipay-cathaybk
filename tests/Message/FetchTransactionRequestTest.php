@@ -11,23 +11,23 @@ class FetchTransactionRequestTest extends TestCase
 {
     public function testGetData()
     {
-        $parameters = $this->givenParameters();
-        $caValue = Helper::caValue($parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']);
+        $options = $this->givenOptions();
+        $caValue = Helper::caValue($options, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']);
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters))
+            new Response(200, [], $this->generateResponseXML($options))
         );
 
         $request = new FetchTransactionRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($caValue, $data['CAVALUE']);
         self::assertEquals('ORD0001', $data['MSGID']);
-        self::assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        self::assertEquals($options['STOREID'], $data['ORDERINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
         self::assertEquals('10', $data['ORDERINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
@@ -35,11 +35,11 @@ class FetchTransactionRequestTest extends TestCase
 
     /**
      * @depends testGetData
-     * @param $parameters
+     * @param $options
      */
-    public function testResponse($parameters)
+    public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -53,24 +53,24 @@ class FetchTransactionRequestTest extends TestCase
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return array
      */
-    private function givenParameters($parameters = [])
+    private function givenOptions($options = [])
     {
         return array_merge([
             'STOREID' => uniqid('store_id', true),
             'CUBKEY' => uniqid('cub_key', true),
             'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
-        ], $parameters);
+        ], $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return string
      */
-    private function generateResponseXML(array $parameters)
+    private function generateResponseXML(array $options)
     {
         $status = ['STATUS' => '0303'];
 
@@ -78,13 +78,13 @@ class FetchTransactionRequestTest extends TestCase
             'CUBXML' => [
                 'MSGID' => 'ORD0001',
                 'CAVALUE' => Helper::caValue(
-                    array_merge($parameters, $status),
+                    array_merge($options, $status),
                     ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY']
                 ),
                 'ORDERINFO' => [
-                    'STOREID' => $parameters['STOREID'],
-                    'ORDERNUMBER' => $parameters['ORDERNUMBER'],
-                    'AMOUNT' => $parameters['AMOUNT'],
+                    'STOREID' => $options['STOREID'],
+                    'ORDERNUMBER' => $options['ORDERNUMBER'],
+                    'AMOUNT' => $options['AMOUNT'],
                     'STATUS' => $status['STATUS'],
                     'AUTHCODE' => '',
                     'AUTHTIME' => '',

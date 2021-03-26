@@ -11,37 +11,37 @@ class CaptureRequestTest extends TestCase
 {
     public function testGetData()
     {
-        $parameters = $this->givenParameters();
-        $caValue = Helper::caValue($parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']);
+        $options = $this->givenOptions();
+        $caValue = Helper::caValue($options, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']);
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0005', [
+            new Response(200, [], $this->generateResponseXML($options, 'ORD0005', [
                 'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY',
             ]))
         );
 
         $request = new CaptureRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($caValue, $data['CAVALUE']);
         self::assertEquals('ORD0005', $data['MSGID']);
-        self::assertEquals($parameters['STOREID'], $data['CAPTUREORDERINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['CAPTUREORDERINFO']['ORDERNUMBER']);
-        self::assertEquals($parameters['AUTHCODE'], $data['CAPTUREORDERINFO']['AUTHCODE']);
+        self::assertEquals($options['STOREID'], $data['CAPTUREORDERINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['CAPTUREORDERINFO']['ORDERNUMBER']);
+        self::assertEquals($options['AUTHCODE'], $data['CAPTUREORDERINFO']['AUTHCODE']);
 
         return [$request->send(), $mockClient, $data];
     }
 
     /**
      * @depends testGetData
-     * @param $parameters
+     * @param $options
      */
-    public function testResponse($parameters)
+    public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -58,25 +58,25 @@ class CaptureRequestTest extends TestCase
 
     public function testGetDataByCancel()
     {
-        $parameters = $this->givenParameters(['cancel' => true]);
-        $caValue = Helper::caValue($parameters, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY']);
+        $options = $this->givenOptions(['cancel' => true]);
+        $caValue = Helper::caValue($options, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY']);
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0006', [
+            new Response(200, [], $this->generateResponseXML($options, 'ORD0006', [
                 'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY',
             ]))
         );
 
         $request = new CaptureRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($caValue, $data['CAVALUE']);
         self::assertEquals('ORD0006', $data['MSGID']);
-        self::assertEquals($parameters['STOREID'], $data['CANCELCAPTUREINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['CANCELCAPTUREINFO']['ORDERNUMBER']);
+        self::assertEquals($options['STOREID'], $data['CANCELCAPTUREINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['CANCELCAPTUREINFO']['ORDERNUMBER']);
         self::assertEquals('10', $data['CANCELCAPTUREINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
@@ -84,11 +84,11 @@ class CaptureRequestTest extends TestCase
 
     /**
      * @depends testGetDataByCancel
-     * @param $parameters
+     * @param $options
      */
-    public function testResponseByCancel($parameters)
+    public function testResponseByCancel($options)
     {
-        list($response, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -106,10 +106,10 @@ class CaptureRequestTest extends TestCase
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return array
      */
-    private function givenParameters($parameters = [])
+    private function givenOptions($options = [])
     {
         return array_merge([
             'STOREID' => uniqid('store_id', true),
@@ -117,16 +117,16 @@ class CaptureRequestTest extends TestCase
             'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
             'AUTHCODE' => uniqid('auth_code', true),
-        ], $parameters);
+        ], $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @param string $msgId
      * @param array $signKeys
      * @return string
      */
-    private function generateResponseXML(array $parameters, $msgId, $signKeys)
+    private function generateResponseXML(array $options, $msgId, $signKeys)
     {
         $status = ['STATUS' => '0000'];
         $section = $msgId === 'ORD0005' ? 'CAPTUREORDERINFO' : 'CANCELCAPTUREINFO';
@@ -134,12 +134,12 @@ class CaptureRequestTest extends TestCase
         return Helper::array2xml([
             'CUBXML' => [
                 'MSGID' => $msgId,
-                'CAVALUE' => Helper::caValue(array_merge($parameters, $status), $signKeys),
+                'CAVALUE' => Helper::caValue(array_merge($options, $status), $signKeys),
                 $section => [
-                    'STOREID' => $parameters['STOREID'],
-                    'ORDERNUMBER' => $parameters['ORDERNUMBER'],
-                    'AMOUNT' => $parameters['AMOUNT'],
-                    'AUTHCODE' => $parameters['AUTHCODE'],
+                    'STOREID' => $options['STOREID'],
+                    'ORDERNUMBER' => $options['ORDERNUMBER'],
+                    'AMOUNT' => $options['AMOUNT'],
+                    'AUTHCODE' => $options['AUTHCODE'],
                     'STATUS' => $status['STATUS'],
                 ],
             ],

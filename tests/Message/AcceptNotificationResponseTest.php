@@ -10,23 +10,23 @@ class AcceptNotificationResponseTest extends TestCase
     public function testSuccess()
     {
         $returnUrl = 'https://foo.bar/return-url';
-        $parameters = $this->generateXmlData($returnUrl);
+        $options = $this->generateXmlData($returnUrl);
 
-        $response = new AcceptNotificationResponse($this->getMockRequest(), $parameters);
+        $response = new AcceptNotificationResponse($this->getMockRequest(), $options);
         $replyResponse = $response->getReplyResponse();
 
         self::assertTrue($response->isSuccessful());
-        self::assertSame($parameters['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
-        self::assertSame($parameters['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
-        self::assertSame($parameters['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
-        self::assertSame($parameters['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
+        self::assertSame($options['CUBXML']['ORDERINFO']['ORDERNUMBER'], $response->getTransactionId());
+        self::assertSame($options['CUBXML']['AUTHINFO']['AUTHCODE'], $response->getTransactionReference());
+        self::assertSame($options['CUBXML']['AUTHINFO']['AUTHSTATUS'], $response->getCode());
+        self::assertSame($options['CUBXML']['AUTHINFO']['AUTHMSG'], $response->getMessage());
         self::assertNotFalse(
-            strpos($replyResponse->getContent(), $parameters['RETURL']),
-            'replay does not has '.$parameters['RETURL']
+            strpos($replyResponse->getContent(), $options['RETURL']),
+            'replay does not has '.$options['RETURL']
         );
         self::assertNotFalse(
-            strpos($replyResponse->getContent(), $parameters['CAVALUE']),
-            'reply does not has '.$parameters['CAVALUE']
+            strpos($replyResponse->getContent(), $options['CAVALUE']),
+            'reply does not has '.$options['CAVALUE']
         );
     }
 

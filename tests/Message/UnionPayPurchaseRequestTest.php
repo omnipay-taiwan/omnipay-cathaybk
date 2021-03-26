@@ -12,20 +12,20 @@ class UnionPayPurchaseRequestTest extends TestCase
 {
     public function testGetData()
     {
-        $parameters = $this->givenParameters();
+        $options = $this->givenOptions();
         $signature = Helper::caValue(
-            $parameters,
+            $options,
             ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'CUBKEY']
         );
 
         $request = new UnionPayPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($signature, $data['CAVALUE']);
-        self::assertEquals($parameters['STOREID'], $data['ORDERINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
+        self::assertEquals($options['STOREID'], $data['ORDERINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['ORDERINFO']['ORDERNUMBER']);
         self::assertEquals('10', $data['ORDERINFO']['AMOUNT']);
         self::assertArrayNotHasKey('LANGUAGE', $data['ORDERINFO']);
     }
@@ -33,7 +33,7 @@ class UnionPayPurchaseRequestTest extends TestCase
     public function testRedirect()
     {
         $gateway = new UnionPayGateway($this->getHttpClient(), $this->getHttpRequest());
-        $response = $gateway->purchase($this->givenParameters())->send();
+        $response = $gateway->purchase($this->givenOptions())->send();
 
         self::assertInstanceOf(UnionPayPurchaseResponse::class, $response);
         self::assertFalse($response->isSuccessful());
@@ -41,10 +41,10 @@ class UnionPayPurchaseRequestTest extends TestCase
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return array
      */
-    private function givenParameters($parameters = [])
+    private function givenOptions($options = [])
     {
         return array_merge([
             'STOREID' => uniqid('store_id', true),
@@ -52,6 +52,6 @@ class UnionPayPurchaseRequestTest extends TestCase
             'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'LANGUAGE' => 'zh-tw',
             'AMOUNT' => '10',
-        ], $parameters);
+        ], $options);
     }
 }

@@ -11,35 +11,35 @@ class VoidRequestTest extends TestCase
 {
     public function testGetData()
     {
-        $parameters = $this->givenParameters();
-        $caValue = Helper::caValue($parameters, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY']);
+        $options = $this->givenOptions();
+        $caValue = Helper::caValue($options, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY']);
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters))
+            new Response(200, [], $this->generateResponseXML($options))
         );
 
         $request = new VoidRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($caValue, $data['CAVALUE']);
         self::assertEquals('ORD0007', $data['MSGID']);
-        self::assertEquals($parameters['STOREID'], $data['CANCELORDERINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['CANCELORDERINFO']['ORDERNUMBER']);
-        self::assertEquals($parameters['AUTHCODE'], $data['CANCELORDERINFO']['AUTHCODE']);
+        self::assertEquals($options['STOREID'], $data['CANCELORDERINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['CANCELORDERINFO']['ORDERNUMBER']);
+        self::assertEquals($options['AUTHCODE'], $data['CANCELORDERINFO']['AUTHCODE']);
 
         return [$request->send(), $mockClient, $data];
     }
 
     /**
      * @depends testGetData
-     * @param $parameters
+     * @param $options
      */
-    public function testResponse($parameters)
+    public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -55,10 +55,10 @@ class VoidRequestTest extends TestCase
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return array
      */
-    private function givenParameters($parameters = [])
+    private function givenOptions($options = [])
     {
         return array_merge([
             'STOREID' => uniqid('store_id', true),
@@ -66,14 +66,14 @@ class VoidRequestTest extends TestCase
             'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
             'AUTHCODE' => uniqid('auth_code', true),
-        ], $parameters);
+        ], $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return string
      */
-    private function generateResponseXML(array $parameters)
+    private function generateResponseXML(array $options)
     {
         $status = ['STATUS' => '0000'];
 
@@ -81,14 +81,14 @@ class VoidRequestTest extends TestCase
             'CUBXML' => [
                 'MSGID' => 'ORD0007',
                 'CAVALUE' => Helper::caValue(
-                    array_merge($parameters, $status),
+                    array_merge($options, $status),
                     ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY']
                 ),
                 'CANCELORDERINFO' => [
-                    'STOREID' => $parameters['STOREID'],
-                    'ORDERNUMBER' => $parameters['ORDERNUMBER'],
-                    'AMOUNT' => $parameters['AMOUNT'],
-                    'AUTHCODE' => $parameters['AUTHCODE'],
+                    'STOREID' => $options['STOREID'],
+                    'ORDERNUMBER' => $options['ORDERNUMBER'],
+                    'AMOUNT' => $options['AMOUNT'],
+                    'AUTHCODE' => $options['AUTHCODE'],
                     'STATUS' => $status['STATUS'],
                 ],
             ],

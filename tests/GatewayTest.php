@@ -62,9 +62,9 @@ class GatewayTest extends GatewayTestCase
     {
         $xmlData = $this->generateXmlData();
 
-        $parameters = ['strOrderInfo' => Helper::array2xml($xmlData)];
+        $options = ['strOrderInfo' => Helper::array2xml($xmlData)];
 
-        $request = $this->gateway->completePurchase($parameters);
+        $request = $this->gateway->completePurchase($options);
         $response = $request->send();
 
         self::assertInstanceOf(CompletePurchaseRequest::class, $request);
@@ -105,18 +105,18 @@ class GatewayTest extends GatewayTestCase
      */
     private function generateXmlData()
     {
-        $parameters = ['CUBXML' => [
+        $options = ['CUBXML' => [
             'CAVALUE' => '',
             'ORDERINFO' => [
                 'STOREID' => $this->storeId,
                 'ORDERNUMBER' => uniqid('order_number', true),
             ],
         ]];
-        $parameters['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
-            $parameters,
+        $options['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
+            $options,
             ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
         ), ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 
-        return $parameters;
+        return $options;
     }
 }

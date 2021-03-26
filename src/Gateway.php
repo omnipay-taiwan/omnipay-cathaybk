@@ -92,67 +92,67 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface
      */
-    public function capture(array $parameters = [])
+    public function capture(array $options = [])
     {
-        return $this->createRequest(CaptureRequest::class, $parameters);
+        return $this->createRequest(CaptureRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface
      */
-    public function purchase(array $parameters = [])
+    public function purchase(array $options = [])
     {
-        return $this->createRequest(PurchaseRequest::class, $parameters);
+        return $this->createRequest(PurchaseRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface
      */
-    public function completePurchase(array $parameters = [])
+    public function completePurchase(array $options = [])
     {
-        return array_key_exists('strRsXML', $parameters)
-            ? $this->acceptNotification($parameters)
-            : $this->createRequest(CompletePurchaseRequest::class, $parameters);
+        return array_key_exists('strRsXML', $options)
+            ? $this->acceptNotification($options)
+            : $this->createRequest(CompletePurchaseRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface|NotificationInterface
      */
-    public function acceptNotification(array $parameters = [])
+    public function acceptNotification(array $options = [])
     {
-        return $this->createRequest(AcceptNotificationRequest::class, $parameters);
+        return $this->createRequest(AcceptNotificationRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface
      */
-    public function refund(array $parameters = [])
+    public function refund(array $options = [])
     {
-        return $this->createRequest(RefundRequest::class, $parameters);
+        return $this->createRequest(RefundRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface
      */
-    public function void(array $parameters = [])
+    public function void(array $options = [])
     {
-        return $this->createRequest(VoidRequest::class, $parameters);
+        return $this->createRequest(VoidRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return RequestInterface
      */
-    public function fetchTransaction(array $parameters = [])
+    public function fetchTransaction(array $options = [])
     {
-        return $this->createRequest(FetchTransactionRequest::class, $parameters);
+        return $this->createRequest(FetchTransactionRequest::class, $options);
     }
 }

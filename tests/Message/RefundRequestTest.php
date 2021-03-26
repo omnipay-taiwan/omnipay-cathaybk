@@ -11,25 +11,25 @@ class RefundRequestTest extends TestCase
 {
     public function testGetData()
     {
-        $parameters = $this->givenParameters();
-        $caValue = Helper::caValue($parameters, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']);
+        $options = $this->givenOptions();
+        $caValue = Helper::caValue($options, ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHCODE', 'CUBKEY']);
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0003', [
+            new Response(200, [], $this->generateResponseXML($options, 'ORD0003', [
                 'STOREID', 'ORDERNUMBER', 'AMOUNT', 'STATUS', 'CUBKEY',
             ]))
         );
 
         $request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($caValue, $data['CAVALUE']);
         self::assertEquals('ORD0003', $data['MSGID']);
-        self::assertEquals($parameters['STOREID'], $data['REFUNDORDERINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['REFUNDORDERINFO']['ORDERNUMBER']);
+        self::assertEquals($options['STOREID'], $data['REFUNDORDERINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['REFUNDORDERINFO']['ORDERNUMBER']);
         self::assertEquals('10', $data['REFUNDORDERINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
@@ -37,11 +37,11 @@ class RefundRequestTest extends TestCase
 
     /**
      * @depends testGetData
-     * @param $parameters
+     * @param $options
      */
-    public function testResponse($parameters)
+    public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -59,25 +59,25 @@ class RefundRequestTest extends TestCase
 
     public function testGetDataByCancel()
     {
-        $parameters = $this->givenParameters(['cancel' => true]);
-        $caValue = Helper::caValue($parameters, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY']);
+        $options = $this->givenOptions(['cancel' => true]);
+        $caValue = Helper::caValue($options, ['STOREID', 'ORDERNUMBER', 'AUTHCODE', 'CUBKEY']);
 
         $mockClient = $this->getMockClient();
         $mockClient->addResponse(
-            new Response(200, [], $this->generateResponseXML($parameters, 'ORD0004', [
+            new Response(200, [], $this->generateResponseXML($options, 'ORD0004', [
                 'STOREID', 'ORDERNUMBER', 'AUTHCODE', 'STATUS', 'CUBKEY',
             ]))
         );
 
         $request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
-        $request->initialize($parameters);
+        $request->initialize($options);
 
         $data = $request->getData();
 
         self::assertEquals($caValue, $data['CAVALUE']);
         self::assertEquals('ORD0004', $data['MSGID']);
-        self::assertEquals($parameters['STOREID'], $data['CANCELREFUNDINFO']['STOREID']);
-        self::assertEquals($parameters['ORDERNUMBER'], $data['CANCELREFUNDINFO']['ORDERNUMBER']);
+        self::assertEquals($options['STOREID'], $data['CANCELREFUNDINFO']['STOREID']);
+        self::assertEquals($options['ORDERNUMBER'], $data['CANCELREFUNDINFO']['ORDERNUMBER']);
         self::assertEquals('10', $data['CANCELREFUNDINFO']['AMOUNT']);
 
         return [$request->send(), $mockClient, $data];
@@ -85,11 +85,11 @@ class RefundRequestTest extends TestCase
 
     /**
      * @depends testGetDataByCancel
-     * @param $parameters
+     * @param $options
      */
-    public function testResponseByCancel($parameters)
+    public function testResponseByCancel($options)
     {
-        list($response, $mockClient, $data) = $parameters;
+        list($response, $mockClient, $data) = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -107,10 +107,10 @@ class RefundRequestTest extends TestCase
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @return array
      */
-    private function givenParameters($parameters = [])
+    private function givenOptions($options = [])
     {
         return array_merge([
             'STOREID' => uniqid('store_id', true),
@@ -118,16 +118,16 @@ class RefundRequestTest extends TestCase
             'ORDERNUMBER' => strtoupper(uniqid('order_number', true)),
             'AMOUNT' => '10',
             'AUTHCODE' => uniqid('auth_code', true),
-        ], $parameters);
+        ], $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      * @param string $msgId
      * @param array $signKeys
      * @return string
      */
-    private function generateResponseXML(array $parameters, $msgId, $signKeys)
+    private function generateResponseXML(array $options, $msgId, $signKeys)
     {
         $status = ['STATUS' => '0000'];
         $section = $msgId === 'ORD0003' ? 'REFUNDORDERINFO' : 'CANCELREFUNDINFO';
@@ -135,12 +135,12 @@ class RefundRequestTest extends TestCase
         return Helper::array2xml([
             'CUBXML' => [
                 'MSGID' => $msgId,
-                'CAVALUE' => Helper::caValue(array_merge($parameters, $status), $signKeys),
+                'CAVALUE' => Helper::caValue(array_merge($options, $status), $signKeys),
                 $section => array_merge([
-                    'STOREID' => $parameters['STOREID'],
-                    'ORDERNUMBER' => $parameters['ORDERNUMBER'],
-                    'AMOUNT' => $parameters['AMOUNT'],
-                    'AUTHCODE' => $parameters['AUTHCODE'],
+                    'STOREID' => $options['STOREID'],
+                    'ORDERNUMBER' => $options['ORDERNUMBER'],
+                    'AMOUNT' => $options['AMOUNT'],
+                    'AUTHCODE' => $options['AUTHCODE'],
                 ], $status),
             ],
         ]);

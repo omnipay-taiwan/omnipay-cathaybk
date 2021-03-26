@@ -11,7 +11,7 @@ class UnionPayPurchaseResponseTest extends TestCase
 {
     public function testSuccess()
     {
-        $parameters = [
+        $options = [
             'CAVALUE' => uniqid('ca_value', true),
             'ORDERINFO' => [
                 'STOREID' => uniqid('store_id', true),
@@ -20,7 +20,7 @@ class UnionPayPurchaseResponseTest extends TestCase
             ],
         ];
 
-        $response = new UnionPayPurchaseResponse($this->getMockRequest(), $parameters);
+        $response = new UnionPayPurchaseResponse($this->getMockRequest(), $options);
 
         $data = $response->getRedirectData();
 
