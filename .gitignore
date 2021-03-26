@@ -10,4 +10,4 @@ dirlist.cache
 dirlist.vendor
 
 .php_cs.cache
-/demo
+/demo/config.php
