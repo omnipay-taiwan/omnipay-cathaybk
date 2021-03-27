@@ -6,10 +6,14 @@ use Omnipay\Cathaybk\Gateway;
 use Omnipay\Cathaybk\Message\PurchaseRequest;
 use Omnipay\Cathaybk\Message\PurchaseResponse;
 use Omnipay\Cathaybk\Support\Helper;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Tests\TestCase;
 
 class PurchaseRequestTest extends TestCase
 {
+    /**
+     * @throws InvalidRequestException
+     */
     public function testGetData()
     {
         $options = $this->givenOptions();
@@ -31,6 +35,9 @@ class PurchaseRequestTest extends TestCase
         self::assertEquals('ZH-TW', $data['ORDERINFO']['LANGUAGE']);
     }
 
+    /**
+     * @throws InvalidRequestException
+     */
     public function testGetPeriodNumberData()
     {
         $options = $this->givenOptions([

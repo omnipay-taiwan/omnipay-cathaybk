@@ -4,10 +4,15 @@ namespace Omnipay\Cathaybk\Tests\Message;
 
 use Omnipay\Cathaybk\Message\AcceptNotificationRequest;
 use Omnipay\Cathaybk\Support\Helper;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Tests\TestCase;
 
 class AcceptNotificationRequestTest extends TestCase
 {
+    /**
+     * @throws InvalidRequestException
+     */
     public function testGetData()
     {
         $storeId = uniqid('store_id', true);
@@ -32,6 +37,21 @@ class AcceptNotificationRequestTest extends TestCase
             ]), ['DOMAIN', 'CUBKEY']),
             'RETURL' => $returnUrl,
         ], $xmlData), $data);
+
+        return [$request, $xmlData];
+    }
+
+    /**
+     * @depends testGetData
+     * @param $results
+     */
+    public function testNotification($results)
+    {
+        list($notification, $xmlData) = $results;
+
+        self::assertEquals($xmlData['CUBXML']['ORDERINFO']['ORDERNUMBER'], $notification->getTransactionId());
+        self::assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHCODE'], $notification->getTransactionReference());
+        self::assertEquals(NotificationInterface::STATUS_COMPLETED, $notification->getTransactionStatus());
     }
 
     /**

@@ -8,17 +8,13 @@ use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\NotificationInterface;
 
-class AcceptNotificationRequest extends AbstractRequest
+class AcceptNotificationRequest extends AbstractRequest implements NotificationInterface
 {
     use HasStore;
     use HasAssertCaValue;
     use HasSignCaValue;
-
-    /**
-     * @var array
-     */
-    private $data;
 
     /**
      * @param $returnUrl
@@ -66,7 +62,7 @@ class AcceptNotificationRequest extends AbstractRequest
         $this->assertCaValue($returnValues);
         $retUrl = $this->getReturnUrl();
 
-        return $this->data = array_merge([
+        return array_merge([
             'CAVALUE' => $this->generateCaValue(['DOMAIN' => parse_url($retUrl, PHP_URL_HOST)]),
             'RETURL' => $retUrl,
         ], $returnValues);
@@ -81,6 +77,26 @@ class AcceptNotificationRequest extends AbstractRequest
         return $this->response = new AcceptNotificationResponse($this, $data);
     }
 
+    public function getTransactionId()
+    {
+        return $this->getNotification()->getTransactionId();
+    }
+
+    public function getTransactionReference()
+    {
+        return $this->getNotification()->getTransactionReference();
+    }
+
+    public function getTransactionStatus()
+    {
+        return $this->getNotification()->getTransactionStatus();
+    }
+
+    public function getMessage()
+    {
+        return $this->getNotification()->getMessage();
+    }
+
     protected function getSignKeys()
     {
         return ['DOMAIN', 'CUBKEY'];
@@ -89,5 +105,13 @@ class AcceptNotificationRequest extends AbstractRequest
     protected function getAssertKeys()
     {
         return ['STOREID', 'ORDERNUMBER', 'AMOUNT', 'AUTHSTATUS', 'AUTHCODE', 'CUBKEY'];
+    }
+
+    /**
+     * @return NotificationInterface
+     */
+    private function getNotification()
+    {
+        return ! $this->response ? $this->send() : $this->response;
     }
 }
