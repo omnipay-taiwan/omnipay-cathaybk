@@ -1,35 +1,40 @@
 # Omnipay: Cathaybk
 
-**Cathaybk driver for the Omnipay PHP payment processing library**
+**Skeleton gateway for the Omnipay PHP payment processing library**
 
-[![Build Status](https://travis-ci.org/thephpleague/omnipay-dummy.png?branch=master)](https://travis-ci.org/thephpleague/omnipay-dummy)
-[![Latest Stable Version](https://poser.pugx.org/omnipay/dummy/version.png)](https://packagist.org/packages/omnipay/dummy)
-[![Total Downloads](https://poser.pugx.org/omnipay/dummy/d/total.png)](https://packagist.org/packages/omnipay/dummy)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/omnipay-taiwan/omnipay-cathaybk.svg?style=flat-square)](https://packagist.org/packages/omnipay-taiwan/omnipay-cathaybk)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Build Status](https://img.shields.io/travis/omnipay-taiwan/omnipay-cathaybk/master.svg?style=flat-square)](https://travis-ci.org/omnipay-taiwan/omnipay-cathaybk)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/omnipay-taiwan/omnipay-cathaybk.svg?style=flat-square)](https://scrutinizer-ci.com/g/omnipay-taiwan/omnipay-cathaybk/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/omnipay-taiwan/omnipay-cathaybk.svg?style=flat-square)](https://scrutinizer-ci.com/g/omnipay-taiwan/omnipay-cathaybk)
+[![Total Downloads](https://img.shields.io/packagist/dt/omnipay-taiwan/omnipay-cathaybk.svg?style=flat-square)](https://packagist.org/packages/omnipay-taiwan/omnipay-cathaybk)
 
-[Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
-processing library for PHP 5.3+. This package implements Cathaybk support for Omnipay.
+[Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment processing library for
+PHP 5.3+. This package implements cathaybk support for Omnipay.
 
-## Installation
+**Note:** Replace `omnipay-taiwan`, `:author_name`, `recca0120`, `:author_website`, `:author_email`, `cathaybk`
+, `:package_description` and `cathaybk` with their correct values in [README.md](README.md)
+, [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md)
+and [composer.json](composer.json) files, then delete this line.
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply require `league/omnipay` and `omnipay-taiwan/cathaybk` with Composer:
+This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
+PSRs you support to avoid any confusion with users and contributors.
 
+## Install
+
+Instal the gateway using require. Require the `league/omnipay` base package and this gateway.
+
+``` bash
+$ composer require league/omnipay omnipay-taiwan/omnipay-cathaybk
 ```
-composer require league/omnipay omnipay-taiwan/cathaybk
-```
 
-## Basic Usage
+## Usage
 
 The following gateways are provided by this package:
 
--   Cathaybk
+* cathaybk
 
-This is a cathaybk gateway driver intended for testing purposes. If you provide a card number ending in an even number, the driver will return a success response. If it ends in an odd number, the driver will return a generic failure response. For example:
-
--   4929000000006 - Success
--   4444333322221111 - Failure
-
-For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
-repository.
+For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay) repository.
 
 ## Support
 
@@ -37,9 +42,36 @@ If you are having general issues with Omnipay, we suggest posting on
 [Stack Overflow](http://stackoverflow.com/). Be sure to add the
 [omnipay tag](http://stackoverflow.com/questions/tagged/omnipay) so it can be easily found.
 
-If you want to keep up to date with release anouncements, discuss ideas for the project,
-or ask more detailed questions, there is also a [mailing list](https://groups.google.com/forum/#!forum/omnipay) which
-you can subscribe to.
+If you want to keep up to date with release announcements, discuss ideas for the project, or ask more detailed
+questions, there is also a [mailing list](https://groups.google.com/forum/#!forum/omnipay) which you can subscribe to.
 
-If you believe you have found a bug, please report it using the [GitHub issue tracker](https://github.com/thephpleague/omnipay-dummy/issues),
-or better yet, fork the library and submit a pull request.
+If you believe you have found a bug, please report it using
+the [GitHub issue tracker](https://github.com/omnipay-taiwan/omnipay-cathaybk/issues), or better yet, fork the library
+and submit a pull request.
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Testing
+
+``` bash
+$ composer test
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email :author_email instead of using the issue tracker.
+
+## Credits
+
+- [:author_name](https://github.com/recca0120)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
