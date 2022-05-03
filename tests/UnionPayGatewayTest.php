@@ -20,7 +20,7 @@ class UnionPayGatewayTest extends GatewayTestCase
      */
     private $cubKey;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
