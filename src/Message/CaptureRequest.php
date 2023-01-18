@@ -24,6 +24,7 @@ class CaptureRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -47,8 +48,9 @@ class CaptureRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
+     * @param  mixed  $data
      * @return CaptureResponse
+     *
      * @throws InvalidRequestException
      */
     public function sendData($data)

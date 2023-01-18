@@ -35,11 +35,12 @@ class FetchTransactionRequestTest extends TestCase
 
     /**
      * @depends testGetData
+     *
      * @param $options
      */
     public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $options;
+        [$response, $mockClient, $data] = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -53,7 +54,7 @@ class FetchTransactionRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return array
      */
     private function givenOptions($options = [])
@@ -67,7 +68,7 @@ class FetchTransactionRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return string
      */
     private function generateResponseXML(array $options)

@@ -22,7 +22,7 @@ class Helper
 
     /**
      * @param $data
-     * @param int $tabDepth
+     * @param  int  $tabDepth
      * @return string
      */
     public static function array2xml($data, $tabDepth = 0)

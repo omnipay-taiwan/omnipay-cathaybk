@@ -41,7 +41,7 @@ class UnionPayPurchaseRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return array
      */
     private function givenOptions($options = [])

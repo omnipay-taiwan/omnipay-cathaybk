@@ -29,8 +29,8 @@ class CaptureResponse extends AbstractResponse
     /**
      * Constructor.
      *
-     * @param RequestInterface $request the initiating request.
-     * @param mixed $data
+     * @param  RequestInterface  $request the initiating request.
+     * @param  mixed  $data
      */
     public function __construct(RequestInterface $request, $data)
     {

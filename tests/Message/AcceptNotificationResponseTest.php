@@ -32,7 +32,7 @@ class AcceptNotificationResponseTest extends TestCase
     }
 
     /**
-     * @param string $returnUrl
+     * @param  string  $returnUrl
      * @return array
      */
     private function generateXmlData($returnUrl)

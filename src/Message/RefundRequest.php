@@ -24,6 +24,7 @@ class RefundRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -47,8 +48,9 @@ class RefundRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
+     * @param  mixed  $data
      * @return RefundResponse
+     *
      * @throws InvalidRequestException
      */
     public function sendData($data)

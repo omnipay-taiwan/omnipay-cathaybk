@@ -5,7 +5,7 @@ namespace Omnipay\Cathaybk\Traits;
 trait HasStore
 {
     /**
-     * @param string $storeId
+     * @param  string  $storeId
      * @return $this
      */
     public function setStoreId($storeId)
@@ -22,7 +22,7 @@ trait HasStore
     }
 
     /**
-     * @param string $cubKey
+     * @param  string  $cubKey
      * @return $this
      */
     public function setCubKey($cubKey)

@@ -5,7 +5,7 @@ namespace Omnipay\Cathaybk\Traits;
 trait HasOrderNumber
 {
     /**
-     * @param string $orderNumber
+     * @param  string  $orderNumber
      * @return $this
      */
     public function setOrderNumber($orderNumber)

@@ -22,6 +22,7 @@ class VoidRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -41,8 +42,9 @@ class VoidRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
+     * @param  mixed  $data
      * @return VoidResponse
+     *
      * @throws InvalidRequestException
      */
     public function sendData($data)

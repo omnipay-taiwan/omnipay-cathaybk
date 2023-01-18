@@ -37,11 +37,12 @@ class CaptureRequestTest extends TestCase
 
     /**
      * @depends testGetData
+     *
      * @param $options
      */
     public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $options;
+        [$response, $mockClient, $data] = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -84,11 +85,12 @@ class CaptureRequestTest extends TestCase
 
     /**
      * @depends testGetDataByCancel
+     *
      * @param $options
      */
     public function testResponseByCancel($options)
     {
-        list($response, $mockClient, $data) = $options;
+        [$response, $mockClient, $data] = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -106,7 +108,7 @@ class CaptureRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return array
      */
     private function givenOptions($options = [])
@@ -121,9 +123,9 @@ class CaptureRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
-     * @param string $msgId
-     * @param array $signKeys
+     * @param  array  $options
+     * @param  string  $msgId
+     * @param  array  $signKeys
      * @return string
      */
     private function generateResponseXML(array $options, $msgId, $signKeys)

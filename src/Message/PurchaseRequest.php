@@ -17,7 +17,7 @@ class PurchaseRequest extends AbstractRequest
     use HasSignCaValue;
 
     /**
-     * @param int|string $periodNumber
+     * @param  int|string  $periodNumber
      * @return AbstractRequest
      */
     public function setPeriodNumber($periodNumber)
@@ -34,7 +34,7 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param int|string $installment
+     * @param  int|string  $installment
      * @return AbstractRequest
      */
     public function setInstallment($installment)
@@ -52,6 +52,7 @@ class PurchaseRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -69,7 +70,7 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
+     * @param  mixed  $data
      * @return PurchaseResponse
      */
     public function sendData($data)
@@ -88,7 +89,7 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
     private function appendPeriodNumber(array $data = [])

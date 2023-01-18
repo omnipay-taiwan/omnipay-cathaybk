@@ -71,7 +71,7 @@ class PurchaseResponseTest extends TestCase
 
     /**
      * @param $msgId
-     * @param array $orderInfo
+     * @param  array  $orderInfo
      * @return array
      */
     private function givenOptions($msgId, $orderInfo = [])
@@ -88,7 +88,7 @@ class PurchaseResponseTest extends TestCase
     }
 
     /**
-     * @param string $xml
+     * @param  string  $xml
      * @return DOMNode|null
      */
     private function getDocument($xml)

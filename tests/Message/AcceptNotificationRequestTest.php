@@ -43,11 +43,12 @@ class AcceptNotificationRequestTest extends TestCase
 
     /**
      * @depends testGetData
+     *
      * @param $results
      */
     public function testNotification($results)
     {
-        list($notification, $xmlData) = $results;
+        [$notification, $xmlData] = $results;
 
         self::assertEquals($xmlData['CUBXML']['ORDERINFO']['ORDERNUMBER'], $notification->getTransactionId());
         self::assertEquals($xmlData['CUBXML']['AUTHINFO']['AUTHCODE'], $notification->getTransactionReference());
@@ -55,8 +56,8 @@ class AcceptNotificationRequestTest extends TestCase
     }
 
     /**
-     * @param string $storeId
-     * @param string $cubKey
+     * @param  string  $storeId
+     * @param  string  $cubKey
      * @return array
      */
     private function generateXmlData($storeId, $cubKey)

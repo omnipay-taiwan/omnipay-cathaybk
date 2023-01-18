@@ -72,7 +72,7 @@ class UnionPayGateway extends Gateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return AbstractRequest|RequestInterface
      */
     public function purchase(array $options = [])

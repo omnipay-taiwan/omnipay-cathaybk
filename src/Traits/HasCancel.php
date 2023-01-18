@@ -5,7 +5,7 @@ namespace Omnipay\Cathaybk\Traits;
 trait HasCancel
 {
     /**
-     * @param bool $cancel
+     * @param  bool  $cancel
      * @return $this
      */
     public function setCancel($cancel)

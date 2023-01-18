@@ -37,11 +37,12 @@ class RefundRequestTest extends TestCase
 
     /**
      * @depends testGetData
+     *
      * @param $options
      */
     public function testResponse($options)
     {
-        list($response, $mockClient, $data) = $options;
+        [$response, $mockClient, $data] = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -85,11 +86,12 @@ class RefundRequestTest extends TestCase
 
     /**
      * @depends testGetDataByCancel
+     *
      * @param $options
      */
     public function testResponseByCancel($options)
     {
-        list($response, $mockClient, $data) = $options;
+        [$response, $mockClient, $data] = $options;
         $lastRequest = $mockClient->getLastRequest();
 
         self::assertEquals(
@@ -107,7 +109,7 @@ class RefundRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return array
      */
     private function givenOptions($options = [])
@@ -122,9 +124,9 @@ class RefundRequestTest extends TestCase
     }
 
     /**
-     * @param array $options
-     * @param string $msgId
-     * @param array $signKeys
+     * @param  array  $options
+     * @param  string  $msgId
+     * @param  array  $signKeys
      * @return string
      */
     private function generateResponseXML(array $options, $msgId, $signKeys)

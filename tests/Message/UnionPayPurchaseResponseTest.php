@@ -38,7 +38,7 @@ class UnionPayPurchaseResponseTest extends TestCase
     }
 
     /**
-     * @param string $xml
+     * @param  string  $xml
      * @return DOMNode|null
      */
     private function getDocument($xml)

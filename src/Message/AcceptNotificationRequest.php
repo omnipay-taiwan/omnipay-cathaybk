@@ -52,6 +52,7 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -69,7 +70,7 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return AcceptNotificationResponse
      */
     public function sendData($data)

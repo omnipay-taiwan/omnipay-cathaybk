@@ -5,7 +5,7 @@ namespace Omnipay\Cathaybk\Traits;
 trait HasLanguage
 {
     /**
-     * @param string $language
+     * @param  string  $language
      * @return $this
      */
     public function setLanguage($language)

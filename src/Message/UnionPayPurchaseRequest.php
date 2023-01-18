@@ -16,6 +16,7 @@ class UnionPayPurchaseRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -32,7 +33,7 @@ class UnionPayPurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return PurchaseResponse
      */
     public function sendData($data)

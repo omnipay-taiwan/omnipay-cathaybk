@@ -71,6 +71,7 @@ use Omnipay\Common\Message\RequestInterface;
  *     echo "Transaction reference = " . $sale_id . "\n";
  * }
  * </code>
+ *
  * @method RequestInterface authorize(array $options = array())
  * @method RequestInterface completeAuthorize(array $options = array())
  * @method RequestInterface createCard(array $options = array())
@@ -92,7 +93,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface
      */
     public function capture(array $options = [])
@@ -101,7 +102,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface
      */
     public function purchase(array $options = [])
@@ -110,7 +111,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface
      */
     public function completePurchase(array $options = [])
@@ -121,7 +122,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface|NotificationInterface
      */
     public function acceptNotification(array $options = [])
@@ -130,7 +131,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface
      */
     public function refund(array $options = [])
@@ -139,7 +140,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface
      */
     public function void(array $options = [])
@@ -148,7 +149,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @param array $options
+     * @param  array  $options
      * @return RequestInterface
      */
     public function fetchTransaction(array $options = [])

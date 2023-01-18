@@ -34,6 +34,7 @@ class CompletePurchaseRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()
@@ -48,7 +49,7 @@ class CompletePurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param mixed $data
+     * @param  mixed  $data
      * @return CompletePurchaseResponse
      */
     public function sendData($data)

@@ -20,8 +20,9 @@ class FetchTransactionRequest extends AbstractRequest
     use HasCallApi;
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return ResponseInterface
+     *
      * @throws InvalidRequestException
      */
     public function sendData($data)
@@ -35,6 +36,7 @@ class FetchTransactionRequest extends AbstractRequest
 
     /**
      * @return array
+     *
      * @throws InvalidRequestException
      */
     public function getData()

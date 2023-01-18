@@ -18,6 +18,7 @@ class GatewayTest extends GatewayTestCase
      * @var string
      */
     private $storeId;
+
     /**
      * @var string
      */
