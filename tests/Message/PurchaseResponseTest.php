@@ -2,8 +2,6 @@
 
 namespace Omnipay\Cathaybk\Tests\Message;
 
-use DOMDocument;
-use DOMNode;
 use Omnipay\Cathaybk\Message\PurchaseResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Tests\TestCase;
@@ -32,7 +30,7 @@ class PurchaseResponseTest extends TestCase
         $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/normal.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
-        self::assertEqualXMLStructure($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function testPeriodNumberSuccess()
@@ -46,14 +44,15 @@ class PurchaseResponseTest extends TestCase
 
         self::assertFalse($response->isSuccessful());
         self::assertTrue($response->isRedirect());
-        self::assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx', $response->getRedirectUrl());
+        self::assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/Payment/OrderInitial.aspx',
+            $response->getRedirectUrl());
         self::assertEquals('POST', $response->getRedirectMethod());
         self::assertArrayHasKey('strRqXML', $data);
 
         $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/period.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
-        self::assertEqualXMLStructure($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function testSetTestMode()
@@ -88,13 +87,14 @@ class PurchaseResponseTest extends TestCase
 
     /**
      * @param  string  $xml
-     * @return DOMNode|null
+     * @return array
      */
     private function getDocument($xml)
     {
-        $document = new DOMDocument();
-        $document->loadXML($xml);
+        $parser = xml_parser_create();
+        xml_parse_into_struct($parser, $xml, $values, $index);
+        xml_parser_free($parser);
 
-        return $document->firstChild;
+        return $index;
     }
 }

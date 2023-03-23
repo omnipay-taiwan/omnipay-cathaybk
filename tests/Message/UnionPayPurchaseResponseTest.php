@@ -2,8 +2,6 @@
 
 namespace Omnipay\Cathaybk\Tests\Message;
 
-use DOMDocument;
-use DOMNode;
 use Omnipay\Cathaybk\Message\UnionPayPurchaseResponse;
 use Omnipay\Tests\TestCase;
 
@@ -26,7 +24,8 @@ class UnionPayPurchaseResponseTest extends TestCase
 
         self::assertFalse($response->isSuccessful());
         self::assertTrue($response->isRedirect());
-        self::assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/UPOPPayment/OrderInitial.aspx', $response->getRedirectUrl());
+        self::assertEquals('https://sslpayment.uwccb.com.tw/EPOSService/UPOPPayment/OrderInitial.aspx',
+            $response->getRedirectUrl());
         self::assertEquals('POST', $response->getRedirectMethod());
         self::assertArrayHasKey('strRqXML', $data);
         self::assertFalse(strpos($data['strRqXML'], 'TRS000'), 'strRqXML does not has TRS000');
@@ -34,18 +33,19 @@ class UnionPayPurchaseResponseTest extends TestCase
         $expected = $this->getDocument(file_get_contents(__DIR__.'/../fixtures/unionpay.xml'));
         $actual = $this->getDocument($data['strRqXML']);
 
-        self::assertEqualXMLStructure($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     /**
      * @param  string  $xml
-     * @return DOMNode|null
+     * @return array
      */
     private function getDocument($xml)
     {
-        $document = new DOMDocument();
-        $document->loadXML($xml);
+        $parser = xml_parser_create();
+        xml_parse_into_struct($parser, $xml, $values, $index);
+        xml_parser_free($parser);
 
-        return $document->firstChild;
+        return $index;
     }
 }
