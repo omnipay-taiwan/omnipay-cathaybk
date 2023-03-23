@@ -37,8 +37,6 @@ class RefundRequestTest extends TestCase
 
     /**
      * @depends testGetData
-     *
-     * @param $options
      */
     public function testResponse($options)
     {
@@ -86,8 +84,6 @@ class RefundRequestTest extends TestCase
 
     /**
      * @depends testGetDataByCancel
-     *
-     * @param $options
      */
     public function testResponseByCancel($options)
     {
@@ -124,7 +120,6 @@ class RefundRequestTest extends TestCase
     }
 
     /**
-     * @param  array  $options
      * @param  string  $msgId
      * @param  array  $signKeys
      * @return string

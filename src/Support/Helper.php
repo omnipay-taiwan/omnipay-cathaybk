@@ -5,8 +5,6 @@ namespace Omnipay\Cathaybk\Support;
 class Helper
 {
     /**
-     * @param $data
-     * @param $keys
      * @return string
      */
     public static function caValue($data, $keys)
@@ -21,7 +19,6 @@ class Helper
     }
 
     /**
-     * @param $data
      * @param  int  $tabDepth
      * @return string
      */
@@ -31,7 +28,6 @@ class Helper
     }
 
     /**
-     * @param $plainText
      * @return array
      */
     public static function xml2array($plainText)

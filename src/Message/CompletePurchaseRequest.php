@@ -16,7 +16,6 @@ class CompletePurchaseRequest extends AbstractRequest
     use HasAssertCaValue;
 
     /**
-     * @param $strOrderInfo
      * @return CompletePurchaseRequest
      */
     public function setStrOrderInfo($strOrderInfo)

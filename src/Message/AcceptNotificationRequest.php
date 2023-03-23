@@ -17,7 +17,6 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
     use HasSignCaValue;
 
     /**
-     * @param $returnUrl
      * @return AcceptNotificationRequest
      */
     public function setRetUrl($returnUrl)
@@ -34,7 +33,6 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
     }
 
     /**
-     * @param $strRsXML
      * @return AcceptNotificationRequest
      */
     public function setStrRsXML($strRsXML)

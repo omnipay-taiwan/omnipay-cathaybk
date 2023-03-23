@@ -8,8 +8,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
 trait HasAssertCaValue
 {
     /**
-     * @param $data
-     *
      * @throws InvalidRequestException
      */
     protected function assertCaValue($data)

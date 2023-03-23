@@ -37,8 +37,6 @@ class CaptureRequestTest extends TestCase
 
     /**
      * @depends testGetData
-     *
-     * @param $options
      */
     public function testResponse($options)
     {
@@ -85,8 +83,6 @@ class CaptureRequestTest extends TestCase
 
     /**
      * @depends testGetDataByCancel
-     *
-     * @param $options
      */
     public function testResponseByCancel($options)
     {
@@ -123,7 +119,6 @@ class CaptureRequestTest extends TestCase
     }
 
     /**
-     * @param  array  $options
      * @param  string  $msgId
      * @param  array  $signKeys
      * @return string

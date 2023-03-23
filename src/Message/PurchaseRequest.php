@@ -2,6 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
+use Omnipay\Cathaybk\Traits\HasAmount;
 use Omnipay\Cathaybk\Traits\HasLanguage;
 use Omnipay\Cathaybk\Traits\HasOrderNumber;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
@@ -15,6 +16,7 @@ class PurchaseRequest extends AbstractRequest
     use HasOrderNumber;
     use HasLanguage;
     use HasSignCaValue;
+    use HasAmount;
 
     /**
      * @param  int|string  $periodNumber
@@ -64,7 +66,7 @@ class PurchaseRequest extends AbstractRequest
             'ORDERINFO' => array_merge($this->appendPeriodNumber([
                 'STOREID' => $this->getStoreId(),
                 'ORDERNUMBER' => $this->getOrderNumber(),
-                'AMOUNT' => (int) $this->getAmount(),
+                'AMOUNT' => $this->getAmount(),
             ]), ['LANGUAGE' => $this->getLanguage()]),
         ]);
     }
@@ -89,7 +91,6 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
-     * @param  array  $data
      * @return array
      */
     private function appendPeriodNumber(array $data = [])

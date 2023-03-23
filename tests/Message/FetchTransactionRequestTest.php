@@ -35,8 +35,6 @@ class FetchTransactionRequestTest extends TestCase
 
     /**
      * @depends testGetData
-     *
-     * @param $options
      */
     public function testResponse($options)
     {
@@ -68,7 +66,6 @@ class FetchTransactionRequestTest extends TestCase
     }
 
     /**
-     * @param  array  $options
      * @return string
      */
     private function generateResponseXML(array $options)

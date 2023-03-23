@@ -70,7 +70,6 @@ class PurchaseResponseTest extends TestCase
     }
 
     /**
-     * @param $msgId
      * @param  array  $orderInfo
      * @return array
      */

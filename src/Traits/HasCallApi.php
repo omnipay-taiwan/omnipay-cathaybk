@@ -7,7 +7,6 @@ use Omnipay\Cathaybk\Support\Helper;
 trait HasCallApi
 {
     /**
-     * @param  array  $data
      * @return array
      */
     public function callApi(array $data)

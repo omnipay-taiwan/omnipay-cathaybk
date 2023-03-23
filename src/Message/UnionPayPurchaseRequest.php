@@ -2,6 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
+use Omnipay\Cathaybk\Traits\HasAmount;
 use Omnipay\Cathaybk\Traits\HasOrderNumber;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
@@ -13,6 +14,7 @@ class UnionPayPurchaseRequest extends AbstractRequest
     use HasStore;
     use HasOrderNumber;
     use HasSignCaValue;
+    use HasAmount;
 
     /**
      * @return array
@@ -27,7 +29,7 @@ class UnionPayPurchaseRequest extends AbstractRequest
             'ORDERINFO' => [
                 'STOREID' => $this->getStoreId(),
                 'ORDERNUMBER' => $this->getOrderNumber(),
-                'AMOUNT' => (int) $this->getAmount(),
+                'AMOUNT' => $this->getAmount(),
             ],
         ]);
     }

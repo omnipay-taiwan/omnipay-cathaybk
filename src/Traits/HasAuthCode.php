@@ -5,7 +5,6 @@ namespace Omnipay\Cathaybk\Traits;
 trait HasAuthCode
 {
     /**
-     * @param $authCode
      * @return $this
      */
     public function setAuthCode($authCode)

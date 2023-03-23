@@ -2,6 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
+use Omnipay\Cathaybk\Traits\HasAmount;
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
 use Omnipay\Cathaybk\Traits\HasCallApi;
 use Omnipay\Cathaybk\Traits\HasOrderNumber;
@@ -18,6 +19,7 @@ class FetchTransactionRequest extends AbstractRequest
     use HasSignCaValue;
     use HasAssertCaValue;
     use HasCallApi;
+    use HasAmount;
 
     /**
      * @param  array  $data
@@ -49,7 +51,7 @@ class FetchTransactionRequest extends AbstractRequest
                 'ORDERINFO' => [
                     'STOREID' => $this->getStoreId(),
                     'ORDERNUMBER' => $this->getOrderNumber(),
-                    'AMOUNT' => (int) $this->getAmount(),
+                    'AMOUNT' => $this->getAmount(),
                 ],
             ])
         );

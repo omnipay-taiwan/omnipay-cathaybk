@@ -2,6 +2,7 @@
 
 namespace Omnipay\Cathaybk\Message;
 
+use Omnipay\Cathaybk\Traits\HasAmount;
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
 use Omnipay\Cathaybk\Traits\HasAuthCode;
 use Omnipay\Cathaybk\Traits\HasCallApi;
@@ -21,6 +22,7 @@ class CaptureRequest extends AbstractRequest
     use HasSignCaValue;
     use HasAssertCaValue;
     use HasCallApi;
+    use HasAmount;
 
     /**
      * @return array
@@ -40,7 +42,7 @@ class CaptureRequest extends AbstractRequest
                 $section => [
                     'STOREID' => $this->getStoreId(),
                     'ORDERNUMBER' => $this->getOrderNumber(),
-                    'AMOUNT' => (int) $this->getAmount(),
+                    'AMOUNT' => $this->getAmount(),
                     'AUTHCODE' => $this->getTransactionReference(),
                 ],
             ])

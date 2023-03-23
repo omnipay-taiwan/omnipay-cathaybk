@@ -10,4 +10,5 @@ dirlist.cache
 dirlist.vendor
 
 .php_cs.cache
+.phpunit.result.cache
 /demo/config.php

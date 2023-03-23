@@ -7,7 +7,6 @@ use Omnipay\Cathaybk\Support\Helper;
 trait HasSignCaValue
 {
     /**
-     * @param $data
      * @return array
      */
     protected function mergeCaValue($data)
