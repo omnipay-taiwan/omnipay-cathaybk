@@ -41,7 +41,7 @@ class RefundRequest extends AbstractRequest
             $this->mergeCaValue([
                 $section => [
                     'STOREID' => $this->getStoreId(),
-                    'ORDERNUMBER' => $this->getOrderNumber(),
+                    'ORDERNUMBER' => $this->getTransactionId(),
                     'AMOUNT' => $this->getAmount(),
                     'AUTHCODE' => $this->getTransactionReference(),
                 ],

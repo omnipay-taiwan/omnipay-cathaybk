@@ -28,7 +28,7 @@ class UnionPayPurchaseRequest extends AbstractRequest
         return $this->mergeCaValue([
             'ORDERINFO' => [
                 'STOREID' => $this->getStoreId(),
-                'ORDERNUMBER' => $this->getOrderNumber(),
+                'ORDERNUMBER' => $this->getTransactionId(),
                 'AMOUNT' => $this->getAmount(),
             ],
         ]);

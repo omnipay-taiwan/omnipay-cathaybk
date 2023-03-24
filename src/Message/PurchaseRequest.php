@@ -65,7 +65,7 @@ class PurchaseRequest extends AbstractRequest
             'MSGID' => $this->hasPeriodNumber() ? 'TRS0005' : 'TRS0004',
             'ORDERINFO' => array_merge($this->appendPeriodNumber([
                 'STOREID' => $this->getStoreId(),
-                'ORDERNUMBER' => $this->getOrderNumber(),
+                'ORDERNUMBER' => $this->getTransactionId(),
                 'AMOUNT' => $this->getAmount(),
             ]), ['LANGUAGE' => $this->getLanguage()]),
         ]);

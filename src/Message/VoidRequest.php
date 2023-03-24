@@ -34,7 +34,7 @@ class VoidRequest extends AbstractRequest
             $this->mergeCaValue([
                 'CANCELORDERINFO' => [
                     'STOREID' => $this->getStoreId(),
-                    'ORDERNUMBER' => $this->getOrderNumber(),
+                    'ORDERNUMBER' => $this->getTransactionId(),
                     'AUTHCODE' => $this->getTransactionReference(),
                 ],
             ])
