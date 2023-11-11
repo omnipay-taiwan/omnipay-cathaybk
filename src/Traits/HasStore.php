@@ -37,4 +37,20 @@ trait HasStore
     {
         return $this->getParameter('CUBKEY');
     }
+
+    /**
+     * @return static
+     */
+    public function setRetUrl($value)
+    {
+        return $this->setParameter('returnUrl', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetUrl()
+    {
+        return $this->getParameter('returnUrl');
+    }
 }

@@ -51,19 +51,22 @@ class UnionPayGatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
-        $options = ['CUBXML' => [
-            'CAVALUE' => '',
-            'ORDERINFO' => [
-                'STOREID' => $this->storeId,
-                'ORDERNUMBER' => uniqid('order_number', true),
+        $options = [
+            'CUBXML' => [
+                'CAVALUE' => '',
+                'ORDERINFO' => [
+                    'STOREID' => $this->storeId,
+                    'ORDERNUMBER' => uniqid('order_number', true),
+                ],
             ],
-        ]];
+        ];
         $options['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
             $options,
             ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
         ), ['STOREID', 'ORDERNUMBER', 'CUBKEY']);
 
-        $request = $this->gateway->completePurchase(['strOrderInfo' => Helper::array2xml($options)]);
+        $this->getHttpRequest()->request->add(['strOrderInfo' => Helper::array2xml($options)]);
+        $request = $this->gateway->completePurchase();
         $response = $request->send();
 
         self::assertInstanceOf(CompletePurchaseRequest::class, $request);

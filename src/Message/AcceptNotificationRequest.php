@@ -17,47 +17,15 @@ class AcceptNotificationRequest extends AbstractRequest implements NotificationI
     use HasSignCaValue;
 
     /**
-     * @return AcceptNotificationRequest
-     */
-    public function setRetUrl($returnUrl)
-    {
-        return $this->setReturnUrl($returnUrl);
-    }
-
-    /**
-     * @return string
-     */
-    public function getRetUrl()
-    {
-        return $this->getReturnUrl();
-    }
-
-    /**
-     * @return AcceptNotificationRequest
-     */
-    public function setStrRsXML($strRsXML)
-    {
-        return $this->setParameter('strRsXML', $strRsXML);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStrRsXML()
-    {
-        return $this->getParameter('strRsXML');
-    }
-
-    /**
      * @return array
      *
      * @throws InvalidRequestException
      */
     public function getData()
     {
-        $this->validate('STOREID', 'CUBKEY', 'strRsXML', 'returnUrl');
+        $this->validate('STOREID', 'CUBKEY', 'returnUrl');
 
-        $returnValues = Helper::xml2array($this->getStrRsXML());
+        $returnValues = Helper::xml2array($this->httpRequest->request->get('strRsXML'));
         $this->assertCaValue($returnValues);
         $retUrl = $this->getReturnUrl();
 

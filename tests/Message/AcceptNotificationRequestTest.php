@@ -19,13 +19,15 @@ class AcceptNotificationRequestTest extends TestCase
         $cubKey = uniqid('cub_key', true);
         $returnUrl = 'https://foo.bar/return-url';
         $xmlData = $this->generateXmlData($storeId, $cubKey);
+        $this->getHttpRequest()->request->add([
+            'strRsXML' => Helper::array2xml($xmlData),
+        ]);
         $request = new AcceptNotificationRequest($this->getHttpClient(), $this->getHttpRequest());
 
         $options = [
             'STOREID' => $storeId,
             'CUBKEY' => $cubKey,
             'RETURL' => $returnUrl,
-            'strRsXML' => $strRsXML = Helper::array2xml($xmlData),
         ];
         $request->initialize($options);
 

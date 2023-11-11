@@ -72,11 +72,11 @@ use Omnipay\Common\Message\RequestInterface;
  * }
  * </code>
  *
- * @method RequestInterface authorize(array $options = array())
- * @method RequestInterface completeAuthorize(array $options = array())
- * @method RequestInterface createCard(array $options = array())
- * @method RequestInterface updateCard(array $options = array())
- * @method RequestInterface deleteCard(array $options = array())
+ * @method RequestInterface authorize(array $options = [])
+ * @method RequestInterface completeAuthorize(array $options = [])
+ * @method RequestInterface createCard(array $options = [])
+ * @method RequestInterface updateCard(array $options = [])
+ * @method RequestInterface deleteCard(array $options = [])
  */
 class Gateway extends AbstractGateway
 {
@@ -89,7 +89,7 @@ class Gateway extends AbstractGateway
 
     public function getDefaultParameters()
     {
-        return ['STOREID' => '', 'CUBKEY' => ''];
+        return ['STOREID' => '', 'CUBKEY' => '', 'RETURL' => ''];
     }
 
     /**
@@ -113,7 +113,7 @@ class Gateway extends AbstractGateway
      */
     public function completePurchase(array $options = [])
     {
-        return array_key_exists('strRsXML', $options)
+        return array_key_exists('strRsXML', $this->httpRequest->request->all())
             ? $this->acceptNotification($options)
             : $this->createRequest(CompletePurchaseRequest::class, $options);
     }

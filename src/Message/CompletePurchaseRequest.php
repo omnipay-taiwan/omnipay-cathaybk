@@ -4,7 +4,6 @@ namespace Omnipay\Cathaybk\Message;
 
 use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
-use Omnipay\Cathaybk\Traits\HasLanguage;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Message\AbstractRequest;
@@ -12,24 +11,7 @@ use Omnipay\Common\Message\AbstractRequest;
 class CompletePurchaseRequest extends AbstractRequest
 {
     use HasStore;
-    use HasLanguage;
     use HasAssertCaValue;
-
-    /**
-     * @return CompletePurchaseRequest
-     */
-    public function setStrOrderInfo($strOrderInfo)
-    {
-        return $this->setParameter('strOrderInfo', $strOrderInfo);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStrOrderInfo()
-    {
-        return $this->getParameter('strOrderInfo');
-    }
 
     /**
      * @return array
@@ -38,10 +20,7 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('STOREID', 'CUBKEY', 'strOrderInfo');
-
-        $orderInfo = Helper::xml2array($this->getStrOrderInfo());
-
+        $orderInfo = Helper::xml2array($this->httpRequest->request->get('strOrderInfo'));
         $this->assertCaValue($orderInfo);
 
         return $orderInfo;

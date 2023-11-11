@@ -55,17 +55,19 @@ class GatewayTest extends GatewayTestCase
     public function testGetAcceptNotificationWhenCompletePurchaseHasStrRsXML()
     {
         $options = ['strRsXML' => 'foo'];
-        $request = $this->gateway->completePurchase($options);
+        $this->getHttpRequest()->request->add($options);
+        $request = $this->gateway->completePurchase();
+
         self::assertInstanceOf(AcceptNotificationRequest::class, $request);
     }
 
     public function testCompletePurchase()
     {
         $xmlData = $this->generateXmlData();
+        $data = ['strOrderInfo' => Helper::array2xml($xmlData)];
+        $this->getHttpRequest()->request->add($data);
 
-        $options = ['strOrderInfo' => Helper::array2xml($xmlData)];
-
-        $request = $this->gateway->completePurchase($options);
+        $request = $this->gateway->completePurchase();
         $response = $request->send();
 
         self::assertInstanceOf(CompletePurchaseRequest::class, $request);
@@ -75,8 +77,9 @@ class GatewayTest extends GatewayTestCase
 
     public function testAcceptNotification()
     {
-        $options = [];
-        $request = $this->gateway->acceptNotification($options);
+        $data = [];
+        $this->getHttpRequest()->request->add($data);
+        $request = $this->gateway->acceptNotification();
         self::assertInstanceOf(AcceptNotificationRequest::class, $request);
     }
 
@@ -106,13 +109,15 @@ class GatewayTest extends GatewayTestCase
      */
     private function generateXmlData()
     {
-        $options = ['CUBXML' => [
-            'CAVALUE' => '',
-            'ORDERINFO' => [
-                'STOREID' => $this->storeId,
-                'ORDERNUMBER' => uniqid('order_number', true),
+        $options = [
+            'CUBXML' => [
+                'CAVALUE' => '',
+                'ORDERINFO' => [
+                    'STOREID' => $this->storeId,
+                    'ORDERNUMBER' => uniqid('order_number', true),
+                ],
             ],
-        ]];
+        ];
         $options['CUBXML']['CAVALUE'] = Helper::caValue(array_merge(
             $options,
             ['STOREID' => $this->storeId, 'CUBKEY' => $this->cubKey]
