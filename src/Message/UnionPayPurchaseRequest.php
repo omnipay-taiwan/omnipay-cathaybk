@@ -11,10 +11,10 @@ use Omnipay\Common\Message\AbstractRequest;
 
 class UnionPayPurchaseRequest extends AbstractRequest
 {
-    use HasStore;
+    use HasAmount;
     use HasOrderNumber;
     use HasSignCaValue;
-    use HasAmount;
+    use HasStore;
 
     /**
      * @return array

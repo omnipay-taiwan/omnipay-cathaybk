@@ -9,23 +9,24 @@ use Omnipay\Cathaybk\Traits\HasOrderNumber;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\ResponseInterface;
 
 class FetchTransactionRequest extends AbstractRequest
 {
-    use HasStore;
-    use HasOrderNumber;
-    use HasSignCaValue;
+    use HasAmount;
     use HasAssertCaValue;
     use HasCallApi;
-    use HasAmount;
+    use HasOrderNumber;
+    use HasSignCaValue;
+    use HasStore;
 
     /**
      * @param  array  $data
      * @return ResponseInterface
      *
-     * @throws InvalidRequestException
+     * @throws InvalidResponseException
      */
     public function sendData($data)
     {

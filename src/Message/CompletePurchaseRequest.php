@@ -5,18 +5,18 @@ namespace Omnipay\Cathaybk\Message;
 use Omnipay\Cathaybk\Support\Helper;
 use Omnipay\Cathaybk\Traits\HasAssertCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
-use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\AbstractRequest;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
-    use HasStore;
     use HasAssertCaValue;
+    use HasStore;
 
     /**
      * @return array
      *
-     * @throws InvalidRequestException
+     * @throws InvalidResponseException
      */
     public function getData()
     {

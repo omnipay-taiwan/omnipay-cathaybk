@@ -3,12 +3,12 @@
 namespace Omnipay\Cathaybk\Traits;
 
 use Omnipay\Cathaybk\Support\Helper;
-use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 
 trait HasAssertCaValue
 {
     /**
-     * @throws InvalidRequestException
+     * @throws InvalidResponseException
      */
     protected function assertCaValue($data)
     {
@@ -18,7 +18,7 @@ trait HasAssertCaValue
         ], $data), $this->getAssertKeys());
 
         if (! hash_equals($data['CUBXML']['CAVALUE'], $caValue)) {
-            throw new InvalidRequestException();
+            throw new InvalidResponseException();
         }
     }
 

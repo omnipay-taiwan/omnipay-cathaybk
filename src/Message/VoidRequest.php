@@ -9,16 +9,17 @@ use Omnipay\Cathaybk\Traits\HasOrderNumber;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\AbstractRequest;
 
 class VoidRequest extends AbstractRequest
 {
-    use HasStore;
-    use HasOrderNumber;
-    use HasAuthCode;
-    use HasSignCaValue;
     use HasAssertCaValue;
+    use HasAuthCode;
     use HasCallApi;
+    use HasOrderNumber;
+    use HasSignCaValue;
+    use HasStore;
 
     /**
      * @return array
@@ -45,7 +46,7 @@ class VoidRequest extends AbstractRequest
      * @param  mixed  $data
      * @return VoidResponse
      *
-     * @throws InvalidRequestException
+     * @throws InvalidResponseException
      */
     public function sendData($data)
     {

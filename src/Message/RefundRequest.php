@@ -11,18 +11,19 @@ use Omnipay\Cathaybk\Traits\HasOrderNumber;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\AbstractRequest;
 
 class RefundRequest extends AbstractRequest
 {
-    use HasStore;
-    use HasOrderNumber;
-    use HasAuthCode;
-    use HasCancel;
-    use HasSignCaValue;
-    use HasAssertCaValue;
-    use HasCallApi;
     use HasAmount;
+    use HasAssertCaValue;
+    use HasAuthCode;
+    use HasCallApi;
+    use HasCancel;
+    use HasOrderNumber;
+    use HasSignCaValue;
+    use HasStore;
 
     /**
      * @return array
@@ -53,7 +54,7 @@ class RefundRequest extends AbstractRequest
      * @param  mixed  $data
      * @return RefundResponse
      *
-     * @throws InvalidRequestException
+     * @throws InvalidResponseException
      */
     public function sendData($data)
     {

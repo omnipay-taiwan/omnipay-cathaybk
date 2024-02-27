@@ -7,19 +7,21 @@ use Omnipay\Cathaybk\Traits\HasAssertCaValue;
 use Omnipay\Cathaybk\Traits\HasSignCaValue;
 use Omnipay\Cathaybk\Traits\HasStore;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\NotificationInterface;
 
 class AcceptNotificationRequest extends AbstractRequest implements NotificationInterface
 {
-    use HasStore;
     use HasAssertCaValue;
     use HasSignCaValue;
+    use HasStore;
 
     /**
      * @return array
      *
      * @throws InvalidRequestException
+     * @throws InvalidResponseException
      */
     public function getData()
     {

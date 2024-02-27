@@ -12,11 +12,11 @@ use Omnipay\Common\Message\AbstractRequest;
 
 class PurchaseRequest extends AbstractRequest
 {
-    use HasStore;
-    use HasOrderNumber;
-    use HasLanguage;
-    use HasSignCaValue;
     use HasAmount;
+    use HasLanguage;
+    use HasOrderNumber;
+    use HasSignCaValue;
+    use HasStore;
 
     /**
      * @param  int|string  $periodNumber
