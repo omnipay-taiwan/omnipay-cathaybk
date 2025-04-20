@@ -18,7 +18,7 @@ trait HasAssertCaValue
         ], $data), $this->getAssertKeys());
 
         if (! hash_equals($data['CUBXML']['CAVALUE'], $caValue)) {
-            throw new InvalidResponseException();
+            throw new InvalidResponseException('Incorrect CAVALUE');
         }
     }
 
